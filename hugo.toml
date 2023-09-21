@@ -46,15 +46,20 @@ disqusShortname = ''
     url = "/blog/"
     weight = 20
   [[menu.main]]
+    pageRef="tutorial"
+    name = "Tutorial"
+    url = "/tutorial/"
+    weight = 30
+  [[menu.main]]
     pageRef="recensioni"
     name = "Recensioni"
     url = "/recensioni/"
-    weight = 30
+    weight = 40
   [[menu.main]]
     pageRef="chi-sono"
     name = 'Chi sono'
     url = '/chi-sono/'
-    weight = 40
+    weight = 50
 
 [params]
   sitename = "Francesco Maida"
@@ -63,7 +68,7 @@ disqusShortname = ''
   # the default value is set to 'auto'.
   # You can take a look at layouts/index.html for more information.
   description = "Minimal Hugo blog theme with light and dark mode support"
-  mainSections = ["blog", "recensioni"]
+  mainSections = ["blog", "tutorial", "recensioni"]
   toc = true # set to false to disable table of contents 'globally'
   goToTop = true # set to false to disable 'go to top' button
   additionalScripts = ['js/custom.js', 'js/custom-2.js']
@@ -83,7 +88,7 @@ disqusShortname = ''
   # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
   intro = "Francesco Maida"
   name = "Francesco Maida"
-  description = "Un sito semmplice e minimale con supporto per la modalità chiara e scura, per gestire un sito web personale oppure un blog."
+  description = "Un sito web semplice e minimale con supporto per la modalità chiara e scura, per gestire un sito web personale oppure un blog."
 
 # Allow to override webmanifest options
 [params.webmanifest]
@@ -101,6 +106,10 @@ disqusShortname = ''
 [[params.socialIcons]]
 name = "github"
 url = "https://github.com/fmaida"
+
+[[params.socialIcons]]
+name = "itchio"
+url = "https://cesco.itch.io"
 
 [[params.socialIcons]]
 name = "mastodon"
