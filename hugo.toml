@@ -116,6 +116,10 @@ name = "mastodon"
 url = "https://livellosegreto.it/@cesco"
 
 [[params.socialIcons]]
+name = "email"
+url = "mailto:museo05_vasto@icloud.com"
+
+[[params.socialIcons]]
 name = "Rss"
 url = "index.xml"
 
