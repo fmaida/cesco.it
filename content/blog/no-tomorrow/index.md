@@ -8,6 +8,8 @@ categories:
   - videogiochi
 ---
 
+{{< figure alt="No Tomorrow" src="no_tomorrow.gif" width="100%" >}}
+
 Questo è il mio piccolo tributo ad un gioco con cui sono cresciuto, nelle sale giochi della mia città quando ero un ragazzino. Un gioco con una trackball, tanti missili ed il compito quasi impossibile di mantenere a distanza una guerra termonucleare il più a lungo possibile.
 
 <iframe frameborder="0" src="https://itch.io/embed/192603" min-width="552" width="100%" height="167"><a href="https://cesco.itch.io/no-tomorrow">No Tomorrow by Cesco</a></iframe>
