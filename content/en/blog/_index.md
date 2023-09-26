@@ -1,3 +1,0 @@
----
-title: "My Latest Posts"
----
