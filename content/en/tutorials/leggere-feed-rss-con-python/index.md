@@ -1,5 +1,5 @@
 ---
-title: Come leggere un feed RSS con Python e la libreria Feedparser
+title: How to Read an RSS Feed with Python and the Feedparser Library
 author: Francesco Maida
 date: 2019-09-28 18:00:00
 image: post/feed_rss.jpg
@@ -7,38 +7,39 @@ tags:
 - python
 - rss
 ---
-A volte potrebbe essere utile poter essere in grado di tenere sotto controllo gli aggiornamenti di un sito internet. Se il sito pubblica un feed RSS/Atom, il sistema più semplice per farlo è quello di leggere questo feed per vedere quali sono stati gli ultimi articoli pubblicati.
 
-Grazie ad un'eccellente e semplice libreria per Python, chiamata `feedparser` questo controllo può essere effettuato con poche righe di codice.
+Sometimes, it can be useful to keep track of updates on a website. If the website provides an RSS/Atom feed, the simplest way to do this is by reading the feed to see the latest published articles.
 
-## Installiamo la libreria
+Thanks to an excellent and easy-to-use Python library called `feedparser`, this task can be accomplished with just a few lines of code.
 
-Per installare la libreria possiamo utilizzare `pip` da terminale, digitando:
+## Installing the Library
+
+To install the library, you can use `pip` from the terminal by typing:
 
 ```bash
 pip install feedparser
 ```
 
-## Come usare la libreria
+## How to Use the Library
 
-Creiamo adesso un piccolo script che riporti le ultime notizie dal feed RSS del sito "Il fatto quotidiano":
+Let's now create a small script to fetch the latest news from the RSS feed of "Il Fatto Quotidiano" website:
 
 ```python
 import feedparser
 
-# Apriamo il feed
+# Open the feed
 feed = feedparser.parse("https://www.ilfattoquotidiano.it/feed/")
 
-# Per ogni articolo nel feed
-for articolo in feed.entries:
+# For each article in the feed
+for article in feed.entries:
     
-    # Ottiene titolo e sommario
-    titolo = articolo["title"]
-    sommario = articolo["summary"]
-    link = articolo["link"]
+    # Get the title and summary
+    title = article["title"]
+    summary = article["summary"]
+    link = article["link"]
     
-    # Scrive titolo e sommario dell'articolo
-    print("{}\n---\n{}\n\n".format(titolo, sommario))
+    # Print the title and summary of the article
+    print("{}\n---\n{}\n\n".format(title, summary))
 ```
 
-Tutto qua. Semplice, no?
+That's it. Simple, isn't it?

@@ -1,90 +1,83 @@
 ---
-title: Come estrarre i testi di una pagina web con Python e Newspaper
+title: How to Extract Text from a Web Page with Python and Newspaper
 date: 2019-09-23
 image: post/python_newspaper.jpg
 description: 
-  Come estrarre i testi di un articolo di una pagina web 
-  in pochi minuti, utilizzando python e la libreria newspaper.
+  Learn how to extract text from a web page in minutes using Python and the Newspaper library.
 tags:
 - python
 ---
-A volte potremmo aver bisogno di estrapolare un articolo da una pagina web. Se avete provato la modalità articolo di Firefox e Safari, o se avete utilizzato software specifici come [Pocket](https://www.getpocket.com) o [Instapaper](https://www.instapaper.com) credo che possiate immaginare quello di cui vi voglio parlare.
 
-Possiamo replicare le funzionalità di questi software in Python, grazie ad una fantastica libreria chiamata `newspaper`.
-Il suo utilizzo è piuttosto semplice, eccolo descritto in breve:
+Sometimes, you might need to extract an article from a web page. If you've tried the "Reader Mode" in Firefox and Safari or used specific software like [Pocket](https://www.getpocket.com) or [Instapaper](https://www.instapaper.com), you can probably imagine what I'm talking about.
 
-## Installazione
+You can replicate the functionality of these tools in Python, thanks to a fantastic library called `newspaper`. Its usage is quite straightforward, and I'll explain it briefly below:
 
-Per installare la libreria in modo che funzioni con Python 3.5 o superiori, avrò innanzitutto bisogno di installare alcune dipendenze: `libxml2`, `libxslt`, `libtiff`, `libjpeg`, `webp` e `little-cms2`.  
-Ad esempio su macOS utilizzo questi due comandi per installare tutto quello di cui ho bisogno:
+## Installation
+
+To make the library work with Python 3.5 or higher, you first need to install some dependencies: `libxml2`, `libxslt`, `libtiff`, `libjpeg`, `webp`, and `little-cms2`. For example, on macOS, you can use the following commands to install what you need:
 
 ```sh
 brew install libxml2 libxslt
 brew install libtiff libjpeg webp little-cms2
 ```
 
-una volta installate queste dipendenze posso procedere ad installare newspaper utilizzando `pip`:
+Once you have these dependencies installed, you can proceed to install Newspaper using `pip`:
 
 ```sh
 pip install newspaper3k
 ```
 
-Newspaper è ora installato, ma non del tutto. Infatti, se desidero utilizzare le funzioni di IA per l'analisi dei testi degli articoli avrò anche bisogno di scaricare alcuni certificati e dizionari dal web che servono a Newspaper per effettuare l'analisi dei testi.
-Per installarle posso utilizzare questo script:
+Newspaper is now installed, but not completely. In fact, if you want to use the AI functions for text analysis, you'll also need to download some certificates and dictionaries from the web that Newspaper uses for text analysis. You can use this script to install them:
 
 ```sh
 curl https://raw.githubusercontent.com/codelucas/newspaper/master/download_corpora.py | python
 ```
 
-Una volta installato newspaper e le sue dipendenze, sono finalmente pronto ad utilizzarlo.
+Once Newspaper and its dependencies are installed, you're finally ready to use it.
 
+## Using Newspaper
 
-Utilizzo di newspaper
----------------------
-
-Da Python importo la libreria con il comando
+In Python, import the library with the following command:
 
 ```python
 from newspaper import Article
 ```
 
-Decido qual'è l'URL con l'articolo che voglio analizzare, ad esempio:
+Decide on the URL of the article you want to analyze, for example:
 
 ```python
 url = "http://www.ilfattoquotidiano.it/2017/08/07/google-tra-uomini-e-donne-ci-sono-differenze-biologiche-bufera-sulla-mail-dellingegnere-che-giustifica-le-disciminazioni/3780862/"
 ```
 
-creo quindi un'istanza della classe Article, passandogli come parametro l'URL all'articolo che voglio importare:
+Then create an instance of the Article class, passing the article's URL as a parameter:
 
 ```python
-articolo = Article(url)
+article = Article(url)
 ```
 
-Quindi chiedo all'istanza di scaricare l'articolo dal web e di analizzarlo:
+Next, instruct the instance to download the article from the web and parse it:
 
 ```python
-articolo.download()
-articolo.parse()
+article.download()
+article.parse()
 ```
 
-Se voglio anche utilizzare le funzioni di intelligenza artificiale che analizzano il contenuto dell'articolo e ne estraggono il riassunto (che si basano sulla libreria `nltk` installata assieme a newspaper), devo digitare il comando:
+If you also want to use the artificial intelligence functions to analyze the article's content and extract a summary (which rely on the `nltk` library, installed along with Newspaper), enter the command:
 
 ```python
-articolo.nlp()
+article.nlp()
 ```
 
-Ora posso finalmente estrarre le informazioni che mi interessano:
+Now you can finally extract the information you're interested in:
 
 ```python
-titolo = articolo.title      # Il titolo dell'articolo
-autori = articolo.authors    # Un array con gli autori dell'articolo
-parole = articolo.keywords   # Un array con le parole chiave 
-                             #     dell'articolo estratte dall'IA
-                             #     ( prima devo richiamare articolo.nlp() )
-testo = articolo.text        # Il testo estrapolato dall'articolo
-sommario = articolo.summary  # Il sommario dell'articolo 
-                             #     estratto dall'IA 
-                             #     ( prima devo richiamare articolo.nlp() )
+title = article.title       # The article's title
+authors = article.authors   # An array with the article's authors
+keywords = article.keywords # An array with keywords extracted from the article by AI
+                            #     (remember to call article.nlp() first)
+text = article.text         # The text extracted from the article
+summary = article.summary   # The article's summary extracted by AI
+                            #     (remember to call article.nlp() first)
 ```
 
-Tutto qui. Come potete facilmente immaginare, la difficoltà maggiore è soltanto quella di installare le dipendenze richieste. Per il resto, la libreria è veramente semplice ed intuitiva da utilizzare.
+That's it. As you can easily imagine, the most challenging part is installing the required dependencies. Otherwise, the library is very straightforward and intuitive to use.
