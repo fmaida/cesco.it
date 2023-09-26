@@ -8,7 +8,6 @@
     <small class="footer_copyright">
         © {{ now.Format "2006" }} {{ .Site.Params.author.name }}.
         {{ T "footer.disclaimer" | safeHTML }}
-        <a href="https://gohugo.io" target="_blank" rel="noreferrer noopener">Hugo</a>.
     </small>
 </footer>
 
@@ -17,5 +16,3 @@
     {{ partial "svgs/arrowUp.svg" (dict "height" 48 "width" 48) . }}
 </a>
 {{- end -}}
-
-<script src="https://cdn.usefathom.com/script.js" data-site="ZUFTDOJJ" defer></script>
