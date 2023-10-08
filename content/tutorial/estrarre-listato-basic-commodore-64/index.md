@@ -1,5 +1,5 @@
 ---
-title: Estrarre un listato in BASIC per Commodore 64
+title: Estrarre un listato BASIC da un Commodore 64
 date: 2023-10-08
 tags:
     - retrogaming
@@ -27,7 +27,7 @@ c1541 -attach <input.d64> -list
 Questo è un esempio di risultato che otterrete:
 
 ```
-/Users/cesco/Downloads/Avventura_1_La_Taverna_delle_Avventure_19xx_-_it
+/Users/cesco/Downloads/disco.d64
 0 "disco 64        " k6 2a
 135  "file 1"           prg
 8    "file 2"           prg
@@ -42,6 +42,6 @@ c1541 -attach <input.d64> -read "<nome file dall'elenco>"
 
 ## Per convertire il file .PRG in testo
 
-´´´sh
+```sh
 petcat -2 -o <output.txt> -- <input.prg>
-´´´
+```
