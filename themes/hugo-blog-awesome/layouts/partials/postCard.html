@@ -7,6 +7,6 @@
     {{ $configDateFormat := .Site.Params.dateFormat | default "2 Jan 2006" }}
     <time class="post-item-meta" datetime="{{ dateFormat $ISO_date .Date }}">
         {{ $postDate := time.Format $configDateFormat .Date }}
-        {{ print "&nbsp;" (strings.Replace $postDate " " "&nbsp;") | safeHTML }}
+        &nbsp;&nbsp;{{ strings.Replace $postDate " " "&nbsp;" | safeHTML }}
     </time>
 </article>
