@@ -106,12 +106,12 @@ disqusShortname = ''
   TileColor = "#2d89ef" # default windows 10 blue tile color
 
 [[params.socialIcons]]
-name = "linkedin"
-url = "https://www.linkedin.com/in/fmaida"
-
-[[params.socialIcons]]
 name = "github"
 url = "https://github.com/fmaida"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/fmaida"
 
 [[params.socialIcons]]
 name = "itchio"
