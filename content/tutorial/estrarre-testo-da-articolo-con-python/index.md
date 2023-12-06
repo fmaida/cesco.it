@@ -6,7 +6,9 @@ description:
   Come estrarre i testi di un articolo di una pagina web 
   in pochi minuti, utilizzando python e la libreria newspaper.
 tags:
-- python
+  - python
+aliases:
+  - "/blog/estrarre-i-testi-di-un-articolo-con-python-e-newspaper"
 ---
 A volte potremmo aver bisogno di estrapolare un articolo da una pagina web. Se avete provato la modalità articolo di Firefox e Safari, o se avete utilizzato software specifici come [Pocket](https://www.getpocket.com) o [Instapaper](https://www.instapaper.com) credo che possiate immaginare quello di cui vi voglio parlare.
 

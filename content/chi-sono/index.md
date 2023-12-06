@@ -5,6 +5,7 @@ aliases:
     - "/portfolio"
     - "/pages/chi-sono"
     - "/contattami"
+    - "/author"
 ---
 
 {{< figure src="profilo.jpg" alt="Francesco Maida" >}}

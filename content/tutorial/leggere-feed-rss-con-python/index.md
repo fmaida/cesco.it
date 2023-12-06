@@ -4,8 +4,10 @@ author: Francesco Maida
 date: 2019-09-28 18:00:00
 image: post/feed_rss.jpg
 tags:
-- python
-- rss
+    - python
+    - rss
+aliases:
+    - "/blog/leggere-feed-rss-con-feedparser"
 ---
 A volte potrebbe essere utile poter essere in grado di tenere sotto controllo gli aggiornamenti di un sito internet. Se il sito pubblica un feed RSS/Atom, il sistema più semplice per farlo è quello di leggere questo feed per vedere quali sono stati gli ultimi articoli pubblicati.
 
