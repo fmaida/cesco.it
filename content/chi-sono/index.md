@@ -1,6 +1,9 @@
 ---
 date: 2015-06-20 14:02:37
 title: Chi sono
+aliases:
+    - "/portfolio"
+    - "/pages/chi-sono"
 ---
 
 {{< figure src="profilo.jpg" alt="Francesco Maida" >}}
