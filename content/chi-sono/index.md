@@ -4,6 +4,7 @@ title: Chi sono
 aliases:
     - "/portfolio"
     - "/pages/chi-sono"
+    - "/contattami"
 ---
 
 {{< figure src="profilo.jpg" alt="Francesco Maida" >}}
