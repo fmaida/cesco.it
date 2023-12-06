@@ -68,4 +68,11 @@ Temporary Items
 .history
 .ionide
 
+### Altro da eliminare automaticamente ###
+themes/hugo-blog-awesome/.devcontainer/
+themes/hugo-blog-awesome/.editorconfig
+themes/hugo-blog-awesome/.gitattributes
+themes/hugo-blog-awesome/.github/
+themes/hugo-blog-awesome/.gitignore
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,hugo
