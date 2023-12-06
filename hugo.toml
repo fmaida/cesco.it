@@ -67,7 +67,7 @@ disqusShortname = ''
   # Setting it to 'auto' applies the color scheme based on the visitor's device color preference.If you don't specify anything, ignore this parameter, or leave it blank,
   # the default value is set to 'auto'.
   # You can take a look at layouts/index.html for more information.
-  description = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer alla notte. Tipo Dr. Jekyll e Mr. Hyde, ma molto meno figo."
+  description = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer di notte. Tipo Dr. Jekyll e Mr. Hyde, ma meno figo."
   mainSections = ["blog", "tutorial", "recensioni"]
   toc = true # set to false to disable table of contents 'globally'
   goToTop = true # set to false to disable 'go to top' button
@@ -88,14 +88,14 @@ disqusShortname = ''
   # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
   intro = "Francesco Maida"
   name = "Francesco Maida"
-  description = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer alla notte. Tipo Dr. Jekyll e Mr. Hyde, ma molto meno figo."
+  description = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer di notte. Tipo Dr. Jekyll e Mr. Hyde, ma meno figo."
 
 # Allow to override webmanifest options
 [params.webmanifest]
   name = "Francesco Maida" # will use "params.sitename" or "title" by default
   short_name = "Francesco Maida" # same as name
   start_url = "/" # will use homepage url by default
-  theme_color = "#ff0000" # default is "#434648" (base color of text). Also will override html `<meta name="theme-color" />`
+  theme_color = "#ffee00" # default is "#434648" (base color of text). Also will override html `<meta name="theme-color" />`
   background_color = "#fff" # by default depend on "params.defaultColor" for "light" or "auto" will be set to "#fff" for dark will be "#131418" (color of dark mode background)
   display = "standalone"
 
