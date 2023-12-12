@@ -6,6 +6,16 @@ aliases:
     - "/pages/chi-sono"
     - "/contattami"
     - "/author"
+showEdit: False
+showAuthor: False
+showBreadcrumbs: False
+showDate: False
+showDateUpdated: False
+showComments: False
+showSummary: False
+showPagination: False
+showReadingTime: False
+sharingLinks: False
 ---
 
 {{< figure src="profilo.jpg" alt="Francesco Maida" >}}
