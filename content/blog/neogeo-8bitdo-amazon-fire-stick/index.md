@@ -24,7 +24,8 @@ Dopo averli testati, volevo confermare che i nuovi joypad 8BitDo Neo-Geo **funzi
 ## Il supporto per Nintendo Switch
 
 Non funzionano invece su Nintendo Switch, anche se esiste un trucco costoso per farli andare (Grazie a MadLittlePixel):
-{{< youtube "https://youtu.be/BrhdRTDuTeY" >}}
+
+<iframe width="100%" height="320" src="https://www.youtube.com/embed/BrhdRTDuTeY?si=AtnOrgwCM8hoi1Nq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Il supporto su MacOS
 
