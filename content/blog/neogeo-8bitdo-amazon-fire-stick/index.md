@@ -1,6 +1,6 @@
 ---
 title: 
-    "I controller 8BitDo Neo-Geo funzionano su Amazon Fire Stick e Fire Cube"
+    "I controller 8BitDo Neo-Geo funzionano su Amazon Fire Stick"
 date: 2023-09-26
 summary:
     Un aggiornamento sul funzionamento dei nuovi stick 8BitDo che replicano la forma degli originali per Neo Geo CD
