@@ -9,7 +9,7 @@ copyright = "&copy; 2023 Francesco Maida"
 [params]
   dateFormat = "2 January 2006"
 
-  mainSections = ["blog", "tutorial", "recensioni"]
+  mainSections = ["blog", "tutorial"]
   description = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer di notte. Tipo Dr. Jekyll e Mr. Hyde, ma meno figo."
 
 [author]
