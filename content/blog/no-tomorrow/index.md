@@ -7,6 +7,9 @@ summary:
 categories:
   - pico-8
   - videogiochi
+tags:
+  - pico-8
+  - videogiochi
 ---
 
 {{< figure alt="No Tomorrow" src="thumb_no_tomorrow.gif" width="100%" >}}
