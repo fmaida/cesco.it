@@ -68,7 +68,7 @@ fingerprintAlgorithm = "sha256"
 
 [fathomAnalytics]
   site = "IQDPDKKL"
-  domain = "cesco.it"
+  domain = "https://cdn.usefathom.com"
 
 [verification]
   # google = ""
