@@ -2,7 +2,7 @@
 title: Numismatica per retrogamers
 date: 2023-09-21
 toc: false
-description: 
+summary: 
   Ricordi dei miei viaggi in sala giochi e nei bar degli anni ottanta e novanta.
 tags:
   - retrogaming

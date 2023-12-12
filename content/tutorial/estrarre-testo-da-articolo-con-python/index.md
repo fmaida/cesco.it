@@ -2,7 +2,7 @@
 title: Come estrarre i testi di una pagina web con Python e Newspaper
 date: 2019-09-23
 image: post/python_newspaper.jpg
-description: 
+summary: 
   Come estrarre i testi di un articolo di una pagina web 
   in pochi minuti, utilizzando python e la libreria newspaper.
 tags:

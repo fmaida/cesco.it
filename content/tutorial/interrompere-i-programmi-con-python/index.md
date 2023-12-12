@@ -1,6 +1,8 @@
 ---
 title: Gestire l'interruzione di un programma con Python
 date: 2023-03-02 08:44:21
+summary:
+  l'interruzione dell'esecuzione del vostro programma può essere gestita come un'eccezione in Python.
 image: post/zoom.bomb_.shutterstock.jpg
 tags:
   - python
@@ -8,7 +10,7 @@ aliases:
   - "/blog/2023-03-02-gestire-interruzione-del-programma-python"
 ---
 
-Anche l'interruzione dell'esecuzione del vostro programma può essere gestito come un'_eccezione_ in Python. In questo modo potete reagire quando un utente preme CTRL+C.
+Anche l'interruzione dell'esecuzione del vostro programma può essere gestita come un'_eccezione_ in Python. In questo modo potete reagire quando un utente preme CTRL+C.
 
 ```python
 from time import sleep   

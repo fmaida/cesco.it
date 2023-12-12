@@ -2,7 +2,8 @@
 title: "Evercade VS: Mini-recensione"
 date: 2023-05-17
 author: Francesco Maida
-description: Io ed il mio Evercade VS
+Summary: 
+  Io ed il mio Evercade VS
 tags:
   - retrogaming
 ---

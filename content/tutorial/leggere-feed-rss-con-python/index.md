@@ -2,6 +2,8 @@
 title: Come leggere un feed RSS con Python e la libreria Feedparser
 author: Francesco Maida
 date: 2019-09-28 18:00:00
+summary:
+    Scrivere un semplice programma in Python per leggere un feed in formato RSS/Atom
 image: post/feed_rss.jpg
 tags:
     - python

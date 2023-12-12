@@ -3,8 +3,8 @@ title:
     "ugBASIC: un compilatore BASIC multipiattaforma di alto livello"
 date: 2023-04-30
 author: Francesco Maida
-description: 
-    ugBASIC is a high-level BASIC with compiler, for creating video games for 8-bit computers
+summary: 
+    ugBASIC è un interprete e compilatore BASIC di alto livello, che consente di creare facilmente nuovi video giochi per i vecchi computer ad 8-Bit
 tags:
   - retrogaming
 ---

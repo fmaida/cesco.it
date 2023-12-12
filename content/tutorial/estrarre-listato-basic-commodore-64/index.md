@@ -4,9 +4,9 @@ date: 2023-10-08
 tags:
     - retrogaming
     - c64
+summary:
+    Come estrarre un listato in BASIC per Commodore 64 da un immagine disco .D64
 ---
-
-# Come estrarre un listato in BASIC per Commodore 64 da un immagine disco .D64
 
 Non è di certo qualcosa per tutti i giorni, ma se mai vi servisse 
 estrarre un listato BASIC del Commodore 64 da un immagine disco .D64:  

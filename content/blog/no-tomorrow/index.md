@@ -2,7 +2,8 @@
 title: No Tomorrow
 date: 2018-10-20 12:59:24
 image: post/no_tomorrow.gif
-description: No Tomorrow
+summary: 
+  Il mio videogioco scritto su PICO-8 ed ispirato ad un classico delle sale giochi
 categories:
   - pico-8
   - videogiochi
