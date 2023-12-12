@@ -10,7 +10,7 @@ aliases:
 
 {{< figure src="profilo.jpg" alt="Francesco Maida" >}}
 
-Mi chiamo Francesco Maida e sono un perito informatico di 46 anni che vive a Venezia. Negli ultimi otto anni ho aiutato i miei genitori nel ristorante della nostra famiglia, tuttavia a causa di COVID-19 al momento ci troviamo tutti privi di lavoro e di un sostentamento economico; per questa ragione sono attualmente alla ricerca di un lavoro anche a tempo determinato o a progetto.
+Mi chiamo Francesco Maida e sono un perito informatico di 49 anni che vive a Venezia. Negli ultimi otto anni ho aiutato i miei genitori nel ristorante della nostra famiglia, tuttavia a causa di COVID-19 al momento ci troviamo tutti privi di lavoro e di un sostentamento economico; per questa ragione sono attualmente alla ricerca di un lavoro anche a tempo determinato o a progetto.
 
 ## Competenze sviluppate
 

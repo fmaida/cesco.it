@@ -1,0 +1,25 @@
+languageCode = "it-IT"
+languageName = "Italiano"
+languageDirection = "ltr"
+weight = 1
+
+title = "Francesco Maida"
+copyright = "&copy; 2023 Francesco Maida"
+
+[params]
+  dateFormat = "2 January 2006"
+
+  mainSections = ["blog", "tutorial", "recensioni"]
+  description = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer di notte. Tipo Dr. Jekyll e Mr. Hyde, ma meno figo."
+
+[author]
+  name = "Francesco Maida"
+  image = "avatar.jpg"
+  headline = "Not your ordinary theme!"
+  bio = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer di notte. Tipo Dr. Jekyll e Mr. Hyde, ma meno figo."
+  links = [
+    { mastodon = "https://livellosegreto.it/@cesco" },
+    { linkedin = "https://www.linkedin.com/in/fmaida" },
+    { github = "https://github.com/fmaida" },    
+    { email = "mailto:museo05_vasto@icloud.com" },
+  ]

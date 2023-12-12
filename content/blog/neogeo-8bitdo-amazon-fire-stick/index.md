@@ -14,7 +14,7 @@ Dopo averli testati, volevo confermare che i nuovi joypad 8BitDo Neo-Geo **funzi
 
 {{< 
     figure alt="Controller 8BitDo Neo-Geo" 
-    src="8bitdo_neogeo.jpg" 
+    src="thumb_8bitdo_neogeo.jpg" 
     link="https://www.8bitdo.com/neogeo-wireless-controller/"
     title="Controller 8BitDo Neo-Geo con dongle in dotazione. Per capirsi, sono i pad che hanno la croce direzionale con i microswitch come l'originale per Neo-Geo CD."
 >}}

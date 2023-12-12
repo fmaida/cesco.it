@@ -1,0 +1,22 @@
+title = "Francesco Maida"
+baseURL = "https://cesco.it/"
+
+# This is what goes in <html lang="">
+languageCode = "it-it"
+
+theme = "hugo-blog-awesome"
+
+# This defines how dates are formatted
+defaultContentLanguage = "it"
+
+# To enable Google Analytics 4 (gtag.js) provide G-MEASUREMENT_ID below.
+# To disable Google Analytics, simply leave the field empty or remove the next line
+googleAnalytics = "G-2SBP6GGM28" # G-MEASUREMENT_ID
+
+# Enable emojis globally
+enableEmoji = true
+ignoreErrors = ["additional-script-loading-error"] # ignore error of loading additional scripts.
+
+# To enable Disqus comments, provide Disqus Shortname below.
+# To disable Disqus comments, simply leave the field empty or remove the next line
+disqusShortname = ""

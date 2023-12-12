@@ -8,4 +8,4 @@ tags:
 ---
 Avrei tanto, TANTO, voluto completare questo de-make di Xyzolog, ma... non so... non riuscivo più a divertirmi mentre lo stavo sviluppando e provando, almeno non quanto mi riusciva con il mio precedente gioco (No Tomorrow). Beh, penso sia ora di passare ad un nuovo progetto.
 
-{{< figure width="100%" src="xyzolog.gif" alt="Il mio demake incompiuto di Xyzolog" >}}
+{{< figure width="100%" src="thumb_xyzolog.gif" alt="Il mio demake incompiuto di Xyzolog" >}}

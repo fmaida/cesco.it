@@ -11,7 +11,7 @@ tags:
 
 Ho fatto delle prove con ugBASIC 1.13.3 scaricato da <ugbasic.iwashere.eu>, ed in circa dieci minuti e scrivendo meno di 30 line di codice ho creato il più inutile degli salvaschermo per il mio vecchio home computer MSX Philips VG-8020 degli anni ottanta 🤣
 
-![Il mio home computer Philips VG-8020, compatibile con lo standard MSX1](vg_8020.jpg)
+![Il mio home computer Philips VG-8020, compatibile con lo standard MSX1](thumb_vg_8020.jpg)
 
 Ad ogni modo, questo dimostra quanto possa essere semplice utilizzare questo strumento per creare un nuovo videogioco o una nuova utility, usando un linguaggio di alto livello e compilando in pochi istanti il programma in un comodo file ROM per MSX1.
 

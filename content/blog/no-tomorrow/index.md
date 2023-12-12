@@ -8,7 +8,7 @@ categories:
   - videogiochi
 ---
 
-{{< figure alt="No Tomorrow" src="no_tomorrow.gif" width="100%" >}}
+{{< figure alt="No Tomorrow" src="thumb_no_tomorrow.gif" width="100%" >}}
 
 **Questo è il mio piccolo tributo ad un gioco con cui sono cresciuto, nelle sale giochi della mia città quando ero un ragazzino.** Un gioco con una trackball, tanti missili ed il compito quasi impossibile di mantenere a distanza una guerra termonucleare il più a lungo possibile.
 

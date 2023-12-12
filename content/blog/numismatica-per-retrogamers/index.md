@@ -13,7 +13,7 @@ tags:
 {{< figure 
   alt="Una piccola collezione di nove gettoni presi da alcune sale giochi e bar di Venezia e provincia degli anni ottanta e novanta"
   title="Una piccola collezione di nove gettoni presi da alcune sale giochi e bar di Venezia e provincia degli anni ottanta e novanta"
-  src="gettoni.jpg"
+  src="thumb_gettoni.jpg"
 >}}
 
 La maggior parte di queste monetine raccontano una propria storia. Quella di un bar o di una sala giochi dove si andava a divertirsi con le sale giochi, e che oggi non esiste più.

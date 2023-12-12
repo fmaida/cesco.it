@@ -11,7 +11,7 @@ tags:
 
 Devo essere onesto sul mio evercade : inaspettatamente mi sto divertendo. Comprato un anno fa per il design, ho ricominciato a usarlo in questi giorni e sto riscoprendo alcuni videogiochi arcade.
 
-![Evercade VS in camera mia con la cartuccia IREM Arcade Collection 1](evercade_vs.jpg)
+![Evercade VS in camera mia con la cartuccia IREM Arcade Collection 1](thumb_evercade_vs.jpg)
 
 **SI**, ci sono il MAME e FinalBurn...  
 **SI**, ci sono siti con le ROM gratis...  

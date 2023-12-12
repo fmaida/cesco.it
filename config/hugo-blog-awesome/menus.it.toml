@@ -1,0 +1,31 @@
+[[main]]
+    # The page reference (pageRef) is useful for menu highlighting
+    # When pageRef is set, setting `url` is optional; it will be used as a fallback if the page is not found.
+    pageRef="/"
+    name = 'Home'
+    url = '/'
+    weight = 10
+
+[[main]]
+    pageRef="blog"
+    name = "Blog"
+    url = "/blog/"
+    weight = 20
+
+[[main]]
+    pageRef="tutorial"
+    name = "Tutorial"
+    url = "/tutorial/"
+    weight = 30
+
+[[main]]
+    pageRef="recensioni"
+    name = "Recensioni"
+    url = "/recensioni/"
+    weight = 40
+
+[[main]]
+    pageRef="chi-sono"
+    name = 'Chi sono'
+    url = '/chi-sono/'
+    weight = 50
