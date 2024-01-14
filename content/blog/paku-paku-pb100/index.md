@@ -3,7 +3,7 @@ title:
     "Ho creato un videogioco per Casio PB-100"
 date: 2024-01-14
 summary:
-    "..."
+    "Volevo condividere un gioco che ho scoperto di recente, e che ho convertito per il mio vecchio computer tascabile Casio PB-100F"
 tags:
     - retrogaming
 ---
@@ -27,7 +27,7 @@ Mentre stavo giocando, ho pensato che sarebbe stato il gioco ideale per il mio v
 
 Questo è quello che mi è venuto fuori:
 
-{{< youtube "https://youtu.be/XZCDxk_XG84" >}}
+{{< youtube XZCDxk_XG84 >}}
 
 ## Link al mio videogioco
 
