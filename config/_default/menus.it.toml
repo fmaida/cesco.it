@@ -25,9 +25,21 @@
     weight = 40
 
 [[main]]
-  name = "GitHub"
-  url = "https://github.com/fmaida"
+  name = "Mastodon"
+  title = "Seguimi su Mastodon"
+  url = "https://livellosegreto.it/@cesco"
+  rel = "me"
   weight = 50
+  [main.params]
+    icon = "mastodon"    
+    showName = false
+    target = "_blank"    
+
+[[main]]
+  name = "GitHub"
+  title = "Seguimi su GitHub"
+  url = "https://github.com/fmaida"
+  weight = 60
   [main.params]
     icon = "github"
     showName = false

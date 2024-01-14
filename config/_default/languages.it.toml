@@ -4,7 +4,7 @@ languageDirection = "ltr"
 weight = 1
 
 title = "Francesco Maida"
-copyright = "&copy; 2023 Francesco Maida"
+copyright = "&copy; 2024 Francesco Maida"
 
 [params]
   dateFormat = "2 January 2006"
