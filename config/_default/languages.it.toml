@@ -11,15 +11,3 @@ copyright = "&copy; 2024 Francesco Maida"
 
   mainSections = ["blog", "tutorial"]
   description = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer di notte. Tipo Dr. Jekyll e Mr. Hyde, ma meno figo."
-
-[author]
-  name = "Francesco Maida"
-  image = "avatar.jpg"
-  headline = "Not your ordinary theme!"
-  bio = "Vivo e lavoro a Venezia. Sono uno sviluppatore di siti e gestionali di giorno, ed aspirante indie developer di notte. Tipo Dr. Jekyll e Mr. Hyde, ma meno figo."
-  links = [
-    { mastodon = "https://livellosegreto.it/@cesco" },
-    { linkedin = "https://www.linkedin.com/in/fmaida" },
-    { github = "https://github.com/fmaida" },    
-    { email = "mailto:museo05_vasto@icloud.com" },
-  ]
