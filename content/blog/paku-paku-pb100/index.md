@@ -3,7 +3,9 @@ title:
     "Ho creato un videogioco per Casio PB-100"
 date: 2024-01-14
 summary:
-    "Volevo condividere un gioco che ho scoperto di recente, e che ho convertito per il mio vecchio computer tascabile Casio PB-100F"
+    "Volevo condividere un gioco che ho scoperto di recente, 
+    e che ho convertito per il mio vecchio computer tascabile 
+    Casio PB-100F"
 tags:
     - retrogaming
 ---
