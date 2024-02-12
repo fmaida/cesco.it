@@ -19,7 +19,7 @@ Se nei primi anni ottanta bazzicavate le sale giochi, è probabile che vi siate 
 *«Occhei, ti sei qualificato. Attenzione ora! Al semaforo dello start!»*  
 *«Partenza valida! Ha ora inizio il gran premio di formula uno!»*  
 
-A differenza dell'originale che usava voci campionate, il bootleg ha un chip TMS5220 per la sintesi vocale che vi parla in italiano. All'epoca l'effetto era davvero impressionante.
+A differenza dell'originale che usava voci campionate, il bootleg utilizza un chip *Texas Instruments TMS5220* per la sintesi vocale che vi parla in italiano. Nel 1984, all'epoca in cui uscì questo gioco, l'effetto era davvero impressionante.
 
 Guardate qui, che merita:
 
