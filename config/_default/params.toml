@@ -78,8 +78,9 @@ fingerprintAlgorithm = "sha256"
 [taxonomy]
   showTermCount = true
 
-[fathomAnalytics]
-  site = "IQDPDKKL"  
+[umamiAnalytics]
+  site = "a13fbf16-f45e-43e8-a2b5-3be22180d659"  
+  region = "eu"
 
 [verification]
   # google = ""
