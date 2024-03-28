@@ -1,2 +1,3 @@
-{{ $raw_html := .Resources.Get "script.html" }}
-{{ $raw_html.Content | safeHTML }}
+{{ $raw_html := (.Resources.Get "script.html").Content }}
+{{ $raw_html = replace $raw_html "<title>PICO-8 Cartridge</title>" (print "<title>" .Page.Title "</title>") }}
+{{ $raw_html | safeHTML }}
