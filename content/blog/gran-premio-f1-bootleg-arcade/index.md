@@ -2,8 +2,6 @@
 title: 
     "Gran Premio F1. Quando un videogioco ti parla in italiano."
 date: 2024-02-12
-summary:
-    
 tags:
     - retrogaming
     - arcade

@@ -1,5 +1,6 @@
 ---
 title: Termini e Condizioni
+menu: footer
 showEdit: False
 showAuthor: False
 showBreadcrumbs: False

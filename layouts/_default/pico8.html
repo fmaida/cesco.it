@@ -1,0 +1,2 @@
+{{ $raw_html := .Resources.Get "script.html" }}
+{{ $raw_html.Content | safeHTML }}

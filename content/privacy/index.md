@@ -1,5 +1,6 @@
 ---
 title: Informativa Sulla Privacy
+menu: footer
 showEdit: False
 showAuthor: False
 showBreadcrumbs: False
