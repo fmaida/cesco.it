@@ -76,3 +76,6 @@ themes/hugo-blog-awesome/.github/
 themes/hugo-blog-awesome/.gitignore
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,hugo
+
+# Local Netlify folder
+.netlify
