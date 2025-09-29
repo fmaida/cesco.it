@@ -50,7 +50,9 @@ jobs:
       run: poetry install --no-interaction --only=main
 
     - name: Build site
-      run: poetry run build
+      run: |
+        export PYTHONPATH=$PYTHONPATH:$PWD/src
+        poetry run build
 
     - name: Setup Pages
       uses: actions/configure-pages@v4
