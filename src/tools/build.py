@@ -15,7 +15,7 @@ app.config['FREEZER_DESTINATION'] = str(BUILD_DIR)
 # Assicura che Flask-Frozen costruisca URL con prefisso '/'
 app.config.setdefault('FREEZER_BASE_URL', '/')
 
-freezer = Freezer(app)
+freezer = Freezer(app, log_url_for=True)
 
 
 @freezer.register_generator
@@ -24,9 +24,18 @@ def error_handlers():
     # per triggerare la creazione della pagina 404
     yield "/404.html"
 
+@freezer.register_generator
+def privacy():
+    yield 'privacy', {}  # per /privacy senza parametri
+
 def main():        
     # Inizia il processo di freeze
-    freezer.freeze()
+    print("Endpoint registrati:", sorted(app.view_functions.keys()))
+    try:
+        freezer.freeze()
+        print("✅ Freeze completato")
+    except Exception as e:
+        print("❌ Errore durante freeze:", e)
 
     # Pulisce la cache da 
     # eventuali file cache non

@@ -76,7 +76,7 @@ def home():
                            posts=posts[:3],
                            now=datetime.now())
 
-@app.route("/privacy", endpoint='privacy')
+@app.route("/privacy/", endpoint='privacy')
 def privacy_policy():
     temp = cache.load(CONTENT_DIR / "_config.yaml")
     temp["privacy"] = cache.load(CONTENT_DIR / "privacy" / "_config.yaml")

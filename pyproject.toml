@@ -22,7 +22,7 @@ packages = [
     {include = "tools", from = "src"},
 ]
 
-[project.scripts]
+[tool.poetry.scripts]
 serve = "tools.serve:main"
 build = "tools.build:main"
 
