@@ -1,4 +1,4 @@
-# Boilerplate Flask
+# Il mio sito web personale
 
 Boilerplate che usa Poetry, Flask e Frozen-Flask per generare un sito web statico attraverso il comando `poetry run build`.
 
