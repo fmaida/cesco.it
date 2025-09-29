@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+
+# Fix automatico del PYTHONPATH per GitHub Actions
+current_dir = Path(__file__).parent.parent  # va in src/
+sys.path.insert(0, str(current_dir))
+
 from sitekit.settings import BUILD_DIR
 from tools.misc import create_robots_txt
 from flask_frozen import Freezer
