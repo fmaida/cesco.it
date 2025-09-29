@@ -1,0 +1,119 @@
+<!-- section contact -->
+<section id="contact">
+
+    <div class="container">
+
+        <!-- section title -->
+        <h2 class="section-title wow fadeInUp">{{ t["Get In Touch"] }}</h2>
+
+        <div class="spacer" data-height="{{ params.settings.space }}"></div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <!-- contact info -->
+                <div class="contact-info">
+                    <h3 class="wow fadeInUp">{{ params.contact.title }}</h3>
+                    <p class="wow fadeInUp">{{ params.contact.description | replace("{{ params.support.email }}", params.support.email) | safe }}</p>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <!-- Contact Form -->
+                <form id="contact-form" class="contact-form mt-6" method="post" action="https://formspree.io/f/mrbbvgvq"> {# {{ url_for('static', filename='assets/form/contact.php') }} #}
+
+                    <div class="messages"></div>
+
+                    <div class="row">
+                        <div class="column col-md-12">
+                            <!-- Name input -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="InputName" id="InputName" placeholder="{{ t["Your name"] }}" required="required" data-error="{{ t["Name is required"] }}.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+
+                        <div class="column col-md-6">
+                            <!-- Phone input -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="InputPhone" id="InputPhone" placeholder="{{ t["Your phone"] }}" required="required" data-error="{{ t["Phone is required"] }}.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+
+                        <div class="column col-md-6">
+                            <!-- Email input -->
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="InputEmail" name="email" placeholder="{{ t["Email address"] }}" required="required" data-error="{{ t["Email is required"] }}.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+
+                        <div class="column col-md-12">
+                            <!-- Email input -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="{{ t["Subject"] }}" required="required" data-error="{{ t["Subject is required"] }}.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+
+                        <div class="column col-md-12">
+                            <!-- Message textarea -->
+                            <div class="form-group">
+                                <textarea name="message" id="InputMessage" class="form-control" rows="5" placeholder="{{ t["Message"] }}" required="required" data-error="{{ t["Message is required"] }}."></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="privacyCheck" style="transform: scale(1.5);" required>
+                        <label class="form-check-label" for="privacyCheck">
+                            Dichiaro di aver letto e compreso la <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <button type="submit" name="submit" id="submit" value="Submit" class="btn btn-default">{{ t["Send Message"] }}</button><!-- Send Button -->
+
+                </form>
+                <!-- Contact Form end -->
+
+                {# <script>
+                  var form = document.getElementById("contact-form");
+
+                  async function handleSubmit(event) {
+                    event.preventDefault();
+                    var status = document.getElementById("my-form-status");
+                    var data = new FormData(event.target);
+                    fetch(event.target.action, {
+                      method: form.method,
+                      body: data,
+                      headers: {
+                          'Accept': 'application/json'
+                      }
+                    }).then(response => {
+                      if (response.ok) {
+                        status.innerHTML = "Thanks for your submission!";
+                        form.reset()
+                      } else {
+                        response.json().then(data => {
+                          if (Object.hasOwn(data, 'errors')) {
+                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+                          } else {
+                            status.innerHTML = "Oops! There was a problem submitting your form"
+                          }
+                        })
+                      }
+                    }).catch(error => {
+                      status.innerHTML = "Oops! There was a problem submitting your form"
+                    });
+                  }
+                  form.addEventListener("submit", handleSubmit)
+                </script> #}
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

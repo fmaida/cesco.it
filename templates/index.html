@@ -1,0 +1,17 @@
+{% extends "_default/baseof.html" %}
+
+{% block title %}{{ params.title | default("This Is The Homepage") }}{% endblock %}
+
+{% block content %}
+    {% include "partials/home/1-home.html" %}
+    {% include "partials/home/2-about.html" %}
+	{% include "partials/home/3-services.html" %}
+    {# % include "partials/home/4-experience.html" % #}
+    {% include "partials/home/4b-answers.html" %}
+	{% include "partials/home/5-projects.html" %}
+	{% include "partials/home/6-prices.html" %}
+    {% include "partials/home/6b-examples.html" %}
+	{# % include "partials/home/7-testimonials.html" % #}
+	{% include "partials/home/8-blog.html" %}
+	{% include "partials/home/9-contact.html" %}
+{% endblock %}

@@ -1,0 +1,31 @@
+[project]
+name = "cesco-it"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Francesco Maida", email = "francesco.maida@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "flask (>=3.1.2,<4.0.0)",
+    "frozen-flask (>=1.0.2,<2.0.0)",
+    "python-frontmatter (>=1.1,<2.0)",
+    "markdown (>=3.8.2,<4.0.0)",
+    "pillow (>=11.3.0,<12.0.0)"
+]
+
+[tool.poetry]
+packages = [
+    {include = "main", from = "src"},
+    {include = "sitekit", from = "src"},
+    {include = "tools", from = "src"},
+]
+
+[project.scripts]
+serve = "tools.serve:main"
+build = "tools.build:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

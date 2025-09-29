@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ params.lang | default("it") }}">
+<head>
+    {% include "partials/head.html" %}
+</head>
+
+<body>
+
+{% include "partials/home/preloader.html" %}
+
+{% include "partials/header.html" %}
+
+<!-- main layout -->
+<main class="content-3">
+
+	{% block content %}{% endblock %}
+
+    <div class="spacer" data-height="96"></div>
+
+    {% include "partials/footer/footer.html" %}
+
+</main>
+
+{% include "partials/footer/footer-scripts.html" %}
+
+</body>
+</html>

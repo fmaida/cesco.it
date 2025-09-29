@@ -1,0 +1,22 @@
+{% macro responsive_image(base_path, alt_text, width=400, height=300, aspect_ratio=None) %}
+{% set base_url = url_for('static', filename=base_path) %}
+<picture>
+  <source type="image/avif"
+          srcset="{{ base_url }}__400.avif 400w, {{ base_url }}__800.avif 800w, {{ base_url }}__1200.avif 1200w"
+          sizes="(min-width: 768px) 33.33vw, (min-width: 576px) 50vw, 100vw">
+  <source type="image/webp"
+          srcset="{{ base_url }}__400.webp 400w, {{ base_url }}__800.webp 800w, {{ base_url }}__1200.webp 1200w"
+          sizes="(min-width: 768px) 33.33vw, (min-width: 576px) 50vw, 100vw">
+  <img
+    src="{{ base_url }}__400.jpg"
+    srcset="{{ base_url }}__400.jpg 400w, {{ base_url }}__800.jpg 800w, {{ base_url }}__1200.jpg 1200w"
+    sizes="(min-width: 768px) 33.33vw, (min-width: 576px) 50vw, 100vw"
+    class="card-img-top img-fluid"
+    width="{{ width }}"
+    height="{{ height }}"
+    alt="{{ alt_text }}"
+    loading="lazy"
+    decoding="async"
+    style="width:100%;{% if aspect_ratio %}aspect-ratio:{{ aspect_ratio | replace(":", "/") }};{% endif %}object-fit:cover;">
+</picture>
+{% endmacro %}

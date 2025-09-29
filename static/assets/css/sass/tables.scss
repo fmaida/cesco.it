@@ -1,0 +1,27 @@
+@use "sass:color";
+
+.table {
+  --bs-table-bg: #{$background};  /* nuovo sfondo */
+  --bs-table-color: var(--bs-body-color);  /* colore testo */
+
+}
+
+.table td {
+  padding-top: .8rem;
+  padding-bottom: .8rem;
+}
+
+.table thead th {
+  background-color: #{$colordark};  /* sfondo dell’intero thead */
+  color: #fff; /* colore testo */
+}
+
+.table.table-striped {
+  --bs-table-striped-bg: #{color.mix(white, $colorblue, 92%)};   /* sfondo righe alternate */
+  --bs-table-striped-color: var(--bs-body-color);   /* testo sulle righe alternate */
+}
+
+.table.table-hover {
+  --bs-table-hover-bg: #{$colorblue}; /* colore sfondo all’hover */
+  --bs-table-hover-color: #fff; /* colore testo all’hover */
+}

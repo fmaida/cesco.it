@@ -1,0 +1,79 @@
+<!-- section prices -->
+{% set ns = namespace(all_features=[], plans_features=[]) %}
+{% for plan in params.plans %}
+  {# Materializza le features del piano in una lista, una sola volta #}
+  {% set pf = plan.features | list %}
+  {% set ns.all_features = ns.all_features + pf %}
+  {% set ns.plans_features = ns.plans_features + [pf] %}
+{% endfor %}
+{% set features_list = ns.all_features | unique %}
+<section id="prices">
+
+    <div class="container">
+
+        <!-- section title -->
+        <h2 class="section-title wow fadeIn">{{ t["Pricing Plans"] }}</h2>
+
+        <div class="spacer" data-height="{{ params.settings.space }}"></div>
+
+        <div class="row">
+            <div class="col-12 ml-3 mr-3">
+                {{ params.plans.description | markdown }}
+            </div>
+
+            {% for plan in params.plans.plans %}
+
+            <div class="col-md-4 {% if plan.recommended %}px-md-0 my-4 my-md-0{% else %}{% if loop.index0 == 0 %}pr-md-0{% elif loop.index0 == 2 %}pl-md-0{% endif %} mt-md-4 mt-0{% endif %}">
+                <!-- price item -->
+                <div class="price-item bg-white rounded shadow-dark text-center{% if plan.recommended %} best{% endif %}">
+                    {% if plan.recommended %}<span class="badge">{{ t["Recommended"] }}</span>{% endif %}
+                    {% if plan.image %}<img src="{{ url_for('static', filename=plan.image) }}" width="80" height="80" alt="{{ plan.title }}" />{% endif %}
+                    <h2 class="plan">{{ plan.title }}</h2>
+                    <p>{{ plan.description }}</p>
+                    <ul class="list-unstyled">
+                    {% for feature in plan.features %}
+                        {% if not "^" in feature %}
+                            <li><strong>{{ feature }}</strong></li>
+                        {% else %}
+                            <li><del>{{ feature[1:] }}</del></li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                    <h3 class="price mt-4"><em>€</em>{{ plan.price }}<span>/{{ t["Month"] }}</span></h3>
+                    <a href="{{ plan.url }}" class="btn btn-default">{{ t["Buy"] }}</a>
+                </div>
+            </div>
+            {% endfor %}
+
+            {#
+            <div class="col-md-4 px-md-0 my-4 my-md-0">
+                <!-- price item recommended-->
+                <div class="price-item bg-white rounded shadow-dark text-center best">
+                    <span class="badge">{{ t["Recommended"] }}</span>
+                    <img src="https://via.placeholder.com/80x80" alt="Premium" />
+                    <h2 class="plan">Premium</h2>
+                    <p>Unlimited product including apps integrations and more features</p>
+                    <p>Mon-Fri support</p>
+                    <h3 class="price"><em>$</em>49<span>Month</span></h3>
+                    <a href="#" class="btn btn-default">Get Started</a>
+                </div>
+            </div>
+
+            <div class="col-md-4 pl-md-0 mt-md-4 mt-0">
+                <!-- price item -->
+                <div class="price-item bg-white rounded shadow-dark text-center">
+                    <img src="https://via.placeholder.com/80x80" alt="Ultimate" />
+                    <h2 class="plan">Ultimate</h2>
+                    <p>A wise option for large companies and individuals</p>
+                    <p>24/7 support</p>
+                    <h3 class="price"><em>$</em>99<span>Month</span></h3>
+                    <a href="#" class="btn btn-default">Get Started</a>
+                </div>
+            </div>
+            #}
+
+        </div>
+
+    </div>
+
+</section>

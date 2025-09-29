@@ -1,0 +1,38 @@
+<!-- section services -->
+<section id="services">
+
+    <div class="container">
+
+        <!-- section title -->
+        <h2 class="section-title wow fadeInUp">{{ t["Services"] }}</h2>
+
+        <div class="spacer" data-height="{{ params.settings.space }}"></div>
+
+        <div class="row">
+            <div class="col-12 ml-3 mr-3">
+                {{ params.services.description | markdown }}
+            </div>
+            {% set services_colors = ["#D6B04D", "#FF4C60", "#B04DD6", "#F97B8B", "#6C6CE5", "#9CC72E", "#2E9C9C", "#9C9C2E", "#4DB0D6"] %}
+            {% set services_index = 0 %}
+            {% for service in params.services.services %}
+                {% set service_color = services_colors[loop.index0 % services_colors|length] %}
+            <div class="col-md-4">
+                <!-- service box -->
+                <div class="service-box rounded data-background padding-30 text-center text-light shadow-blue" data-color="{{ service_color }}">
+                    <img src="{{ url_for('static', filename=service.icon) }}" width="80" height="80" alt="{{ service.title }}" />
+                    <h3 class="mb-3 mt-0">{{ service.title }}</h3>
+                    <p class="mb-0">{{ service.description }}</p>
+                </div>
+                <div class="spacer d-md-none d-lg-none" data-height="30"></div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <div class="mt-5 text-center">
+            <p class="mb-0">{{ t["custom_jobs"] | safe }} 👋</p>
+        </div>
+
+    </div>
+
+</section>

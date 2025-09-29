@@ -1,0 +1,36 @@
+{% from "partials/home/macros/responsive_image.html" import responsive_image %}
+<section id="answers">
+    <div class="container">
+
+        <!-- section title -->
+        <h2 class="section-title wow fadeIn">{{ t["Why Choose Me"] }}</h2>
+
+        <div class="spacer" data-height="{{ params.settings.space }}"></div>
+
+        <div class="row">
+            <div class="col-12 ml-3 mr-3">
+                {{ params.answers.description | markdown }}
+            </div>
+            {% for answer in params.answers.answers %}
+            <div class="col-12 bg-white rounded shadow-dark ml-3 mr-3 pt-3 pb-3 mb-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-3 d-flex align-items-center justify-content-center">
+                            {% if answer.image %}{{ responsive_image(answer.image_path, answer.q, 400, 300, aspect_ratio=answer["aspect_ratio"]) }}{% endif %}
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <h2>{{ answer.q }}</h2>
+                            <p>{{ answer.a | markdown }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="col-12 text-center mt-4 mb-4">
+                    <a href="#contact" class="btn btn-default">{{ t["Request a Quote"] }}</a>
+            </div>
+
+        </div>
+    </div>
+</section>

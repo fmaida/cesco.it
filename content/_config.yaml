@@ -1,0 +1,98 @@
+title: Francesco Maida
+description: >
+  Puoi pensarmi come un’estetista per aziende: lavoro con dedizione 
+  per rendere bella e desiderabile la tua impresa agli occhi delle 
+  persone, così che tu possa vendere di più.
+base-url: https://cesco.it
+
+support:
+  url: https://assistenza.cesco.it
+  phone: +39 352 00 68000
+  email: museo05_vasto@icloud.com
+
+author:
+  name: Francesco Maida
+  avatar: images/avatar.jpg
+  job: >
+    Consulente digitale per aziende (siti web, social e comunicazione online)
+  description: >
+    Mi chiamo Francesco. Puoi pensarmi come un’estetista 
+    per aziende: lavoro con cura e dedizione per rendere 
+    bella e desiderabile la tua impresa agli occhi delle 
+    persone, così che tu possa vendere di più. Non infiocchetto, 
+    né creo illusioni: faccio emergere il meglio della tua azienda, 
+    raccontandone con autenticità e passione la missione.
+  cv: downloads/cv.pdf
+
+
+roles:
+  - uno sviluppatore web
+  - un designer grafico
+  - un creatore di contenuti
+
+social:
+  #- icon: fa-instagram
+  #  url: #
+  - icon: fa-linkedin
+    url: https://www.linkedin.com/in/francesco.maida
+  - icon: fa-github
+    url: https://github.com/fmaida
+  - icon: fa-mastodon
+    url: "https://livellosegreto.it/@cesco"
+
+skills:
+  - title: Sviluppo web
+    value: 85
+  - title: Design
+    value: 95
+  - title: Fotografia
+    value: 70
+  - title: Python
+    value: 85
+
+testimonials:
+  - name: John Doe
+    role: CEO of Example Inc.
+    image: images/icons/account.svg
+    comment: >
+      I enjoyed working with Francesco Maida 
+      and he made my project a success. Good luck Francesco 👍
+  - name: Jane Doe
+    role: Product Designer at Google Inc.
+    image: images/icons/account.svg
+    comment: >
+      He's a genious and a wonderful person to work with. 
+      Glad you entered my life and my team, Francesco!
+
+brands:
+  - name: Google
+    image: images/brands/google.svg
+  - name: Facebook
+    image: images/brands/facebook.svg
+  - name: Twitter
+    image: images/brands/twitter.svg
+  - name: Instagram
+    image: images/brands/instagram.svg
+
+contact:
+  title: Contattami per un preventivo gratuito
+  description: >
+    Faremo una breve chiacchierata: 
+    alla fine dell’incontro ti presenterò 
+    subito alcune prime soluzioni. Se per 
+    risponderti in modo accurato dovrò 
+    raccogliere ulteriori informazioni 
+    (su costi o modalità), ti invierò la 
+    proposta completa nelle ore o nei giorni successivi.<br><br>
+    Non vuoi usare il modulo? Inviami una  
+    <a href="mailto:{{ params.support.email }}?subject=Ho%20visto%20il%20sito%20web%20e%20ho%20delle%20domande">email</a>. 👋
+
+fiscal:
+  locality: Venezia
+  region: VE
+  postal-code: 30132
+  country: IT
+  partita-iva: 04908370275
+
+settings:
+  space: 30 # Spazio fra titolo e descrizione delle sezioni

@@ -1,0 +1,93 @@
+description: >
+  Come perito informatico autonomo e sviluppatore 
+  software, da anni realizzo soluzioni su misura per 
+  i miei clienti, adattandomi alle loro esigenze e 
+  ai loro budget — dai piccoli siti internet aziendali 
+  pensati per presentare al meglio prodotti e servizi, 
+  fino a semplici sistemi gestionali che li aiutano 
+  nella gestione di ordini, magazzino e personale.
+
+services:
+
+  - title: App personalizzate per la tua azienda
+    icon: images/icons/034-ruler.svg
+    background-color: "#F9D74C"
+    description: >
+      Hai bisogno di un'applicazione per la tua azienda? 
+      Posso creare per te gestionali in grado di aiutarti 
+      nella vita di tutti i giorni e farti risparmiare 
+      tempo e denaro.
+    meta: Creazione di app personalizzate per aziende
+
+  - title: Sviluppo di siti web
+    icon: images/icons/011-monitor.svg
+    background-color: "#F9D74C"
+    description: >
+      Il tuo personale ed instancabile assistente di vendita, 
+      che lavora sette giorni su sette, ventiquattro ore al 
+      giorno parlando la lingua dei tuoi clienti.
+    meta: Creazione di siti web per aziende
+
+  - title: Pubblicità alla tua attività
+    icon: images/icons/028-increase.svg
+    description: >
+      Faccio in modo che tutto il mondo sappia di te 
+      e della tua attività commerciale, utilizzando 
+      per tuo conto strumenti di marketing come 
+      Google Ads e TripAdvisor Ads.
+    meta: Pubblicità alle attività commerciali
+
+  - title: Foto professionali dei tuoi prodotti/servizi
+    icon: images/icons/008-camera.svg
+    background-color: "#F97B8B"
+    description: >
+      Ti porto un fotografo professionista, che scatterà 
+      per te su reflex digitale. Potrai usare le sue foto artistiche 
+      in altissima definizione per pubblicizzarti.
+    meta: Fotografia professionale (tramite fotografo professionista collaboratore)
+
+  - title: Moduli di prenotazione per eventi
+    icon: images/icons/010-contract.svg
+    background-color: "#F9D74C"
+    description: >
+      Creo per te moduli di prenotazione dove raccogliere 
+      le informazioni dei tuoi clienti tramite email e 
+      farti pagare per i tuoi prodotti o servizi.
+    meta: Moduli di prenotazione online per eventi aziendali
+
+  - title: Automazioni aziendali
+    icon: images/icons/031-money-management.svg
+    background-color: "#F9D74C"
+    description: >
+      Scrivo per te programmi per computer in grado 
+      di automatizzare lavori noiosi o complicati. 
+      Non dovrai mai più perdere un'ora della tua vita 
+      ogni giorno a ripetere le stesse operazioni.
+    meta: script di automazione aziendale
+
+  - title: Menù per bar e ristoranti
+    icon: images/icons/035-sketchbook.svg
+    description: >
+      Creo per te dei listini in più lingue per i tuoi 
+      prodotti e per i tuoi servizi, che potrai stampare 
+      su carta e distribuire tramite internet
+    meta: Documentazione aziendale (es. menù per ristoranti, brochure per ristoranti)
+
+  - title: Biglietti da visita personalizzati
+    icon: images/icons/008-cash-flow.svg
+    description: >
+      Creo per te biglietti da visita, con 
+      un look memorabile che parlano di te e presentano 
+      la tua attività commerciale ai clienti.
+    meta: Biglietti da visita personalizzati per aziende
+
+  - title: Volantini e Brochure
+    icon: images/icons/006-brief.svg
+    description: >
+      Creo per te volantini e brochure, con 
+      un look memorabile che parlano di te e presentano 
+      la tua attività commerciale ai clienti.
+    meta: Volantini e brochure per aziende
+
+other:
+  - "FileMaker"

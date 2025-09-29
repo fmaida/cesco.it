@@ -1,0 +1,69 @@
+description: >
+  Il mio costo standard è di 70 € l’ora. Per chi desidera 
+  un impegno continuativo, offro piani di abbonamento 
+  annuali scontati, con pacchetti di ore prepagate e 
+  benefit aggiuntivi. Tutti i piani hanno durata annuale, 
+  prevedono il pagamento anticipato dell’intera somma, 
+  si rinnovano automaticamente ogni anno salvo disdetta.
+  Per semplicità, i prezzi sono indicati come costo mensile 
+  frazionato. Alcuni pacchetti includono anche una pagina 
+  promozionale su Venice.bio. [Scopri di più su Venice.bio](https://venice.bio).
+
+plans:
+
+  - title: Shampoo & Manicure alla tua Impresa
+    image: images/icons/009-cleaning.svg
+    description: >
+      Prova il mio lavoro con un impegno di 2 ore e mezza. 
+      Lascia che io migliori i tuoi profili su Google, Instagram e 
+      TripAdvisor. In modo da farti arrivare più prenotazioni.
+    features:
+      - 2 ore e 1/2 di lavoro
+      - ^Profilo su Venice.bio
+      - ^Ore extra a 60€/h
+      - Supporto da lunedì a venerdì
+      - Supporto via email
+      - Risposte in 48 ore lavorative
+      - ^Supporto via WhatsApp
+      - ^Assistenza da remoto
+    price: 15
+    url: https://buy.stripe.com/6oU4gAdi59J3aUdeU42VG03
+
+  - title: Trattamento Di Bellezza Aziendale
+    image: images/icons/013-cut.svg
+    description: >
+      Con 5 ore posso aiutare la tua azienda a presentarsi  
+      rinnovata agli occhi dei tuoi clienti. Magari con dei profili 
+      social migliorati, e foto ed informazioni di qualità.
+
+    features:
+      - 5 ore di lavoro
+      - Profilo su Venice.bio
+      - Ore extra a 60€/h
+      - Supporto da lunedì a venerdì
+      - Risposte in 48 ore lavorative
+      - Supporto via email
+      - ^Supporto via WhatsApp
+      - ^Assistenza da remoto
+    price: 28
+    url: https://buy.stripe.com/3cIcN64Lz9J33rL9zK2VG04
+
+  - title: Il Visagista Delle Dive Societarie
+    image: images/icons/018-woman.svg
+    recommended: true
+    description: >
+      Qui il lavoro si fa serio: 10 ore in cui insieme si 
+      fare molto per dare un nuovo volto alla tua attività e farla 
+      apprezzare come merita.
+
+    features:
+      - 10 ore di lavoro
+      - Profilo su Venice.bio
+      - Ore extra a 60€/h
+      - Supporto da lunedì a venerdì
+      - Risposte in 48 ore lavorative
+      - Supporto via email
+      - Supporto via WhatsApp
+      - Assistenza da remoto
+    price: 55
+    url: https://buy.stripe.com/cNi14o1zn8EZ4vP27i2VG05

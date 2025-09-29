@@ -1,0 +1,91 @@
+{% from "partials/home/macros/responsive_image.html" import responsive_image %}
+<!-- section blog -->
+<section id="blog">
+
+    <div class="container">
+
+        <!-- section title -->
+        <h2 class="section-title wow fadeInUp">{{ t["Latest Posts"] }}</h2>
+
+        <div class="spacer" data-height="{{ params.settings.space }}"></div>
+
+        <div class="row blog-wrapper">
+            {% for post in posts %}
+            <div class="col-md-4">
+                <!-- blog item -->
+                <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
+                    <div class="thumb">
+                        <a href="#">
+                            <span class="category">{{ post.category | default("[ No Category ]") }}</span>
+                        </a>
+                        <a href="#">
+                            {{ responsive_image("cache/blog/" ~ post.slug ~ "/" ~ post.cover ~ "/" ~ post.cover, 400, 300, aspect_ratio="4:3") }}
+                            {# <img src="https://via.placeholder.com/330x215" alt="blog-title" /> #}
+                        </a>
+                    </div>
+                    <div class="details">
+                        <h4 class="my-0 title"><a href="#">{{ post.title }}</a></h4>
+                        <ul class="list-inline meta mb-0 mt-2">
+                            <li class="list-inline-item">{{ post.date | default("01/01/1970") }}</li>
+                            <li class="list-inline-item">{{ post.author | default("Francesco") }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {#
+            <div class="col-md-4">
+                <!-- blog item -->
+                <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
+                    <div class="thumb">
+                        <a href="#">
+                            <span class="category">Tutorial</span>
+                        </a>
+                        <a href="#">
+                            <img src="https://via.placeholder.com/330x215" alt="blog-title" />
+                        </a>
+                    </div>
+                    <div class="details">
+                        <h4 class="my-0 title"><a href="#">Common Misconceptions About Payment</a></h4>
+                        <ul class="list-inline meta mb-0 mt-2">
+                            <li class="list-inline-item">07 February, 2020</li>
+                            <li class="list-inline-item">Bolby</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- blog item -->
+                <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
+                    <div class="thumb">
+                        <a href="#">
+                            <span class="category">Business</span>
+                        </a>
+                        <a href="#">
+                            <img src="https://via.placeholder.com/330x215" alt="blog-title" />
+                        </a>
+                    </div>
+                    <div class="details">
+                        <h4 class="my-0 title"><a href="#">3 Things To Know About Startup Business</a></h4>
+                        <ul class="list-inline meta mb-0 mt-2">
+                            <li class="list-inline-item">06 February, 2020</li>
+                            <li class="list-inline-item">Bolby</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            #}
+
+            <div class="col-12 text-center mt-4 mb-4">
+                    <a href="https://blog.cesco.it"
+                       class="btn btn-default"
+                       rel="noopener noreferrer">{{ t["Read all articles"] }}</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

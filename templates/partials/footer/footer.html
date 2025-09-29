@@ -1,0 +1,5 @@
+<footer class="footer">
+    <div class="container">
+        <span class="copyright text-white">© {{ now.year }} {{ params.title }}{% if params.fiscal and params.fiscal["partita-iva"] %} – Partita IVA {{ params.fiscal["partita-iva"] }}{% endif %}<br><a href="{{ url_for('privacy') }}" class="text-white">Privacy Policy</a></span>
+    </div>
+</footer>

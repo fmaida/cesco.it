@@ -1,0 +1,37 @@
+description: >
+  Perchè dovresti scegliere me anziché un altro servizio per 
+  la tua azienda?
+
+answers:
+
+  - q: I colossi del web non fanno i tuoi interessi
+    a: >
+      **Le piattaforme gratuite non lavorano per il tuo 
+      business: lavorano per il loro.** Mostrano dati e 
+      suggerimenti che possono scoraggiare i tuoi clienti 
+      (*“locale molto affollato”*) e indirizzarli verso 
+      altri che potrebbero investire in pubblicità.
+    image: locale-affollato.jpg
+
+  - q: Possono usarti per promuovere i tuoi concorrenti
+    a: >
+      Anche quando un potenziale cliente visita il tuo 
+      profilo sulle loro piattaforme, **queste possono 
+      suggerire i tuoi diretti concorrenti.** È un meccanismo 
+      studiato per favorire chi investe in pubblicità presso 
+      di loro. Fai caso a questo: quando un’azienda paga per 
+      la visibilità, i concorrenti consigliati spariscono 
+      dalla sua scheda.
+    image: consigliano-altri.jpg
+
+  - q: Cosa faccio per te
+    a: >
+      Io, invece, lavoro direttamente per te: analizzo 
+      i dati in modo trasparente, creo strategie 
+      personalizzate e ti aiuto ad attrarre clienti 
+      senza distorsioni, usando anche [Venice.bio](https://venice.bio), 
+      un potente sito di promozione che ti offro gratuitamente 
+      in alcuni pacchetti delle mie consulenze.  
+      In questo modo trasformi i dati in un vantaggio 
+      competitivo, non in un rischio.
+    image: venice-bio.jpg

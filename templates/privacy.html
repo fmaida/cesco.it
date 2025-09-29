@@ -1,0 +1,167 @@
+{% extends "_default/baseof.html" %}
+
+{% block title %}Privacy Policy – {{ params.title | default("This Is The Homepage") }}{% endblock %}
+
+{% block content %}
+    <style>
+        ul {
+            {# list-style-type: disc;   /* cerchio pieno (valore di default) */ #}
+            {# list-style-type: circle; /* cerchio vuoto */ #}
+            list-style-type: square; /* quadrato */
+        }
+    </style>
+    <section id="home" class="mt-4 mb-4">
+		<div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Informativa Sulla Privacy</h2>
+                    <p class="mb-5">Ultimo aggiornamento: Lunedì 29 Settembre 2025.</p>
+                    {% if params.privacy %}
+                        <h3>1. Titolare Del Trattamento</h3>
+                        <p style="text-align: left;">
+                            Il Titolare del trattamento dei dati è
+                            {{ params.title }}{% if params.privacy.address %} con sede legale in {{ params.privacy.address }}{% endif %}{% if params.fiscal["partita-iva"] %} – Partita IVA {{ params.fiscal["partita-iva"] }}{% endif %}. Per ogni richiesta relativa alla protezione dei dati personali puoi scrivere all’indirizzo email: {{ params.privacy.email }}.
+                        </p>
+                        <h3>2. Responsabile della Protezione dei Dati (DPO)</h3>
+                        <p style="text-align: left;">
+                            Il Responsabile della Protezione dei Dati (DPO) è {{ params.privacy.responsabile }}, contattabile all’indirizzo email: {{ params.privacy.email }}.
+                        </p>
+                    {% endif %}
+                    <h3>3. Periodo di conservazione</h3>
+                    <p style="text-align: left;">
+                        Se, a seguito di un contatto tramite modulo Formspree, l’utente diventa cliente del Titolare ( {{ params.privacy.responsabile }} ), i dati personali forniti (nome, email, numero di telefono) saranno conservati e trattati anche successivamente per l’esecuzione del rapporto contrattuale e per le relative comunicazioni amministrative, contabili e operative. Tali dati saranno conservati per tutta la durata del rapporto contrattuale e, successivamente, per il tempo necessario ad adempiere ad obblighi di legge (ad esempio fiscali e contabili).
+                    </p>
+                    <p style="text-align: left;">
+                        In tutti gli altri casi i dati vengono conservati per il tempo necessario a rispondere alle richieste, e comunque non oltre 12 mesi fatti salvi eventuali obblighi legali.
+                    </p>
+                    <h3>4. Finalità e Base Giuridica del Trattamento</h3>
+                    <p style="text-align: left;">
+                        I dati personali degli utenti vengono trattati per:
+                    </p>
+                    <ul style="text-align: left;">
+                        <li>
+                            <strong>Analisi statistiche anonime del traffico web</strong>
+                            (legittimo interesse del titolare ai sensi dell’art. 6, par. 1, lett. f GDPR).
+                        </li>
+                        <li>
+                            <strong>Funzionamento tecnico del sito,</strong>
+                            inclusi servizi di hosting e infrastruttura.
+                        </li>
+                    </ul>
+                    <p style="text-align: left;">
+                        Non vengono effettuate attività di profilazione
+                        né tracciamenti a fini commerciali.
+                    </p>
+                    <h3>5. Servizi di Analisi</h3>
+                    <p style="text-align: left;">
+                        <strong>Umami Analytics – Umami Software Inc.</strong>
+                    </p>
+                    <ul style="text-align: left;">
+                        <li>
+                            <strong>Dati Personali trattati:</strong>
+                            cookie tecnici e dati di utilizzo anonimizzati.
+                        </li>
+                        <li>
+                            <strong>Finalità:</strong>
+                            analisi del traffico web in forma anonima.
+                        </li>
+                        <li>
+                            <strong>Informativa sulla privacy:</strong>
+                            <a href="https://umami.is/privacy" target="_blank">
+                                disponibile a questo link
+                            </a>
+                        </li>
+                    </ul>
+                    <p style="text-align: left;">
+                        Alcuni servizi tra quelli elencati di seguito,
+                        se presenti, possono operare tramite server
+                        distribuiti geograficamente, rendendo difficile
+                        determinare l’effettiva ubicazione in cui i
+                        Dati Personali sono conservati.
+                    </p>
+                    <h3>6. Hosting e Infrastruttura</h3>
+                    <p style="text-align: left;">
+                        Il sito è ospitato tramite <strong>{{ params.privacy["service-provider"]["name"] }}</strong>.
+                    </p>
+                    <ul style="text-align: left;">
+                        <li>
+                            <strong>Dati Personali trattati:</strong>
+                            varie tipologie di dati come specificato
+                            nell’informativa privacy del servizio di hosting.
+                        </li>
+                        <li>
+                            <strong>Informativa sulla privacy:</strong>
+                                <a href="{{ params.privacy['service-provider']['url'] }}" target="_blank">disponibile a questo link</a>
+                        </li>
+                    </ul>
+                    <p style="text-align: left;">
+                        Alcuni servizi possono operare tramite server distribuiti geograficamente, rendendo difficile determinare l’esatta ubicazione dei dati personali.
+                    </p>
+                    <h3>7. Modulo di Contatto – Formspree</h3>
+                    <p style="text-align: left;">
+                        Il sito utilizza <strong>Formspree Inc.</strong> come servizio esterno
+                        per la gestione e l’invio dei moduli di contatto. Quando compili ed invii
+                        un modulo, i dati immessi vengono trasmessi ai server di Formspree per essere
+                        recapitati al titolare via email. Successivamente i dati vengono cancellati o anonimizzati, una volta esaurita la finalità
+                        di contatto e di risposta.
+                    </p>
+                    <p style="text-align: left;">
+                        Se, a seguito del contatto tramite Formspree, l’utente diventa cliente, i dati saranno trattati anche per l’esecuzione del rapporto contrattuale come indicato al punto 3 della presente informativa.
+                    </p>
+                    <ul>
+                        <li><strong>Dati Personali trattati:</strong> nome, email, numero di telefono e ogni altro dato inserito volontariamente nel modulo di contatto.</li>
+                        <li><strong>Finalità:</strong> permettere al Titolare di rispondere alle richieste degli utenti e fornire informazioni sui servizi.</li>
+                        <li><strong>Base giuridica:</strong> esecuzione di misure precontrattuali o contrattuali su richiesta dell’interessato (art. 6, par. 1, lett. b GDPR).</li>
+                        <li><strong>Luogo del trattamento:</strong> Formspree Inc. ha sede negli Stati Uniti. I dati possono essere trattati su server situati fuori dall’Unione Europea.
+                            Il trasferimento avviene nel rispetto degli artt. 44 e seguenti GDPR, ove necessario mediante clausole contrattuali standard.</li>
+                        <li><strong>Informativa sulla privacy del servizio:</strong> <a href="https://formspree.io/legal/privacy-policy/">https://formspree.io/legal/privacy-policy/</a></li>
+                    </ul>
+                    <h3>8. Trasferimenti di Dati Fuori dall’UE</h3>
+                    <p style="text-align: left;">
+                        Qualora i dati vengano trasferiti al di fuori
+                        dell’Unione Europea, ciò avverrà nel rispetto
+                        delle disposizioni degli artt. 44 e seguenti
+                        del GDPR e, ove necessario, mediante clausole
+                        contrattuali standard.
+                    </p>
+
+                    <h3>9. Diritti degli Interessati</h3>
+                    <p style="text-align: left;">
+                        In qualità di interessato puoi esercitare in
+                        qualsiasi momento i seguenti diritti:
+                    </p>
+                    <ul style="text-align: left;">
+                        <li>
+                            Accesso ai dati personali;
+                        </li>
+                        <li>
+                            Rettifica o cancellazione dei dati;
+                        </li>
+                        <li>
+                            Limitazione del trattamento;
+                        </li>
+                        <li>
+                            Opposizione al trattamento;
+                        </li>
+                        <li>
+                            Portabilità dei dati;
+                        </li>
+                        <li>
+                            Reclamo all’Autorità Garante per la protezione dei dati personali.
+                        </li>
+                    </ul>
+                    <p style="text-align: left;" class="mt-3">
+                        Per esercitare i tuoi diritti puoi contattare
+                        il Titolare o il DPO agli indirizzi sopra indicati.
+                    </p>
+                    <h3>10. Aggiornamenti</h3>
+                    <p style="text-align: left;">
+                        La presente informativa può essere aggiornata in
+                        qualsiasi momento. Si consiglia di consultarla
+                        periodicamente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

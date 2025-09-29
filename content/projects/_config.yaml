@@ -1,0 +1,44 @@
+description: >
+  Questa è la descrizione del mio portfolio, nella quale tento 
+  di spiegarti che cosa ho fatto e come.
+
+projects:
+
+  - title: Ristorante Da Forner (Burano)
+    tags: [siti_web]
+    image: daforner.jpg
+
+  - title: Hydra Gardening
+    tags: [siti_web]
+    image: hydragardening.jpg
+
+  - title: Ristorante Sempione
+    tags: [siti_web]
+    image: sempionevenezia.jpg
+
+  - title: Fioreria Il Girasole
+    tags: [siti_web, e-commerce]
+    image: ilgirasole.jpg
+
+  - title: Gestione Prenotazioni Gruppi Turistici (FileMaker)
+    tags: [app]
+    image: gestione-gruppi-turistici.jpg
+
+  - title: Listino à la carte per Trattoria Alla Scala
+    tags: [documenti]
+    image: menu_allascala.jpg
+
+  - title: Listino à la carte per Ristorante Da Forner (Burano)
+    tags: [documenti]
+    image: menu_daforner.jpg
+
+  - title: No Tomorrow (Videogioco Amatoriale)
+    tags: [altro]
+    image: /images/projects/no-tomorrow.gif
+
+tags:
+  - siti_Web
+  #- e-commerce
+  - documenti
+  - app
+  - altro

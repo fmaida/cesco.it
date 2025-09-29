@@ -1,0 +1,79 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{{ params.title }}</title>
+<meta name="description" content="{{ params.description | default("[No Description]") | replace("  ", " ") | trim() }}">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="author" content="{{ params.author.name }}">
+<link rel="shortcut icon" type="image/x-icon" href="https://via.placeholder.com/32x32">
+<meta property="og:title" content="{{ params.title }}">
+<meta property="og:description" content="{{ params.description | replace('  ', ' ') | trim() }}">
+<meta property="og:image" content="{{ params['base-url'] }}{{ url_for('static', filename=params.author.avatar) }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ params["base-url"] }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="it_IT">
+<link rel="canonical" href="{{ params["base-url"] }}">
+{% for site in params.social -%}
+<link rel="me" href="{{ site.url }}">
+{% endfor %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ params.title }}",
+  "image": "{{ params['base-url'] }}{{ url_for('static', filename=params.author.avatar) }}",
+  "url": "{{ params["base-url"] }}",
+  "taxID": "{{ params.fiscal.country }}{{ params.fiscal["partita-iva"] }}",
+  "jobTitle": "{{ params.author.job | trim() }}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "{{ params.fiscal.locality }}",
+    "addressRegion": "{{ params.fiscal.region }}",
+    "postalCode": "{{ params.fiscal["postal-code"] }}",
+    "addressCountry": "{{ params.fiscal.country }}"
+  },
+  "telephone": "{{ params.support.phone | replace(' ', '') | trim() }}",
+  "email": "{{ params.support.email }}",
+  "availableLanguage": ["it", "en"],
+  "areaServed": "Veneto, Italia",
+  "knowsAbout": [
+    {%- for service in params.services.services -%}
+    "{{ service.meta | default(service.title) }}"{% if not loop.last or params.services.other %},{% endif %}
+    {% endfor -%}
+    {%- for service in params.services.other -%}
+    "{{ service }}"{% if not loop.last %},{% endif %}
+    {% endfor -%}
+  ],
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "contactType": "customer support via SMS and WhatsApp only",
+    "telephone": "{{ params.support.phone | replace(' ', '') | trim() }}",
+    "email": "{{ params.support.email }}",
+    "url": "{{ params.support.url }}",
+    "availableLanguage": ["it", "en"],
+    "areaServed": "Veneto, Italia",
+    "sameAs": ["https://wa.me/{{ params.support.phone | replace(' ', '') | replace('+', '') | trim() }}"],
+    "description": "Non disponibile per chiamate vocali, solo messaggi."
+  }],
+  "sameAs": [
+    {% for site in params.social -%}
+    "{{ site.url }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+
+<!-- STYLESHEETS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/all.min.css') }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/simple-line-icons.css') }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/slick.css') }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.css') }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.css') }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}" type="text/css" media="all">
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>.service-box { min-height: 360px; margin-top: 1rem; }</style>
