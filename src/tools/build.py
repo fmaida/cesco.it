@@ -9,7 +9,7 @@ from sitekit.settings import BUILD_DIR, CONTENT_DIR, STATIC_DIR
 from tools.misc import create_robots_txt
 from flask_frozen import Freezer
 from main.app import app
-from sitekit.lib import cache, images
+from sitekit.lib import cache, images, pagebundle
 
 # Assicura che, in assenza di estensioni, il contenuto HTML venga gestito correttamente
 app.config['FREEZER_DEFAULT_MIMETYPE'] = 'text/html'
@@ -36,7 +36,7 @@ def privacy():
     yield 'privacy', {}  # per /privacy senza parametri
 
 
-def pregenerazioneImmagini():
+def pregenerazione_immagini():
     """Pre-genera tutte le immagini prima del freeze"""
     print("🖼️  Pre-generazione immagini...")
 
@@ -74,12 +74,16 @@ def pregenerazioneImmagini():
                             destination_folder=STATIC_DIR / "cache" / "projects",
                             aspect_ratio=aspect_ratio, anchor=anchor)
 
+    pagebundle.set_media_destination_folder(STATIC_DIR / "cache" / "blog")
+    posts = pagebundle.load_collection(CONTENT_DIR / "blog")
+
     print("✅ Pre-generazione immagini completata")
 
 
 def main():
+
     # PRE-GENERA LE IMMAGINI PRIMA DEL FREEZE
-    pregenerazioneImmagini()
+    pregenerazione_immagini()
 
     # Inizia il processo di freeze
     print("Endpoint registrati:", sorted(app.view_functions.keys()))
