@@ -80,20 +80,6 @@ jobs:
     - name: Build site
       run: poetry run build
 
-    - name: Debug - Check generated images
-      run: |
-        echo "=== Checking static/cache structure ==="
-        ls -la static/cache/ || echo "static/cache/ doesn't exist"
-        echo ""
-        echo "=== Checking for WEBP files ==="
-        find static/cache -name "*.webp" | head -20 || echo "No WEBP files found"
-        echo ""
-        echo "=== Checking for AVIF files ==="
-        find static/cache -name "*.avif" | head -20 || echo "No AVIF files found"
-        echo ""
-        echo "=== Checking for JPG files ==="
-        find static/cache -name "*.jpg" | head -20 || echo "No JPG files found"
-
     - name: Setup Pages
       uses: actions/configure-pages@v4
 
