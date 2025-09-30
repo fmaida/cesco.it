@@ -52,7 +52,7 @@ jobs:
 
     - name: Check Pillow features
       run: |
-        python - <<'PY'
+        poetry run python - <<'PY'
         from PIL import features
         print("JPEG:", features.check('jpg'))
         print("WEBP:", features.check('webp'))
