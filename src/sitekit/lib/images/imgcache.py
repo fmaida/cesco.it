@@ -34,11 +34,21 @@ def verifica_e_aggiungi(input_file: Path, longest_side: int, output_path_folder:
         hash_calcolato = _calcola_sha1(input_file)
         percorso_file = str(output_path_folder)
         ricercato = (hash_calcolato, longest_side, percorso_file)
-        if ricercato in CACHE:
-            # Esiste già
+        
+        # Verifica se le immagini esistono realmente su disco
+        nome_file = input_file.stem + "__" + str(longest_side)
+        expected_files = [
+            output_path_folder / f"{nome_file}.jpg",
+            output_path_folder / f"{nome_file}.webp",
+            output_path_folder / f"{nome_file}.avif",
+        ]
+        files_exist = all(f.exists() for f in expected_files)
+        
+        if ricercato in CACHE and files_exist:
+            # Esiste già in cache E i file sono su disco
             return False
         else:
-            # Non esiste ancora
+            # Non esiste ancora O i file mancano
             CACHE.add(ricercato)
             return True        
 
