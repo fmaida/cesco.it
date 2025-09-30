@@ -1,3 +1,4 @@
+
 name: Build and Deploy
 
 on:
@@ -11,6 +12,8 @@ permissions:
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -18,61 +21,45 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        id: setup-python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      id: setup-python
+      with:
+        python-version: '3.12'
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: latest
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        installer-parallel: true
 
-      - name: Load cached venv
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/pyproject.toml') }}
-          restore-keys: |
-            venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-
-            venv-${{ runner.os }}-
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v4
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-      - name: Install dependencies
-        run: poetry install --no-interaction
+    - name: Install dependencies and project
+      run: poetry install --no-interaction
 
-      - name: Debug Python environment
-        run: |
-          echo "PYTHONPATH=$PYTHONPATH"
-          python -V
-          poetry --version
-          poetry env info
-          python -c "import sys, pprint; pprint.pp(sys.path)"
-          ls -la
-          ls -la src || true
-          find src -maxdepth 2 -mindepth 1 -type d -print || true
+    - name: Build site
+      run: poetry run build
 
-      - name: Build site
-        env:
-          PYTHONPATH: ${{ github.workspace }}/src
-        run: |
-          poetry run python -c "import sys, os; print('Interpreter:', sys.executable); import pprint; pprint.pp(sys.path); print('PYTHONPATH=', os.environ.get('PYTHONPATH'))"
-          poetry run python -m tools.build
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./build
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './build'
 
   deploy:
     environment:
