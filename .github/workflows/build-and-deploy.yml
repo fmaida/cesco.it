@@ -26,6 +26,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Install system dependencies for image processing
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libwebp-dev \
+          libavif-dev \
+          libjpeg-dev \
+          libpng-dev \
+          zlib1g-dev
+
     - name: Set up Python
       uses: actions/setup-python@v5
       id: setup-python
@@ -47,22 +57,28 @@ jobs:
         path: .venv
         key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-    - name: Install dependencies
-      run: poetry install --no-interaction --no-root
+    - name: Install dependencies and project
+      run: poetry install --no-interaction
 
-    - name: Check Pillow features
+    - name: Verify Pillow features
       run: |
         poetry run python - <<'PY'
         from PIL import features
-        print("JPEG:", features.check('jpg'))
-        print("WEBP:", features.check('webp'))
-        print("AVIF:", features.check('avif'))
-        print("ImageQuant:", features.check('imagequant'))
-        print("libjpeg_turbo:", features.check('libjpeg_turbo'))
+        import sys
+        
+        print("Pillow feature check:")
+        print(f"JPEG: {features.check('jpg')}")
+        print(f"WEBP: {features.check('webp')}")
+        print(f"AVIF: {features.check('avif')}")
+        
+        if not features.check('webp'):
+            print("⚠️  WEBP not supported!")
+            sys.exit(1)
+        if not features.check('avif'):
+            print("⚠️  AVIF not supported!")
+            sys.exit(1)
+        print("✅ All image formats supported")
         PY
-
-    - name: Install project
-      run: poetry install --no-interaction --only-root
 
     - name: Build site
       run: poetry run build
