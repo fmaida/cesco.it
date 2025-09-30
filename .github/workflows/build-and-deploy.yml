@@ -47,8 +47,22 @@ jobs:
         path: .venv
         key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-    - name: Install dependencies and project
-      run: poetry install --no-interaction
+    - name: Install dependencies
+      run: poetry install --no-interaction --no-root
+
+    - name: Check Pillow features
+      run: |
+        python - <<'PY'
+        from PIL import features
+        print("JPEG:", features.check('jpg'))
+        print("WEBP:", features.check('webp'))
+        print("AVIF:", features.check('avif'))
+        print("ImageQuant:", features.check('imagequant'))
+        print("libjpeg_turbo:", features.check('libjpeg_turbo'))
+        PY
+
+    - name: Install project
+      run: poetry install --no-interaction --only-root
 
     - name: Build site
       run: poetry run build
