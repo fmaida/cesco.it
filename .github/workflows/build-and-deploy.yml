@@ -44,15 +44,30 @@ jobs:
       uses: actions/cache@v4
       with:
         path: .venv
-        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-
+          venv-${{ runner.os }}-
 
     - name: Install dependencies
       run: poetry install --no-interaction
+
+    - name: Debug Python environment
+      run: |
+        echo "PYTHONPATH=$PYTHONPATH"
+        python -V
+        poetry --version
+        poetry env info
+        python -c "import sys, pprint; pprint.pp(sys.path)"
+        ls -la
+        ls -la src || true
+        find src -maxdepth 2 -mindepth 1 -type d -print || true
 
     - name: Build site
       env:
         PYTHONPATH: ${{ github.workspace }}/src
       run: |
+        poetry run python -c "import sys, os; print('Interpreter:', sys.executable); import pprint; pprint.pp(sys.path); import os; print('PYTHONPATH=', os.environ.get('PYTHONPATH'))"
         poetry run python -m tools.build
 
     - name: Setup Pages
