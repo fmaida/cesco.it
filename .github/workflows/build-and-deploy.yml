@@ -27,6 +27,7 @@ jobs:
 
     - name: Set up Python
       uses: actions/setup-python@v5
+      id: setup-python
       with:
         python-version: '3.12'
 
@@ -46,13 +47,13 @@ jobs:
         key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install dependencies
-      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction --only=main
+      run: poetry install --no-interaction
 
     - name: Build site
+      env:
+        PYTHONPATH: ${{ github.workspace }}/src
       run: |
-        export PYTHONPATH=$PYTHONPATH:$PWD/src
-        poetry run build
+        poetry run python -m tools.build
 
     - name: Setup Pages
       uses: actions/configure-pages@v4
