@@ -36,6 +36,7 @@
   "email": "{{ params.support.email }}",
   "availableLanguage": ["it", "en"],
   "areaServed": "Veneto, Italia",
+  {%- if params.services -%}
   "knowsAbout": [
     {%- for service in params.services.services -%}
     "{{ service.meta | default(service.title) }}"{% if not loop.last or params.services.other %},{% endif %}
@@ -44,6 +45,7 @@
     "{{ service }}"{% if not loop.last %},{% endif %}
     {% endfor -%}
   ],
+  {%- endif -%}
   "contactPoint": [{
     "@type": "ContactPoint",
     "contactType": "customer support via SMS and WhatsApp only",

@@ -1,9 +1,26 @@
-{#% extends "_default/baseof.html" %#}
+{% extends "_default/baseof.html" %}
 
-{% block title %}
-404 Not Found
-{% endblock %}
+{% block title %}404 Not Found – {{ params.title | default("This Is The Homepage") }}{% endblock %}
 
 {% block content %}
-<h1>404 - Page Not Found</h1>
+    <style>
+        ul {
+            {# list-style-type: disc;   /* cerchio pieno (valore di default) */ #}
+            {# list-style-type: circle; /* cerchio vuoto */ #}
+            list-style-type: square; /* quadrato */
+        }
+    </style>
+    <section id="home" class="mt-4 mb-4" style="min-height: 100vh;">
+		<div class="container">
+            <div class="row">
+                <div class="col-12 mt-5 mb-4 text-center">
+                    <h1>Pagina Non Trovata (404)</h1>
+                    <p>Spiacente. Ce l'ho messa tutta ma non sono riuscito a trovare la pagina che mi hai richiesto!</p>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="{{ url_for('home') }}">&laquo; Torna alla pagina principale</a>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

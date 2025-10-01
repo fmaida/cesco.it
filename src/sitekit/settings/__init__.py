@@ -13,7 +13,7 @@ def get_base_dir() -> Path:
 # QUESTI PARAMETRI POSSONO ESSERE MODIFICATI
 # PER ADATTARLI ALLE NECESSITÀ DEL PROGETTO
 #
-BASE_URL = "https://www.example.com"  # Cambia con l'URL del tuo sito
+BASE_URL = "https://cesco.it"  # Cambia con l'URL del tuo sito
 #
 # --------------------------------------------
 BASE_DIR = get_base_dir()

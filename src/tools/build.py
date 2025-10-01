@@ -8,8 +8,9 @@ sys.path.insert(0, str(current_dir))
 from sitekit.settings import BUILD_DIR, CONTENT_DIR, STATIC_DIR
 from tools.misc import create_robots_txt
 from flask_frozen import Freezer
+from flask_minify import Minify
 from main.app import app
-from sitekit.lib import cache, images, pagebundle
+from sitekit.lib import cache, images, pagebundle, sitemap
 
 # Assicura che, in assenza di estensioni, il contenuto HTML venga gestito correttamente
 app.config['FREEZER_DEFAULT_MIMETYPE'] = 'text/html'
@@ -20,6 +21,7 @@ app.config['FREEZER_DESTINATION'] = str(BUILD_DIR)
 
 # Assicura che Flask-Frozen costruisca URL con prefisso '/'
 app.config.setdefault('FREEZER_BASE_URL', '/')
+Minify(app=app, html=True, js=False, cssless=False)
 
 freezer = Freezer(app, log_url_for=True)
 
@@ -86,9 +88,14 @@ def main():
     pregenerazione_immagini()
 
     # Inizia il processo di freeze
-    print("Endpoint registrati:", sorted(app.view_functions.keys()))
+    # print("Endpoint registrati:", sorted(app.view_functions.keys()))
+
     try:
         freezer.freeze()
+        sitemap.add(url="/", change_freq="monthly", priority=1)
+        sitemap.add(url="/privacy/", change_freq="yearly", priority=0.2)
+        sitemap.generate()
+        print("✅ Sitemap creata con successo")
         print("✅ Freeze completato")
     except Exception as e:
         print("❌ Errore durante freeze:", e)

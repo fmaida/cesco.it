@@ -88,7 +88,9 @@ def privacy_policy():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    temp = cache.load(CONTENT_DIR / "_config.yaml")
     t = cache.load(I18N_DIR / "it.json")
     return render_template("404.html",
+                           params=temp,
                            t=t,
-                           params={"description": "Pagina non trovata"})
+                           now=datetime.now())

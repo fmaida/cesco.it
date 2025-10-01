@@ -10,11 +10,11 @@
         <div class="spacer" data-height="{{ params.settings.space }}"></div>
 
         {% if params.projects.description %}
-        <div class="col-12">{{ params.projects.description | markdown }}</div>
+        <div class="col-12 ms-3 me-3">{{ params.projects.description | markdown }}</div>
         {% endif %}
 
         <!-- projects filter (desktop) -->
-        <ul class="portfolio-filter list-inline wow fadeInUp">
+        <ul class="portfolio-filter list-inline wow fadeInUp ms-3 me-3">
             <li class="current list-inline-item" data-filter="*">{{ t["Everything"] }}</li>
             {% for tag in params.projects.tags %}
             <li class="list-inline-item" data-filter=".{{ tag | lower() }}">{{ tag | replace("_", " ") | title() }}</li>

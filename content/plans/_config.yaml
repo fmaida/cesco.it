@@ -1,10 +1,11 @@
 description: >
-  Il mio costo standard è di 70 € l’ora. Per chi desidera 
-  un impegno continuativo, offro piani di abbonamento 
+  Il mio costo standard è di {{ params.fares.standard }} € l’ora, tasse incluse. Per chi desidera 
+  un impegno continuativo offro piani di abbonamento 
   annuali scontati, con pacchetti di ore prepagate e 
-  benefit aggiuntivi. Tutti i piani hanno durata annuale, 
-  prevedono il pagamento anticipato dell’intera somma, 
-  si rinnovano automaticamente ogni anno salvo disdetta.
+  benefit aggiuntivi. Tutti i piani qui sotto esposti 
+  hanno durata annuale, comprendono le tasse e prevedono 
+  il pagamento anticipato dell’intera somma, 
+  rinnovandosi automaticamente ogni anno salvo disdetta.
   Per semplicità, i prezzi sono indicati come costo mensile 
   frazionato. Alcuni pacchetti includono anche una pagina 
   promozionale su Venice.bio. [Scopri di più su Venice.bio](https://venice.bio).
@@ -20,7 +21,7 @@ plans:
     features:
       - 2 ore e 1/2 di lavoro
       - ^Profilo su Venice.bio
-      - ^Ore extra a 60€/h
+      - ^Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
       - Supporto da lunedì a venerdì
       - Supporto via email
       - Risposte in 48 ore lavorative
@@ -39,13 +40,13 @@ plans:
     features:
       - 5 ore di lavoro
       - Profilo su Venice.bio
-      - Ore extra a 60€/h
+      - Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
       - Supporto da lunedì a venerdì
       - Risposte in 48 ore lavorative
       - Supporto via email
       - ^Supporto via WhatsApp
       - ^Assistenza da remoto
-    price: 28
+    price: 30
     url: https://buy.stripe.com/3cIcN64Lz9J33rL9zK2VG04
 
   - title: Il Visagista Delle Dive Societarie
@@ -59,7 +60,8 @@ plans:
     features:
       - 10 ore di lavoro
       - Profilo su Venice.bio
-      - Ore extra a 60€/h
+      - 60€ di sconto sull'abbonamento
+      - Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
       - Supporto da lunedì a venerdì
       - Risposte in 48 ore lavorative
       - Supporto via email

@@ -10,6 +10,11 @@ support:
   phone: +39 352 00 68000
   email: museo05_vasto@icloud.com
 
+# Prezzi all'ora del mio lavoro
+fares:
+  standard: 75
+  discounted: 60
+
 author:
   name: Francesco Maida
   avatar: images/avatar.jpg
@@ -41,14 +46,12 @@ social:
     url: "https://livellosegreto.it/@cesco"
 
 skills:
-  - title: Sviluppo web
+  - title: Sviluppo web (HTML + CSS + Javascript)
     value: 85
-  - title: Design
-    value: 95
-  - title: Fotografia
-    value: 70
   - title: Python
-    value: 85
+    value: 80
+  - title: FileMaker
+    value: 70
 
 testimonials:
   - name: John Doe
