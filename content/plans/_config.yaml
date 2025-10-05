@@ -5,9 +5,9 @@ description: >
   benefit aggiuntivi. Tutti i piani qui sotto esposti 
   hanno durata annuale, comprendono le tasse e prevedono 
   il pagamento anticipato dell’intera somma, 
-  rinnovandosi automaticamente ogni anno salvo disdetta.
-  Per semplicità, i prezzi sono indicati come costo mensile 
-  frazionato. Alcuni pacchetti includono anche una pagina 
+  rinnovandosi automaticamente ogni anno salvo disdetta, 
+  da richiedere almeno sette giorni prima della scadenza. 
+  Alcuni pacchetti includono anche una pagina 
   promozionale su Venice.bio. [Scopri di più su Venice.bio](https://venice.bio).
 
 plans:
@@ -27,7 +27,7 @@ plans:
       - Risposte in 48 ore lavorative
       - ^Supporto via WhatsApp
       - ^Assistenza da remoto
-    price: 15
+    price: 180
     url: https://buy.stripe.com/6oU4gAdi59J3aUdeU42VG03
 
   - title: Trattamento Di Bellezza Aziendale
@@ -46,8 +46,8 @@ plans:
       - Supporto via email
       - ^Supporto via WhatsApp
       - ^Assistenza da remoto
-    price: 30
-    url: https://buy.stripe.com/3cIcN64Lz9J33rL9zK2VG04
+    price: 360
+    url: https://buy.stripe.com/8x25kEfqd9J39Q96ny2VG06
 
   - title: Il Visagista Delle Dive Societarie
     image: images/icons/018-woman.svg
@@ -67,5 +67,5 @@ plans:
       - Supporto via email
       - Supporto via WhatsApp
       - Assistenza da remoto
-    price: 55
+    price: 660
     url: https://buy.stripe.com/cNi14o1zn8EZ4vP27i2VG05
