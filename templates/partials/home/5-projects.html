@@ -54,7 +54,9 @@
             {% endif %}
             <!-- portfolio item -->
             <div class="col-md-4 col-sm-6 grid-item {% for tag in work.tags %}{{ tag | lower() }}{% if not loop.last %} {% endif %}{% endfor %}">
+                {% if ".mp4" not in work.image %}
                 <a href="{{ url_for('static', filename=image_full) }}" class="work-image">
+                {% endif %}
                     <div class="portfolio-item rounded shadow-dark">
                         <div class="details">
                             <span class="term">{% for tag in work.tags %}{{ tag | replace("_", " ") }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
@@ -68,12 +70,22 @@
                                 {% set height = (width * (h|float / w|float))|int %}
                                 {{ responsive_image(work.image_path, work.title, width=width, height=height, aspect_ratio=work.aspect_ratio) }}
                             {% else %}
-                                <img src="{{ url_for('static', filename=work.image[1:] if work.image and work.image.startswith('/') else work.image) }}" class="img-fluid" width="400" alt="Portfolio-title" />
+                                {% if ".mp4" in work.image %}
+                                    <video autoplay loop muted playsinline preload="none"
+                                           width="384" height="384">
+                                        <source src="{{ url_for('static', filename=work.image[1:] if work.image and work.image.startswith('/') else work.image) }}" type="video/mp4">
+                                        Il tuo browser non supporta i video HTML5.
+                                    </video>
+                                {% else %}
+                                    <img src="{{ url_for('static', filename=work.image[1:] if work.image and work.image.startswith('/') else work.image) }}" class="img-fluid" width="400" alt="Portfolio-title" />
+                                {% endif %}
                             {% endif %}
                             <div class="mask"></div>
                         </div>
                     </div>
+                {% if ".mp4" not in work.image %}
                 </a>
+                {% endif %}
             </div>
             {% endfor %}
 

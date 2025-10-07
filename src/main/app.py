@@ -41,6 +41,8 @@ def home():
                         destination_folder=STATIC_DIR / "cache" / "answers", aspect_ratio="16:10")
             answer["image_path"] = "cache/answers/" + source_image.stem + "/" + source_image.stem
             answer["aspect_ratio"] = "16:10"
+
+    # Immagini nei progetti
     for index, project in enumerate(temp["projects"]["projects"]):
         source_image = project.get("image")
         if source_image and not source_image.startswith("/"):
