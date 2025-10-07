@@ -71,7 +71,8 @@
                                 {{ responsive_image(work.image_path, work.title, width=width, height=height, aspect_ratio=work.aspect_ratio) }}
                             {% else %}
                                 {% if ".mp4" in work.image %}
-                                    <video autoplay loop muted playsinline preload="none"
+                                    <video autoplay muted playsinline
+                                           webkit-playsinline loop preload="metadata"
                                            width="384" height="384">
                                         <source src="{{ url_for('static', filename=work.image[1:] if work.image and work.image.startswith('/') else work.image) }}" type="video/mp4">
                                         Il tuo browser non supporta i video HTML5.
