@@ -3,7 +3,7 @@ from json import JSONDecodeError
 from pathlib import Path
 import atexit
 
-from sitekit.settings import BASE_DIR, CACHE_DIR
+from ____old_sitekit.settings import BASE_DIR, CACHE_DIR
 from .hash import _calcola_sha1
 
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 from urllib.parse import urljoin
 from xml.sax.saxutils import escape
-from sitekit.settings import BUILD_DIR, BASE_URL
+from ____old_sitekit.settings import BUILD_DIR, BASE_URL
 
 
 url_list = []

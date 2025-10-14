@@ -5,12 +5,12 @@ from pathlib import Path
 current_dir = Path(__file__).parent.parent  # va in src/
 sys.path.insert(0, str(current_dir))
 
-from sitekit.settings import BUILD_DIR, CONTENT_DIR, STATIC_DIR
+from ____old_sitekit.settings import BUILD_DIR, CONTENT_DIR, STATIC_DIR
 from tools.misc import create_robots_txt
 from flask_frozen import Freezer
 from flask_minify import Minify
 from main.app import app
-from sitekit.lib import cache, images, pagebundle, sitemap
+from ____old_sitekit.lib import cache, images, pagebundle, sitemap
 
 # Assicura che, in assenza di estensioni, il contenuto HTML venga gestito correttamente
 app.config['FREEZER_DEFAULT_MIMETYPE'] = 'text/html'

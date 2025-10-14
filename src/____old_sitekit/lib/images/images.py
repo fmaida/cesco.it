@@ -7,8 +7,8 @@ import logging
 import shutil
 
 from PIL import Image, ImageOps
-from sitekit.settings import (BASE_DIR, CONTENT_DIR, 
-                       BUILD_DIR, STATIC_DIR)
+from ____old_sitekit.settings import (BASE_DIR, CONTENT_DIR,
+                                      BUILD_DIR, STATIC_DIR)
 from . import imgcache, hash
 
 def copy_single(input_file: Path, output_folder_path: Path, longest_side: int = 1200, output_formats: list = None, aspect_ratio="unchanged", anchor: str = "middle") -> bool:

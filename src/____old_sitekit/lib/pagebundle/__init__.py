@@ -3,8 +3,8 @@
 from pathlib import Path
 from datetime import datetime
 import shutil
-from sitekit.lib import cache, images
-from sitekit.settings import STATIC_DIR
+from ____old_sitekit.lib import cache, images
+from ____old_sitekit.settings import STATIC_DIR
 
 
 MEDIA_DESTINATION_FOLDER = STATIC_DIR / "cache"

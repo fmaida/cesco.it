@@ -1,26 +1,11 @@
-[project]
+[tool.poetry]
 name = "cesco-it"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "Francesco Maida", email = "francesco.maida@gmail.com"}
-]
-readme = "README.md"
-requires-python = ">=3.12,<4.0"
-dependencies = [
-    "flask (>=3.1.2,<4.0.0)",
-    "frozen-flask (>=1.0.2,<2.0.0)",
-    "python-frontmatter (>=1.1,<2.0)",
-    "markdown (>=3.8.2,<4.0.0)",
-    "pillow (>=11.3.0,<12.0.0)",
-    "flask-minify (>=0.50,<0.51)"
-]
-
-[tool.poetry]
+authors = ["Francesco Maida <francesco.maida@gmail.com>"]
 packages = [
-    {include = "main", from = "src"},
-    {include = "sitekit", from = "src"},
-    {include = "tools", from = "src"},
+  { include = "main",  from = "src" },
+  { include = "tools", from = "src" }
 ]
 
 [tool.poetry.dependencies]
@@ -30,6 +15,8 @@ frozen-flask = ">=1.0.2,<2.0.0"
 python-frontmatter = ">=1.1,<2.0"
 markdown = ">=3.8.2,<4.0.0"
 pillow = ">=11.3.0,<12.0.0"
+flask-minify = ">=0.50,<0.51"
+sitekit = { git = "https://github.com/fmaida/sitekit.git", branch = "main" }
 
 [tool.poetry.scripts]
 serve = "tools.serve:main"

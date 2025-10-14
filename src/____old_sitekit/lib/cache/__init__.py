@@ -7,7 +7,7 @@ import json
 import pickle
 import atexit
 
-from sitekit.settings import CACHE_DIR
+from ____old_sitekit.settings import CACHE_DIR
 from .hash import _calcola_sha1
 from .normalize import _normalize_keys
 from . import ram

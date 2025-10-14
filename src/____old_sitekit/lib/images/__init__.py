@@ -1,6 +1,6 @@
 # v1.1 – 29/09/2025
 
-from sitekit.settings import CONTENT_DIR, STATIC_DIR
+from ____old_sitekit.settings import CONTENT_DIR, STATIC_DIR
 from pathlib import Path
 from . import images, imgcache
 from .picture_class import PictureClass

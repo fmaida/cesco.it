@@ -1,4 +1,4 @@
-from sitekit.settings import BASE_URL, BUILD_DIR
+from ____old_sitekit.settings import BASE_URL, BUILD_DIR
 
 
 def create_robots_txt():
