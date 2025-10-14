@@ -12,6 +12,9 @@ app = Flask(__name__,
             template_folder=settings.TEMPLATES_DIR,
             static_folder=settings.STATIC_DIR)
 
+# Imposta il sito base
+settings.BASE_URL = "https://cesco.it"
+
 
 @app.template_filter("markdown")
 def markdown_filter(text):

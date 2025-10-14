@@ -5,18 +5,18 @@ from pathlib import Path
 current_dir = Path(__file__).parent.parent  # va in src/
 sys.path.insert(0, str(current_dir))
 
-from ____old_sitekit.settings import BUILD_DIR, CONTENT_DIR, STATIC_DIR
-from tools.misc import create_robots_txt
+from sitekit import content, i18n, cache, images, pagebundle, sitemap, robots
+from sitekit.settings import settings
 from flask_frozen import Freezer
 from flask_minify import Minify
 from main.app import app
-from ____old_sitekit.lib import cache, images, pagebundle, sitemap
+
 
 # Assicura che, in assenza di estensioni, il contenuto HTML venga gestito correttamente
 app.config['FREEZER_DEFAULT_MIMETYPE'] = 'text/html'
 # (Facoltativo) evita warning sui mimetype durante il freeze
 app.config['FREEZER_IGNORE_MIMETYPE_WARNINGS'] = True
-app.config['FREEZER_DESTINATION'] = str(BUILD_DIR)
+app.config['FREEZER_DESTINATION'] = str(settings.BUILD_DIR)
 # (rimosso FREEZER_IGNORE_ENDPOINTS: non supportato da frozen-flask)
 
 # Assicura che Flask-Frozen costruisca URL con prefisso '/'
@@ -43,25 +43,25 @@ def pregenerazione_immagini():
     print("🖼️  Pre-generazione immagini...")
 
     # Carica la configurazione
-    temp = cache.load(CONTENT_DIR / "_config.yaml")
-    temp["projects"] = cache.load(CONTENT_DIR / "projects" / "_config.yaml")
-    temp["answers"] = cache.load(CONTENT_DIR / "answers" / "_config.yaml")
+    temp = content.load("_config.yaml")
+    temp["projects"] = content.load("projects", "_config.yaml")
+    temp["answers"] = content.load("answers", "_config.yaml")
 
     # Pre-genera immagini answers
     for answer in temp["answers"]["answers"]:
         source_image = answer.get("image")
         if source_image and not source_image.startswith("/"):
-            source_image = CONTENT_DIR / "answers" / source_image
+            source_image = settings.CONTENT_DIR / "answers" / source_image
             if source_image.exists():
                 images.copy(source_image=source_image,
-                            destination_folder=STATIC_DIR / "cache" / "answers",
+                            destination_folder=settings.STATIC_DIR / "cache" / "answers",
                             aspect_ratio="16:10")
 
     # Pre-genera immagini progetti
     for project in temp["projects"]["projects"]:
         source_image = project.get("image")
         if source_image and not source_image.startswith("/"):
-            source_image = CONTENT_DIR / "projects" / source_image
+            source_image = settings.CONTENT_DIR / "projects" / source_image
             if source_image.exists():
                 aspect_ratio = "1:1"
                 anchor = "middle"
@@ -73,11 +73,11 @@ def pregenerazione_immagini():
                 elif "app" in project["tags"]:
                     aspect_ratio = "16:9"
                 images.copy(source_image=source_image,
-                            destination_folder=STATIC_DIR / "cache" / "projects",
+                            destination_folder=settings.STATIC_DIR / "cache" / "projects",
                             aspect_ratio=aspect_ratio, anchor=anchor)
 
-    pagebundle.set_media_destination_folder(STATIC_DIR / "cache" / "blog")
-    posts = pagebundle.load_collection(CONTENT_DIR / "blog")
+    pagebundle.set_media_destination_folder(settings.STATIC_DIR / "cache" / "blog")
+    posts = pagebundle.load_collection(settings.CONTENT_DIR / "blog")
 
     print("✅ Pre-generazione immagini completata")
 
@@ -107,7 +107,7 @@ def main():
     images.imgcache.salva()
 
     # Crea robots.txt ottimizzato per l'indicizzazione
-    create_robots_txt()
+    robots.generate()
 
 
 if __name__ == '__main__':

@@ -1046,7 +1046,7 @@ python-frontmatter = ">=1.1.0,<2.0.0"
 type = "git"
 url = "https://github.com/fmaida/sitekit.git"
 reference = "main"
-resolved_reference = "99bca337c38195e2e663d1cf1a7b9d15dc2c4100"
+resolved_reference = "32eb4797f534e180bf513aa42014dc4ce14473b1"
 
 [[package]]
 name = "six"
