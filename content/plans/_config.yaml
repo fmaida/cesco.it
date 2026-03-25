@@ -1,10 +1,10 @@
 description: >
-  Il mio costo è di {{ params.fares.standard }} € l’ora, tasse incluse. Per chi desidera 
-  un impegno continuativo offro piani di abbonamento 
-  annuali a prezzi scontati, con pacchetti di ore prepagate e 
-  benefit aggiuntivi. Tutti i piani qui sotto esposti 
-  hanno durata annuale, comprendono le tasse e prevedono 
-  il pagamento anticipato dell’intera somma, 
+  Il mio costo per ora singola è di {{ params.fares.standard }} € l’ora, tasse incluse. 
+  Per chi desidera un impegno continuativo offro piani di 
+  abbonamento annuali a prezzi scontati, con pacchetti di 
+  ore prepagate e benefit aggiuntivi. Tutti i piani qui 
+  sotto esposti hanno durata annuale, comprendono le tasse 
+  e prevedono il pagamento anticipato dell’intera somma, 
   rinnovandosi automaticamente ogni anno salvo disdetta, 
   da richiedere almeno sette giorni prima della scadenza. 
   Alcuni pacchetti includono anche una pagina 
@@ -33,12 +33,12 @@ plans:
   - title: Trattamento Di Bellezza Aziendale
     image: images/icons/013-cut.svg
     description: >
-      Con 5 ore posso aiutare la tua azienda a presentarsi  
+      Con 6 ore posso aiutare la tua azienda a presentarsi  
       rinnovata agli occhi dei tuoi clienti. Magari con dei profili 
       social migliorati, e foto ed informazioni di qualità.
 
     features:
-      - 5 ore di lavoro
+      - 6 ore di lavoro
       - Profilo su Venice.bio
       - Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
       - Supporto da lunedì a venerdì
