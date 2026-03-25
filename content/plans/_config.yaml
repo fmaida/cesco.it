@@ -23,8 +23,8 @@ plans:
       - ^Profilo su Venice.bio
       - ^Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
       - Supporto da lunedì a venerdì
-      - Supporto via email
       - Risposte in 48 ore lavorative
+      - Supporto via email
       - ^Supporto via WhatsApp
       - ^Assistenza da remoto
     price: 199
