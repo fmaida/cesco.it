@@ -2,5 +2,10 @@ address: Viale 4 Novembre N. 89, 30132 Venezia
 email: privacy_3725@cesco.it
 responsabile: Francesco Maida
 service-provider:
-  name: GitHub
-  url: https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement
+  name: VPS OVH con sede a Milano, Lombardia
+  url: https://www.ovhcloud.com/it/terms-and-conditions/privacy-policy/
+form-provider:
+  full-name: Teijal Inc
+  name: Formcarry
+  location: in N. 3 Germay Dr, Unit 4 – 1278, Wilmington, DE 19804, Stati Uniti
+  url: https://formcarry.com/legal/privacy-policy
