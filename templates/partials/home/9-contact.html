@@ -28,7 +28,7 @@
                         <div class="column col-md-12">
                             <!-- Name input -->
                             <div class="form-group">
-                                <input type="text" class="form-control" name="InputName" id="InputName" placeholder="{{ t["Your name"] }}" required="required" data-error="{{ t["Name is required"] }}.">
+                                <input type="text" class="form-control" name="InputName" id="InputName" placeholder="{{ t["Your name"] }}" required="required" autocomplete="name" data-error="{{ t["Name is required"] }}.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                         <div class="column col-md-6">
                             <!-- Phone input -->
                             <div class="form-group">
-                                <input type="tel" class="form-control" name="InputPhone" id="InputPhone" placeholder="{{ t["Your phone"] }}" required="required" data-error="{{ t["Phone is required"] }}.">
+                                <input type="tel" class="form-control" name="InputPhone" id="InputPhone" placeholder="{{ t["Your phone"] }}" required="required" pattern="[0-9+\s]{6,}" minlength="6" title="Inserisci almeno 6 caratteri. Sono ammessi solo numeri, spazi e il simbolo +." autocomplete="tel" data-error="{{ t["Phone is required"] }}.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                         <div class="column col-md-6">
                             <!-- Email input -->
                             <div class="form-group">
-                                <input type="email" class="form-control" id="InputEmail" name="email" placeholder="{{ t["Email address"] }}" required="required" data-error="{{ t["Email is required"] }}.">
+                                <input type="email" class="form-control" id="InputEmail" name="email" placeholder="{{ t["Email address"] }}" required="required" pattern="[^@\s]+@[^@\s]{2,}\.[^@\s]{2,}" title="Inserisci un indirizzo email valido (es. nome@esempio.it)." autocomplete="email" data-error="{{ t["Email is required"] }}.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                         <div class="column col-md-12">
                             <!-- Subject input -->
                             <div class="form-group">
-                                <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="{{ t["Subject"] }}" required="required" data-error="{{ t["Subject is required"] }}.">
+                                <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="{{ t["Subject"] }}" required="required" autocomplete="off" data-error="{{ t["Subject is required"] }}.">
                                 <div class="help-block with-errors"></div>
                             </div>
                         </div>
