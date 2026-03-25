@@ -39,7 +39,7 @@ plans:
 
     features:
       - 6 ore di lavoro
-      - Profilo su Venice.bio
+      - ^Profilo su Venice.bio
       - Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
       - Supporto da lunedì a venerdì
       - Risposte in 48 ore lavorative
