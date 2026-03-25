@@ -12,7 +12,9 @@
             <div class="col-12 ms-3 me-3">
                 {{ params.services.description | markdown }}
             </div>
-            {% set services_colors = ["#D6B04D", "#FF4C60", "#B04DD6", "#F97B8B", "#6C6CE5", "#9CC72E", "#2E9C9C", "#9C9C2E", "#4DB0D6"] %}
+            {# set services_colors = ["#D6B04D", "#FF4C60", "#B04DD6", "#F97B8B", "#6C6CE5", "#9CC72E", "#2E9C9C", "#9C9C2E", "#4DB0D6"] #}
+            {% set services_colors = ["#1A7FC1", "#E07B39", "#2A9D8F", "#7C5CBF", "#C0393B"] %}
+            {% set services_colors = ["#1A7FC1", "#D4550F", "#2A9D8F", "#7C5CBF"] %}
             {% set services_index = 0 %}
             {% for service in params.services.services %}
                 {% set service_color = services_colors[loop.index0 % services_colors|length] %}

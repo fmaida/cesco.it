@@ -1,7 +1,7 @@
 description: >
-  Il mio costo standard è di {{ params.fares.standard }} € l’ora, tasse incluse. Per chi desidera 
+  Il mio costo è di {{ params.fares.standard }} € l’ora, tasse incluse. Per chi desidera 
   un impegno continuativo offro piani di abbonamento 
-  annuali scontati, con pacchetti di ore prepagate e 
+  annuali a prezzi scontati, con pacchetti di ore prepagate e 
   benefit aggiuntivi. Tutti i piani qui sotto esposti 
   hanno durata annuale, comprendono le tasse e prevedono 
   il pagamento anticipato dell’intera somma, 
@@ -27,7 +27,7 @@ plans:
       - Risposte in 48 ore lavorative
       - ^Supporto via WhatsApp
       - ^Assistenza da remoto
-    price: 180
+    price: 199
     url: https://buy.stripe.com/6oU4gAdi59J3aUdeU42VG03
 
   - title: Trattamento Di Bellezza Aziendale
@@ -46,26 +46,26 @@ plans:
       - Supporto via email
       - ^Supporto via WhatsApp
       - ^Assistenza da remoto
-    price: 360
+    price: 399
     url: https://buy.stripe.com/8x25kEfqd9J39Q96ny2VG06
 
   - title: Il Visagista Delle Dive Societarie
     image: images/icons/018-woman.svg
     recommended: true
     description: >
-      Qui il lavoro si fa serio: 10 ore in cui insieme si 
+      Qui il lavoro si fa serio: 12 ore in cui insieme si 
       fare molto per dare un nuovo volto alla tua attività e farla 
       apprezzare come merita.
 
     features:
-      - 10 ore di lavoro
+      - 12 ore di lavoro
       - Profilo su Venice.bio
-      - 60€ di sconto sull'abbonamento
+      - 261€ di sconto (-27%)
       - Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
       - Supporto da lunedì a venerdì
       - Risposte in 48 ore lavorative
       - Supporto via email
       - Supporto via WhatsApp
       - Assistenza da remoto
-    price: 660
+    price: 699
     url: https://buy.stripe.com/cNi14o1zn8EZ4vP27i2VG05

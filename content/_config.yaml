@@ -12,7 +12,7 @@ support:
 
 # Prezzi all'ora del mio lavoro
 fares:
-  standard: 75
+  standard: 80
   discounted: 60
 
 author:
