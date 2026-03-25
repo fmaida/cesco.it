@@ -17,6 +17,7 @@ app.config['FREEZER_DEFAULT_MIMETYPE'] = 'text/html'
 # (Facoltativo) evita warning sui mimetype durante il freeze
 app.config['FREEZER_IGNORE_MIMETYPE_WARNINGS'] = True
 app.config['FREEZER_DESTINATION'] = str(settings.BUILD_DIR)
+app.config['FREEZER_BASE_URL'] = settings.BASE_URL
 # (rimosso FREEZER_IGNORE_ENDPOINTS: non supportato da frozen-flask)
 
 # Assicura che Flask-Frozen costruisca URL con prefisso '/'
