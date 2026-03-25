@@ -23,7 +23,7 @@
 
             {% for plan in params.plans.plans %}
 
-            <div class="col-md-4 {% if plan.recommended %}px-md-0 my-4 my-md-0{% else %}{% if loop.index0 == 0 %}pe-md-0{% elif loop.index0 == 2 %}ps-md-0{% endif %} mt-md-4 mt-0{% endif %}">
+            <div class="col-md-4 {% if plan.recommended %}px-md-0 my-md-0{% else %}{% if loop.index0 == 0 %}pe-md-0{% elif loop.index0 == 2 %}ps-md-0{% endif %} mt-md-4 mt-0{% endif %} mb-3">
                 <!-- price item -->
                 <div class="price-item bg-white rounded shadow-dark text-center{% if plan.recommended %} best{% endif %}">
                     {% if plan.recommended %}<span class="badge">{{ t["Recommended"] }}</span>{% endif %}
