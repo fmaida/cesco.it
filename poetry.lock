@@ -1263,7 +1263,7 @@ requests = ">=2.33.0,<3.0.0"
 type = "git"
 url = "https://github.com/fmaida/sitekit.git"
 reference = "main"
-resolved_reference = "060e3e2908480b23f8de867232ba2ff4a92ec9b1"
+resolved_reference = "46f4c0fd97781a8a2d55cc47a675ac6ee4878519"
 
 [[package]]
 name = "six"
