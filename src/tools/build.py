@@ -43,7 +43,7 @@ def privacy():
 
 def pregenerazione_immagini():
     """Pre-genera tutte le immagini prima del freeze"""
-    print("🖼️  Pre-generazione immagini...")
+    print("🖼️Pre-generazione immagini...")
 
     # Carica la configurazione
     temp = content.load("_config.yaml")
