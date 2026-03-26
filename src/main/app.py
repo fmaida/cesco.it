@@ -66,6 +66,7 @@ def home():
     token = Path.home() / ".config" / "cesco.it" / "memos.token"
     memos.set_token(token)
     memos.set_base_url("https://memos.cesco.it")
+    #memos.set_base_url("https://cesco.blog")
     memos.set_force_a_title(True)
     memos.set_wrap_titles_at(30)
     posts = memos.get()
