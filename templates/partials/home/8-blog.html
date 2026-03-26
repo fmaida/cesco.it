@@ -11,22 +11,33 @@
 
         <div class="row blog-wrapper">
             {% for post in posts %}
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <!-- blog item -->
                 <div class="blog-item rounded bg-white shadow-dark wow fadeIn">
                     <div class="thumb">
-                        <a href="#">
-                            <span class="category">{{ post.category | default("[ No Category ]") }}</span>
+                        <a href="{{ post.url }}" target="_blank">
+                            <span class="category">
+                                {% for tag in post.tags %}
+                                    {{ tag | title }}{% if not loop.last %}, {% endif %}
+                                {% else %}
+                                    News
+                                {% endfor %}
+                            </span>
                         </a>
-                        <a href="#">
-                            {{ responsive_image("cache/blog/" ~ post.slug ~ "/" ~ post.cover ~ "/" ~ post.cover, 400, 300, aspect_ratio="4:3") }}
+                        <a href="{{ post.url }}" target="_blank">
+                            {# responsive_image("cache/blog/" ~ post.slug ~ "/" ~ post.cover ~ "/" ~ post.cover, 400, 300, aspect_ratio="4:3") #}
+                            {% if post.image %}
+                                <img src="{{ post.image }}" style="width:400px; height:300px; object-fit:cover;" />
+                            {% else %}
+                                <img src="{{ url_for('static', filename='assets/images/no-image.jpg') }}" style="width:400px; height:300px; object-fit:cover;" />
+                            {% endif %}
                             {# <img src="https://via.placeholder.com/330x215" alt="blog-title" /> #}
                         </a>
                     </div>
                     <div class="details">
-                        <h4 class="my-0 title"><a href="#">{{ post.title }}</a></h4>
+                        <h4 class="my-0 title"><a href="{{ post.url }}">{{ post.title }}</a></h4>
                         <ul class="list-inline meta mb-0 mt-2">
-                            <li class="list-inline-item">{{ post.date | default("01/01/1970") }}</li>
+                            <li class="list-inline-item">{{ post['display_time'].strftime('%d/%m/%Y') if post['display_time'] else '01/01/1970' }}</li>
                             <li class="list-inline-item">{{ post.author | default("Francesco") }}</li>
                         </ul>
                     </div>

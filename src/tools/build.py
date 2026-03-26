@@ -11,6 +11,8 @@ from flask_frozen import Freezer
 from flask_minify import Minify
 from main.app import app
 
+# Copio i file direttamente qua
+settings.BUILD_DIR = Path.home() / "Sites" / "cesco.it"
 
 # Assicura che, in assenza di estensioni, il contenuto HTML venga gestito correttamente
 app.config['FREEZER_DEFAULT_MIMETYPE'] = 'text/html'

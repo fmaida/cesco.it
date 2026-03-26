@@ -2,9 +2,10 @@ from flask import Flask, request, redirect
 from flask import render_template
 from markdown import markdown
 from markupsafe import Markup
-from sitekit import content, i18n, images, pagebundle
+from sitekit import content, i18n, images, memos
 from sitekit.settings import settings
 from datetime import datetime
+from pathlib import Path
 import time
 
 
@@ -60,8 +61,18 @@ def home():
             project["aspect_ratio"] = aspect_ratio
             #temp["projects"]["projects"][index]["image"] = "cache/projects/" + source_image.stem + "/" + source_image.stem
     t = i18n.load("it.json")
-    pagebundle.set_media_destination_folder(settings.STATIC_DIR / "cache" / "blog")
-    posts = pagebundle.load_collection(settings.CONTENT_DIR / "blog")
+
+
+
+    token = Path.home() / ".config" / "cesco.it" / "memos.token"
+    memos.set_token(token)
+    memos.set_base_url("https://memos.cesco.it")
+    memos.set_force_a_title(True)
+    posts = memos.get()
+
+    #pagebundle.set_media_destination_folder(settings.STATIC_DIR / "cache" / "blog")
+    #posts = pagebundle.load_collection(settings.CONTENT_DIR / "blog")
+
     #print(a)
     #print(b)
     # source = CONTENT_DIR / "blog" / "post-1" / "immagine_cover.jpg"
@@ -72,7 +83,7 @@ def home():
     return render_template('index.html',
                            params=temp,
                            t=t,
-                           posts=posts[:3],
+                           posts=posts,
                            now=datetime.now())
 
 @app.route("/privacy/", endpoint='privacy')
