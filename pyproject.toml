@@ -17,6 +17,7 @@ markdown = ">=3.8.2,<4.0.0"
 pillow = ">=11.3.0,<12.0.0"
 flask-minify = ">=0.50,<0.51"
 sitekit = { git = "https://github.com/fmaida/sitekit.git", branch = "main" }
+grabmymemos = "^0.1.1"
 
 [tool.poetry.scripts]
 serve = "tools.serve:main"

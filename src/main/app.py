@@ -2,7 +2,8 @@ from flask import Flask, request, redirect
 from flask import render_template
 from markdown import markdown
 from markupsafe import Markup
-from sitekit import content, i18n, images, memos
+from sitekit import content, i18n, images
+import grabmymemos
 from sitekit.settings import settings
 from datetime import datetime
 from pathlib import Path
@@ -64,12 +65,10 @@ def home():
 
 
     token = Path.home() / ".config" / "cesco.it" / "memos.token"
-    memos.set_token(token)
-    memos.set_base_url("https://memos.cesco.it")
-    #memos.set_base_url("https://cesco.blog")
-    memos.set_force_a_title(True)
-    memos.set_wrap_titles_at(30)
-    posts = memos.get()
+    grabmymemos.config(base_url="https://memos.cesco.it", token=token)
+    grabmymemos.always_force_a_title()
+    grabmymemos.wrap_titles_at(length=30)
+    posts = grabmymemos.fetch(tags=["lavoro"])
 
     #pagebundle.set_media_destination_folder(settings.STATIC_DIR / "cache" / "blog")
     #posts = pagebundle.load_collection(settings.CONTENT_DIR / "blog")
