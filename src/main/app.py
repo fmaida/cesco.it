@@ -63,7 +63,7 @@ def home():
             #temp["projects"]["projects"][index]["image"] = "cache/projects/" + source_image.stem + "/" + source_image.stem
     t = i18n.load("it.json")
 
-
+    # Scarica da Memos gli ultimi post taggati #lavoro
     token = Path.home() / ".config" / "cesco.it" / "memos.token"
     grabmymemos.config(base_url="https://memos.cesco.it", token=token)
     grabmymemos.always_force_a_title()
