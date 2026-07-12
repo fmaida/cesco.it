@@ -272,7 +272,7 @@ $(function(){
     /*=========================================================================
      One Page Scroll with jQuery
      =========================================================================*/
-    $('a[href^="#"]:not([href="#"]').on('click', function(event) {
+    $('a[href^="#"]:not([href="#"])').on('click', function(event) {
       var $anchor = $(this);
       $('html, body').stop().animate({
         scrollTop: $($anchor.attr('href')).offset().top

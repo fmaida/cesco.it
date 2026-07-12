@@ -1,17 +1,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>{{ params.title }}</title>
-<meta name="description" content="{{ params.description | default(" [No Description]") | replace(" ", " ") | trim() }}">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="{{ params.description | default("[No Description]") | replace("  ", " ") | trim() }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="{{ params.author.name }}">
-<link rel="shortcut icon" type="image/x-icon" href="https://via.placeholder.com/32x32">
+<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/logo.svg') }}">
 <meta property="og:title" content="{{ params.title }}">
 <meta property="og:description" content="{{ params.description | replace('  ', ' ') | trim() }}">
 <meta property="og:image" content="{{ params['base-url'] }}{{ url_for('static', filename=params.author.avatar) }}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="{{ params[" base-url"] }}">
+<meta property="og:url" content="{{ params['base-url'] ~ request.path }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="it_IT">
-<link rel="canonical" href="{{ params[" base-url"] }}">
+<link rel="canonical" href="{{ params['base-url'] ~ request.path }}">
 {% for site in params.social -%}
 <link rel="me" href="{{ site.url }}">
 {% endfor %}

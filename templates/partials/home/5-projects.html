@@ -30,8 +30,8 @@
         <div class="pf-filter-wrapper">
             <select class="portfolio-filter-mobile">
                 <option value="*">{{ t["Everything"] }}</option>
-                {% for tag in params.tags %}
-                <option value=".{{ tag | lower() }}">{{ tag }}</option>
+                {% for tag in params.projects.tags %}
+                <option value=".{{ tag | lower() }}">{{ tag | replace("_", " ") | title() }}</option>
                 {% endfor %}
                 {#
                 <option value=".creative">Creative</option>

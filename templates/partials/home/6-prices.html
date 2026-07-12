@@ -1,12 +1,4 @@
 <!-- section prices -->
-{% set ns = namespace(all_features=[], plans_features=[]) %}
-{% for plan in params.plans %}
-  {# Materializza le features del piano in una lista, una sola volta #}
-  {% set pf = plan.features | list %}
-  {% set ns.all_features = ns.all_features + pf %}
-  {% set ns.plans_features = ns.plans_features + [pf] %}
-{% endfor %}
-{% set features_list = ns.all_features | unique %}
 <section id="prices">
 
     <div class="container">

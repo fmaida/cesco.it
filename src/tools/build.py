@@ -20,10 +20,11 @@ app.config['FREEZER_DEFAULT_MIMETYPE'] = 'text/html'
 app.config['FREEZER_IGNORE_MIMETYPE_WARNINGS'] = True
 app.config['FREEZER_DESTINATION'] = str(settings.BUILD_DIR)
 app.config['FREEZER_BASE_URL'] = settings.BASE_URL
-# (rimosso FREEZER_IGNORE_ENDPOINTS: non supportato da frozen-flask)
+# La pagina 404 ora risponde (correttamente) con status 404:
+# senza questa opzione Frozen-Flask interromperebbe il freeze.
+# Con l'opzione attiva la pagina viene comunque generata.
+app.config['FREEZER_IGNORE_404_NOT_FOUND'] = True
 
-# Assicura che Flask-Frozen costruisca URL con prefisso '/'
-app.config.setdefault('FREEZER_BASE_URL', '/')
 Minify(app=app, html=True, js=False, cssless=False)
 
 freezer = Freezer(app, log_url_for=True)
@@ -42,7 +43,10 @@ def privacy():
 
 
 def pregenerazione_immagini():
-    """Pre-genera tutte le immagini prima del freeze"""
+    """
+    Pre-genera tutte le immagini prima del freeze.
+    """
+
     print("🖼️Pre-generazione immagini...")
 
     # Carica la configurazione
@@ -91,8 +95,6 @@ def main():
     pregenerazione_immagini()
 
     # Inizia il processo di freeze
-    # print("Endpoint registrati:", sorted(app.view_functions.keys()))
-
     try:
         freezer.freeze()
         sitemap.add(url="/", change_freq="monthly", priority=1)
@@ -101,13 +103,16 @@ def main():
         print("✅ Sitemap creata con successo")
         print("✅ Freeze completato")
     except Exception as e:
+        # Una build rotta deve fallire in modo visibile:
+        # niente pulizia cache, exit code diverso da zero.
         print("❌ Errore durante freeze:", e)
+        sys.exit(1)
 
-    # Pulisce la cache da 
+    # Pulisce la cache da
     # eventuali file cache non
     # più utilizzati
     cache.clean()
-    images.imgcache.salva()
+    images.imgcache.clean()
 
     # Crea robots.txt ottimizzato per l'indicizzazione
     robots.generate()

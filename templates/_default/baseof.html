@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ params.lang | default("it") }}">
 <head>
+    <title>{% block title %}{{ params.title }}{% endblock %}</title>
     {% include "partials/head.html" %}
 </head>
 
