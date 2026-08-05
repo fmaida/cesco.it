@@ -1,5 +1,5 @@
 {% macro responsive_image(base_path, alt_text, width=400, height=300, aspect_ratio=None) %}
-{% set base_url = url_for('static', filename=base_path) %}
+{% set base_url = STATIC_URL ~ "/" ~ base_path %}
 <picture>
   <source type="image/avif"
           srcset="{{ base_url }}__400.avif 400w, {{ base_url }}__800.avif 800w, {{ base_url }}__1200.avif 1200w"

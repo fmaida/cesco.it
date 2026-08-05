@@ -1,4 +1,6 @@
+import re
 import sys
+import warnings
 from pathlib import Path
 
 # Fix automatico del PYTHONPATH per GitHub Actions
@@ -7,7 +9,7 @@ sys.path.insert(0, str(current_dir))
 
 from sitekit import content, i18n, cache, images, pagebundle, sitemap, robots
 from sitekit.settings import settings
-from flask_frozen import Freezer
+from flask_frozen import Freezer, NotFoundWarning
 from flask_minify import Minify
 from main.app import app
 
@@ -24,6 +26,17 @@ app.config['FREEZER_BASE_URL'] = settings.BASE_URL
 # senza questa opzione Frozen-Flask interromperebbe il freeze.
 # Con l'opzione attiva la pagina viene comunque generata.
 app.config['FREEZER_IGNORE_404_NOT_FOUND'] = True
+
+# Il generatore error_handlers() qua sotto visita apposta un URL
+# inesistente per forzare la creazione di 404.html: il warning che ne
+# consegue è quindi previsto e va silenziato solo per quell'URL preciso,
+# senza nascondere un NotFoundWarning su un URL diverso (segnalerebbe
+# un problema reale, come il bug sulle immagini responsive già risolto).
+warnings.filterwarnings(
+    "ignore",
+    category=NotFoundWarning,
+    message=re.escape("Ignored '404 NOT FOUND' on URL /404.html"),
+)
 
 Minify(app=app, html=True, js=False, cssless=False)
 
@@ -83,7 +96,6 @@ def pregenerazione_immagini():
                             destination_folder=settings.STATIC_DIR / "cache" / "projects",
                             aspect_ratio=aspect_ratio, anchor=anchor)
 
-    pagebundle.set_media_destination_folder(settings.STATIC_DIR / "cache" / "blog")
     posts = pagebundle.load_collection(settings.CONTENT_DIR / "blog")
 
     print("✅ Pre-generazione immagini completata")

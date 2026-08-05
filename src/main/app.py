@@ -16,6 +16,13 @@ app = Flask(__name__,
 # Imposta il sito base
 settings.BASE_URL = "https://cesco.it"
 
+# Prefisso URL dei file statici, per costruire a mano i percorsi delle
+# immagini responsive senza passare da url_for() su un file "base" che
+# non esiste mai di per sé (esistono solo le varianti __400.jpg ecc.):
+# altrimenti Frozen-Flask lo scopre come URL da congelare, lo trova 404
+# e ne scrive la pagina d'errore come file dentro la cartella immagini.
+app.jinja_env.globals["STATIC_URL"] = app.static_url_path
+
 
 @app.template_filter("markdown")
 def markdown_filter(text: str) -> Markup:
