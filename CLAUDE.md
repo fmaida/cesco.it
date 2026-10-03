@@ -23,6 +23,9 @@ Quando aggiungi funzionalità, mantieni questa separazione.
   libreria standard (Python ≥ 3.11). Al primo comando che fallisce si ferma
   con lo stesso exit code; i `post` partono solo se Hugo è riuscito.
   Rifiuta destinazioni pericolose (/, home, cartella del progetto).
+- **Attenzione**: `hugo` da solo scrive direttamente nella cartella di deploy
+  (`publishDir`). Per le prove usa `hugo server` (lavora in memoria) oppure
+  `hugo -d <cartella temporanea>`.
 - Hosting di produzione: VPS OVH con Caddy (vedi sezione "Caddy").
 
 ## Struttura
@@ -43,7 +46,7 @@ Quando aggiungi funzionalità, mantieni questa separazione.
 | `layouts/_shortcodes/dato.html` | `{{< dato "chiave" >}}`: un dato del front matter o dei params nel testo di una pagina |
 | `assets/site/` | `css/site.css` e `js/site.js` del layout (minificati e con fingerprint) |
 | `assets/images/answers/` | Immagini della sezione "Perché scegliere me" |
-| `static/` | Copiati così come sono alla radice del sito: avatar, logo, icone SVG, `downloads/cv.pdf`, `assets/images/no-image.jpg` |
+| `static/` | Copiati così come sono alla radice del sito: avatar, logo, icone SVG, `downloads/cv.pdf`, `assets/images/no-image.jpg`, `.caddy` (regole di Caddy, vedi sotto) |
 | `build.py`, `build.toml` | Script di build con comandi pre/post |
 
 Helper in `layouts/_partials/`: `icon` (SVG inline), `responsive-image`,
@@ -52,7 +55,8 @@ lingua corrente, con ripiego sull'italiano), `testo` (segnaposto
 `{{ params.fares.* }}` e `{{ params.support.email }}` nei testi), `markdown`
 (markdown → HTML sempre a blocchi), `tag` (etichetta tradotta di un tag),
 `traduzioni` (URL della pagina in ogni lingua), `sezione-corrente` (voce di
-menu attiva), `blog-italiano`, `copertina`, `timeline`.
+menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
+`timeline`.
 
 ## Pagine e lingue
 
@@ -93,9 +97,9 @@ menu attiva), `blog-italiano`, `copertina`, `timeline`.
 - Una voce senza `image` mostra la sua `icon` o un segnaposto con l'icona flask.
 - **Filtri** (`_partials/filtri.html`, usato da `section.html` e dal blog):
   "Tutto" + un pulsante per tag; agiscono sulle voci con `data-groups` dentro
-  il contenitore `data-filtri` (`site.js`). Il filtro attivo diventa
-  scuro. Nel blog i filtri si ricavano
-  dai `tags` dei post e la riga compare solo se ci sono post con tag.
+  il contenitore `data-filtri` (`site.js`). Il filtro attivo diventa scuro.
+  Nel blog i filtri si ricavano dai `tags` dei post e la riga compare solo se
+  ci sono post con tag.
 - **Tag**: minuscoli con underscore (`siti_web`; servizi: `sviluppo`,
   `grafica`, `marketing`); l'etichetta viene da `i18n/*.json` (chiave = tag),
   con ripiego sul tag reso leggibile. Le pagine di tassonomia sono disattivate.
@@ -123,8 +127,8 @@ menu attiva), `blog-italiano`, `copertina`, `timeline`.
   `:root[data-sidebar="right"]` (e nella media query < 1024px: drawer che
   entra da destra, pulsante menu a sinistra). Le regole base descrivono la
   sidebar a sinistra: se aggiungi regole con left/right, aggiungi anche la
-  versione ribaltata. Nessun asset del tema originale, che è a pagamento. **Niente Bootstrap, jQuery né Font Awesome**:
-  tutte le icone sono SVG inline da `_partials/icon.html` (linea: Tabler, MIT;
+  versione ribaltata. Nessun asset del tema originale, che è a pagamento.
+  **Niente Bootstrap, jQuery né Font Awesome**: tutte le icone sono SVG inline da `_partials/icon.html` (linea: Tabler, MIT;
   piene — social, freccia, rss — glifi di Font Awesome Free 5, CC BY 4.0,
   classe `icon-fill`). Font Poppins da Google Fonts. Sotto i 1024px barra e
   colonna diventano un drawer.
@@ -219,10 +223,23 @@ modifica: `caddy reload`). Contiene:
 - `handle_errors 404` con `/404.html` (e `/en/404.html` sotto `/en/`),
   che richiede Caddy ≥ 2.8.
 
+## Repository
+
+- GitHub: `fmaida/cesco.it` (pubblico), branch `main`. La cronologia è
+  ripartita da zero il 2026-10-03 con il passaggio a Hugo (push forzato).
+  I commit del vecchio sito Flask restano su GitHub solo come commit
+  orfani (ultimo: `6feaaf9`) finché non vengono agganciati a un branch.
+- Nessun deploy automatico: niente `.github/workflows`, niente webhook. Su
+  GitHub è ancora abilitato Pages (dominio `cesco.it`, sorgente "workflow")
+  e potrebbe esistere un vecchio sito Netlify: sono residui, il sito è
+  pubblicato solo sul VPS.
+- Mai `git push --force` senza conferma esplicita di Francesco.
+
 ## Test
 
-Il progetto non ha una suite di test. Verifica: `hugo` senza errori né
-warning, poi `hugo server` e controllo delle pagine nelle due lingue.
+Il progetto non ha una suite di test. Verifica: `hugo -d <cartella
+temporanea>` senza errori né warning (non `hugo` da solo, che scrive nella
+cartella di deploy), poi `hugo server` e controllo delle pagine nelle due lingue.
 
 ## Metadata
 - Ultima modifica: 2026-10-03
