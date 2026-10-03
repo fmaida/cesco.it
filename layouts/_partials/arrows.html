@@ -1,0 +1,18 @@
+{{- /*
+  Frecce prev/next: scorrono in ciclo le voci del menu principale. Stanno al
+  centro del bordo destro perché l'angolo in basso a destra è riservato al
+  futuro widget di supporto. Fuori dal menu (privacy, 404) non compaiono.
+*/ -}}
+{{- $attiva := partial "sezione-corrente.html" . -}}
+{{- $voci := site.Menus.main -}}
+{{- $n := len $voci -}}
+{{- range $i, $voce := $voci -}}
+  {{- if eq $voce.Identifier $attiva -}}
+    {{- $prev := index $voci (mod (add $i (sub $n 1)) $n) -}}
+    {{- $next := index $voci (mod (add $i 1) $n) }}
+    <nav class="arrows-nav" aria-label="{{ i18n "Menu" }}">
+        <a class="arrow-next" href="{{ $next.URL }}" aria-label="{{ i18n "Next page" }}: {{ i18n $next.Name }}">{{ partial "icon.html" (dict "name" "chevron-right" "size" 26) }}</a>
+        <a class="arrow-prev" href="{{ $prev.URL }}" aria-label="{{ i18n "Previous page" }}: {{ i18n $prev.Name }}">{{ partial "icon.html" (dict "name" "chevron-left" "size" 26) }}</a>
+    </nav>
+  {{- end -}}
+{{- end -}}

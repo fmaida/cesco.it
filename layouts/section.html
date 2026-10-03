@@ -1,0 +1,40 @@
+{{- /*
+  Elenco di una collezione (servizi, portfolio, laboratorio): griglia di
+  voci filtrabile per tag. Le opzioni stanno nel front matter di
+  content/<sezione>/_index.md: filters, contatto, senza_categoria.
+*/ -}}
+{{ define "title" }}{{ .Title }} – {{ site.Title }}{{ end }}
+
+{{ define "page_title" }}
+    <div class="page-title"><h1>{{ .Title }}</h1></div>
+{{ end }}
+
+{{ define "main" }}
+    {{ .Content }}
+
+    <div class="portfolio-content" data-filtri>
+        {{ partial "filtri.html" .Params.filters }}
+
+        <div class="portfolio-grid">
+            {{- range .Pages.ByWeight }}
+            <figure class="item" data-groups="{{ delimit (.Params.tags | default slice) " " }}">
+                <a href="{{ .RelPermalink }}">
+                    <div class="portfolio-item-img">
+                        {{ partial "project-media.html" (dict "page" .) }}
+                    </div>
+                    <figcaption>
+                        <h4 class="name">{{ .Title }}</h4>
+                        {{- if not $.Params.senza_categoria }}
+                        <span class="category">{{ range $i, $tag := .Params.tags }}{{ if $i }}, {{ end }}{{ partial "tag.html" $tag }}{{ end }}</span>
+                        {{- end }}
+                    </figcaption>
+                </a>
+            </figure>
+            {{- end }}
+        </div>
+    </div>
+
+    {{- if .Params.contatto }}
+    <p class="text-center">{{ replace (i18n "custom_jobs") "{url}" (site.GetPage "/contact").RelPermalink | safeHTML }} 👋</p>
+    {{- end }}
+{{ end }}

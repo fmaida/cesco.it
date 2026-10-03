@@ -1,0 +1,15 @@
+{{ define "title" }}404 – {{ site.Title }}{{ end }}
+
+{{ define "area_class" }} start-page{{ end }}
+
+{{ define "main" }}
+    <div class="title-block">
+        <h1>{{ i18n "Page Not Found" | safeHTML }}</h1>
+        <p class="intro">{{ i18n "not_found_text" }}</p>
+        <p class="intro" lang="en">Sorry, the page you requested does not exist.</p>
+        <div class="buttons">
+            <a href="{{ "/" | relURL }}" class="btn btn-primary">{{ i18n "Back to home" }}</a>
+            <a href="{{ "/en/" | relURL }}" class="btn btn-secondary" lang="en">Home (English)</a>
+        </div>
+    </div>
+{{ end }}

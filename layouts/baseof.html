@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{{- /* lato della sidebar: layout.sidebar in config/_default/params.yaml */}}
+{{- $sidebar := site.Params.layout.sidebar | default "left" }}
+{{- if not (in (slice "left" "right") $sidebar) }}
+  {{- errorf "params.yaml: layout.sidebar deve essere \"left\" o \"right\", non %q" $sidebar }}
+{{- end }}
+<html lang="{{ site.Language.Lang }}" data-sidebar="{{ $sidebar }}">
+<head>
+    <meta charset="utf-8">
+    <title>{{ block "title" . }}{{ site.Title }}{{ end }}</title>
+    {{ partial "head.html" . }}
+    {{ block "head_extra" . }}{{ end }}
+</head>
+
+<body>
+<div class="page">
+
+    {{ partial "header.html" . }}
+
+    <!-- mobile navigation -->
+    <button type="button" class="menu-toggle" aria-controls="site_nav" aria-expanded="false" aria-label="{{ i18n "Menu" }}">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <main class="content-area{{ block "area_class" . }}{{ end }}">
+        {{ block "page_title" . }}{{ end }}
+
+        <div class="section-content">
+            {{ block "main" . }}{{ end }}
+        </div>
+
+        {{ partial "footer.html" . }}
+    </main>
+
+    {{ partial "arrows.html" . }}
+
+</div>
+
+{{ with resources.Get "site/js/site.js" | minify | fingerprint -}}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+{{- end }}
+
+</body>
+</html>

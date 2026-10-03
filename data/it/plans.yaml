@@ -1,0 +1,71 @@
+description: >
+  Il mio costo per ora singola è di {{ params.fares.standard }} € l’ora, tasse incluse. 
+  Per chi desidera un impegno continuativo offro piani di 
+  abbonamento annuali a prezzi scontati, con pacchetti di 
+  ore prepagate e benefit aggiuntivi. Tutti i piani qui 
+  sotto esposti hanno durata annuale, comprendono le tasse 
+  e prevedono il pagamento anticipato dell’intera somma, 
+  rinnovandosi automaticamente ogni anno salvo disdetta, 
+  da richiedere almeno sette giorni prima della scadenza. 
+  Alcuni pacchetti includono anche una pagina 
+  promozionale su Venice.bio. [Scopri di più su Venice.bio](https://venice.bio).
+
+plans:
+
+  - title: Shampoo & Manicure alla tua Impresa
+    image: images/icons/009-cleaning.svg
+    description: >
+      Prova il mio lavoro con un impegno di 2 ore e mezza. 
+      Lascia che io migliori i tuoi profili su Google, Instagram e 
+      TripAdvisor. In modo da farti arrivare più prenotazioni.
+    features:
+      - 2 ore e 1/2 di lavoro
+      - ^Profilo su Venice.bio
+      - ^Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
+      - Supporto da lunedì a venerdì
+      - Risposte in 48 ore lavorative
+      - Supporto via email
+      - ^Supporto via WhatsApp
+      - ^Assistenza da remoto
+    price: 199
+    url: https://buy.stripe.com/6oU4gAdi59J3aUdeU42VG03
+
+  - title: Trattamento Di Bellezza Aziendale
+    image: images/icons/013-cut.svg
+    description: >
+      Con 6 ore posso aiutare la tua azienda a presentarsi  
+      rinnovata agli occhi dei tuoi clienti. Magari con dei profili 
+      social migliorati, e foto ed informazioni di qualità.
+
+    features:
+      - 6 ore di lavoro
+      - ^Profilo su Venice.bio
+      - Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
+      - Supporto da lunedì a venerdì
+      - Risposte in 48 ore lavorative
+      - Supporto via email
+      - ^Supporto via WhatsApp
+      - ^Assistenza da remoto
+    price: 399
+    url: https://buy.stripe.com/8x25kEfqd9J39Q96ny2VG06
+
+  - title: Il Visagista Delle Dive Societarie
+    image: images/icons/018-woman.svg
+    recommended: true
+    description: >
+      Qui il lavoro si fa serio: 12 ore in cui insieme a te posso 
+      fare molto per dare un nuovo volto alla tua attività, e farla 
+      apprezzare come merita.
+
+    features:
+      - 12 ore di lavoro
+      - Profilo su Venice.bio
+      - 261€ di sconto (-27%)
+      - Ore extra a {{ params.fares.discounted }}€/h per 12 mesi
+      - Supporto da lunedì a venerdì
+      - Risposte in 48 ore lavorative
+      - Supporto via email
+      - Supporto via WhatsApp
+      - Assistenza da remoto
+    price: 699
+    url: https://buy.stripe.com/cNi14o1zn8EZ4vP27i2VG05

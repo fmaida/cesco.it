@@ -1,0 +1,13 @@
+{{- /*
+  Immagine di copertina di un post: "image" nel front matter può essere un
+  file del page bundle del post oppure un URL. Restituisce l'URL o "".
+*/ -}}
+{{- $url := "" -}}
+{{- with .Params.image -}}
+  {{- with $.Resources.Get . -}}
+    {{- $url = (.Fill "800x600 Center webp").RelPermalink -}}
+  {{- else -}}
+    {{- $url = . -}}
+  {{- end -}}
+{{- end -}}
+{{- return $url -}}

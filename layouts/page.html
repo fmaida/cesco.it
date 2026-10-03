@@ -1,0 +1,59 @@
+{{- /*
+  Dettaglio di una voce di collezione (servizi, portfolio, laboratorio).
+  Il testo della voce è il corpo del suo index.md; le opzioni della
+  collezione (back, contatto) vengono dal _index.md della sezione.
+*/ -}}
+{{ define "title" }}{{ .Title }} – {{ .Parent.Title }} – {{ site.Title }}{{ end }}
+
+{{ define "page_title" }}
+    <div class="page-title">
+        <a class="back-link" href="{{ .Parent.RelPermalink }}">{{ partial "icon.html" (dict "name" "arrow-left") }} {{ i18n .Parent.Params.back }}</a>
+        <h1>{{ .Title }}</h1>
+    </div>
+{{ end }}
+
+{{ define "main" }}
+    <div class="project">
+        <div class="project-media">
+            {{ partial "project-media.html" (dict "page" . "sizes" "(min-width: 992px) 50vw, 100vw") }}
+        </div>
+
+        <div class="project-details">
+            <ul class="knowledges">
+                {{ range .Params.tags }}<li>{{ partial "tag.html" . }}</li>{{ end }}
+            </ul>
+
+            {{- if or .Params.client .Params.year }}
+            <div class="info-list">
+                <ul>
+                    {{ with .Params.client }}<li><span class="title">{{ i18n "Client" }}</span><span class="value">{{ . }}</span></li>{{ end }}
+                    {{ with .Params.year }}<li><span class="title">{{ i18n "Year" }}</span><span class="value">{{ . }}</span></li>{{ end }}
+                </ul>
+            </div>
+            {{- end }}
+
+            {{ .Content }}
+
+            {{- with .Params.website }}
+            <a href="{{ . }}" class="btn btn-primary" target="_blank" rel="noopener">{{ i18n "Visit website" }}</a>
+            {{- end }}
+
+            {{- if .Parent.Params.contatto }}
+            <a href="{{ (site.GetPage "/contact").RelPermalink }}" class="btn btn-primary">{{ i18n "Request a Quote" }}</a>
+            {{- end }}
+        </div>
+    </div>
+
+    {{- /* voci precedente e successiva nell'ordine della griglia (weight).
+           Attenzione: in Hugo .Next restituisce la voce che viene PRIMA
+           nella lista e .Prev quella che viene DOPO. */}}
+    {{- $voci := .Parent.Pages.ByWeight }}
+    <nav class="project-nav">
+        {{- with $voci.Next . }}
+        <a class="prev" href="{{ .RelPermalink }}"><small>← {{ i18n "Previous" }}</small>{{ .Title }}</a>
+        {{- else }}<span></span>{{ end }}
+        {{- with $voci.Prev . }}
+        <a class="next" href="{{ .RelPermalink }}"><small>{{ i18n "Next" }} →</small>{{ .Title }}</a>
+        {{- end }}
+    </nav>
+{{ end }}

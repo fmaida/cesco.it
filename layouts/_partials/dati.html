@@ -1,0 +1,6 @@
+{{- /*
+  Un file di data/ nella lingua della pagina, con ripiego sull'italiano.
+  Uso: {{ $answers := partial "dati.html" "answers" }}  →  data/<lingua>/answers.yaml
+*/ -}}
+{{- $dati := index hugo.Data site.Language.Lang . -}}
+{{- return ($dati | default (index hugo.Data "it" .)) -}}

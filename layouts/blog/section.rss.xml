@@ -1,0 +1,33 @@
+{{- /* Feed RSS 2.0 del blog (solo italiano): ultimi 20 post con il testo completo in HTML */ -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+{{- $posts := first 20 .Pages.ByDate.Reverse }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>{{ site.Title }} – Blog</title>
+    <link>{{ .Permalink }}</link>
+    <description>{{ site.Params.description | plainify | strings.TrimSpace }}</description>
+    <language>it-it</language>
+    {{- with .OutputFormats.Get "rss" }}
+    <atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml"/>
+    {{- end }}
+    {{- with $posts }}
+    <lastBuildDate>{{ (index . 0).Lastmod.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    {{- end }}
+    {{- range $posts }}
+    <item>
+        <title>{{ .Title }}</title>
+        <link>{{ .Permalink }}</link>
+        <guid isPermaLink="true">{{ .Permalink }}</guid>
+        <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+        <author>{{ site.Params.support.email }} ({{ site.Params.author.name }})</author>
+        {{- range .Params.tags }}
+        <category>{{ . }}</category>
+        {{- end }}
+        {{- /* l'HTML del corpo va escapato una volta, come richiede RSS 2.0 */}}
+        {{- $html := string .Content }}
+        {{- with partial "copertina.html" . }}{{ $html = printf "<p><img src=%q alt=\"\"></p>\n%s" (. | absURL) $html }}{{ end }}
+        <description>{{ $html | transform.XMLEscape | safeHTML }}</description>
+    </item>
+    {{- end }}
+</channel>
+</rss>

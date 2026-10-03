@@ -1,0 +1,15 @@
+{{- /*
+  Proporzioni e ancoraggio del ritaglio dell'immagine di una voce,
+  ricavati dai suoi tag. Riceve la lista dei tag, restituisce
+  (dict "w" 1 "h" 2 "anchor" "Top").
+*/ -}}
+{{- $tags := . | default slice -}}
+{{- $r := dict "w" 1 "h" 1 "anchor" "Center" -}}
+{{- if in $tags "siti_web" -}}
+  {{- $r = dict "w" 1 "h" 2 "anchor" "Top" -}}
+{{- else if in $tags "documenti" -}}
+  {{- $r = dict "w" 2 "h" 3 "anchor" "Center" -}}
+{{- else if in $tags "app" -}}
+  {{- $r = dict "w" 16 "h" 9 "anchor" "Center" -}}
+{{- end -}}
+{{- return $r -}}

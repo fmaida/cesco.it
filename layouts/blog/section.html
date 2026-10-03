@@ -1,0 +1,57 @@
+{{- /*
+  Elenco dei post del blog. I post sono solo in italiano: anche /en/blog/
+  mostra quelli della sezione italiana.
+*/ -}}
+{{ define "title" }}{{ i18n "Blog" }} – {{ site.Title }}{{ end }}
+
+{{ define "page_title" }}
+    <div class="page-title"><h1>{{ i18n "Blog" }}</h1></div>
+{{ end }}
+
+{{ define "main" }}
+{{- $blog := partial "blog-italiano.html" . }}
+    {{ with i18n "posts_language_note" }}<p class="note">{{ . }}</p>{{ end }}
+
+    {{- with $blog.Pages.ByDate.Reverse }}
+    {{- /* filtri ricavati dai tag dei post, senza doppioni */}}
+    {{- $tags := slice }}
+    {{- range . }}{{ $tags = $tags | append (.Params.tags | default slice) }}{{ end }}
+    <div data-filtri>
+    {{- with $tags | uniq | sort }}
+    {{ partial "filtri.html" . }}
+    {{- end }}
+    <div class="blog-masonry">
+        {{- range . }}
+        <article class="blog-card" data-groups="{{ delimit (.Params.tags | default slice) " " }}">
+            <div class="media-block">
+                <div class="category">
+                    {{- with .Params.tags }}{{ range $i, $tag := . }}{{ if $i }}, {{ end }}{{ partial "tag.html" $tag }}{{ end }}{{ else }}News{{ end -}}
+                </div>
+                <a href="{{ .RelPermalink }}" tabindex="-1">
+                    <img src="{{ partial "copertina.html" . | default ("assets/images/no-image.jpg" | relURL) }}" width="400" height="300" alt="" loading="lazy">
+                </a>
+            </div>
+            <div class="post-info">
+                <div class="post-date">{{ .Date | time.Format "02/01/2006" }}</div>
+                <a href="{{ .RelPermalink }}">
+                    <h4 class="blog-item-title">{{ .Title }}</h4>
+                </a>
+            </div>
+        </article>
+        {{- end }}
+    </div>
+    </div>
+    {{- else }}
+    <div class="empty-state">
+        <h3>:-(</h3>
+        <p><strong>{{ i18n "no_posts" }}</strong></p>
+    </div>
+    {{- end }}
+
+    <div class="buttons">
+        <a href="https://memos.cesco.it" class="btn btn-primary" rel="noopener">{{ i18n "Read all articles" }}</a>
+        {{- with $blog.OutputFormats.Get "rss" }}
+        <a href="{{ .RelPermalink }}" class="btn btn-secondary" type="application/rss+xml">{{ partial "icon.html" (dict "name" "rss") }} {{ i18n "RSS feed" }}</a>
+        {{- end }}
+    </div>
+{{ end }}

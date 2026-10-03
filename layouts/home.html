@@ -1,0 +1,28 @@
+{{ define "title" }}{{ site.Title }} – {{ strings.TrimSpace site.Params.author.job }}{{ end }}
+
+{{ define "area_class" }} start-page{{ end }}
+
+{{ define "main" }}
+    <div class="title-block">
+        <h1>{{ site.Title }}</h1>
+        <div class="text-rotation">
+            <span class="sp-prefix">{{ i18n "I'm" }}</span>
+            {{- /* Ruoli da "roles" in config/_default/languages.yaml. Lo script
+                   "macchina da scrivere" di site.js li scrive uno alla volta in
+                   .sp-typed; i .sp-subtitle restano (trasparenti) per riservare la
+                   larghezza del ruolo più lungo e per gli screen reader. Senza
+                   JavaScript si vede il primo ruolo, fermo. */}}
+            <span class="sp-roles" data-typewriter>
+                {{- range site.Params.roles }}
+                <span class="sp-subtitle">{{ . }}</span>
+                {{- end }}
+                <span class="sp-typed" aria-hidden="true"><span class="sp-typed-text"></span><span class="sp-cursor"></span></span>
+            </span>
+        </div>
+        <p class="intro">{{ strings.TrimSpace site.Params.description }}</p>
+        <div class="buttons">
+            <a href="{{ (site.GetPage "/contact").RelPermalink }}" class="btn btn-primary">{{ i18n "Request a Quote" }}</a>
+            <a href="{{ (site.GetPage "/about").RelPermalink }}" class="btn btn-secondary">{{ i18n "About" }}</a>
+        </div>
+    </div>
+{{ end }}

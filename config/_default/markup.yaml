@@ -1,0 +1,4 @@
+goldmark:
+  renderer:
+    # I testi (YAML e markdown) contengono anche HTML: va lasciato passare
+    unsafe: true

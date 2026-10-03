@@ -1,0 +1,55 @@
+# Dati comuni a tutte le lingue. I testi tradotti stanno in
+# languages.yaml, sotto "params" di ogni lingua.
+
+support:
+  url: https://assistenza.cesco.it
+  phone: +39 352 00 68000
+  email: museo05_vasto@icloud.com
+
+# Prezzi all'ora del mio lavoro: nei testi si richiamano con
+# {{ params.fares.standard }} e {{ params.fares.discounted }}
+fares:
+  standard: 80
+  discounted: 60
+
+author:
+  name: Francesco Maida
+  avatar: images/avatar.jpg   # dentro static/
+  cv: downloads/cv.pdf        # dentro static/
+
+# Icone disponibili: linkedin, github, mastodon, instagram
+# (tracciati in layouts/_partials/icon.html)
+social:
+  - icon: linkedin
+    url: https://www.linkedin.com/in/francesco.maida
+  - icon: github
+    url: https://github.com/fmaida
+  - icon: mastodon
+    url: "https://livellosegreto.it/@cesco"
+
+fiscal:
+  locality: Venezia
+  region: VE
+  postal-code: "30132"
+  country: IT
+  partita-iva: "04908370275"
+
+# Posizione di barra icone e colonna profilo: left (sinistra) o right (destra).
+# Le frecce prev/next e l'angolo riservato al widget di supporto stanno sul lato opposto.
+layout:
+  sidebar: right
+
+# Colori di accento, uno per tema: usati anche come sfondo della colonna profilo
+theme:
+  accent-light: "#18b3de"   # tema chiaro
+  accent-dark: "#1391bb"    # tema scuro
+
+# Modulo contatti: backend Formcarry + Cloudflare Turnstile
+contact-form:
+  action: https://formcarry.com/s/UZxDnB35I5j
+  turnstile-sitekey: 0x4AAAAAACvwqJlsnxKS-tEC
+
+# Statistiche (Umami sul VPS)
+analytics:
+  script: https://persha.cesco.it/script.js
+  website-id: a070ee9b-1487-4d48-b282-d4aabbc06f84

@@ -1,0 +1,92 @@
+# Lingue del sito. Ogni lingua ha i suoi permalink (le sezioni hanno nomi
+# diversi negli URL) e i suoi testi in "params", che si fondono con quelli
+# comuni di params.yaml.
+
+it:
+  weight: 1
+  label: Italiano
+  locale: it-IT
+  permalinks:
+    section:
+      services: /servizi/
+      lab: /laboratorio/
+    page:
+      services: /servizi/:slug/
+      portfolio: /portfolio/:slug/
+      lab: /laboratorio/:slug/
+  params:
+    description: >
+      Puoi pensarmi come un’estetista per aziende: lavoro con dedizione
+      per rendere bella e desiderabile la tua impresa agli occhi delle
+      persone, così che tu possa vendere di più.
+    author:
+      job: >
+        Consulente digitale per aziende (siti web, social e comunicazione online)
+      description: >
+        Mi chiamo Francesco. Puoi pensarmi come un’estetista
+        per aziende: lavoro con cura e dedizione per rendere
+        bella e desiderabile la tua impresa agli occhi delle
+        persone, così che tu possa vendere di più. Non infiocchetto,
+        né creo illusioni: faccio emergere il meglio della tua azienda,
+        raccontandone con autenticità e passione la missione.
+    # Ruoli che ruotano in homepage dopo "Sono"
+    roles:
+      - uno sviluppatore web
+      - un designer grafico
+      - un creatore di contenuti
+    contact:
+      title: Contattami per un preventivo gratuito
+      description: >
+        Faremo una breve chiacchierata:
+        alla fine dell’incontro ti presenterò
+        subito alcune prime soluzioni. Se per
+        risponderti in modo accurato dovrò
+        raccogliere ulteriori informazioni
+        (su costi o modalità), ti invierò la
+        proposta completa nelle ore o nei giorni successivi.<br><br>
+        Non vuoi usare il modulo? Inviami una
+        <a href="mailto:{{ params.support.email }}?subject=Ho%20visto%20il%20sito%20web%20e%20ho%20delle%20domande">email</a>. 👋
+
+en:
+  weight: 2
+  label: English
+  locale: en-US
+  permalinks:
+    section:
+      services: /services/
+      lab: /lab/
+    page:
+      services: /services/:slug/
+      portfolio: /portfolio/:slug/
+      lab: /lab/:slug/
+  params:
+    description: >
+      Think of me as a beautician for businesses: I work with dedication
+      to make your company attractive and desirable in people's eyes,
+      so that you can sell more.
+    author:
+      job: >
+        Digital consultant for businesses (websites, social media and online communication)
+      description: >
+        My name is Francesco. Think of me as a beautician
+        for businesses: I work with care and dedication
+        to make your company attractive and desirable in
+        people's eyes, so that you can sell more. I don't dress
+        things up or create illusions: I bring out the best of
+        your business, telling its mission with authenticity
+        and passion.
+    roles:
+      - a web developer
+      - a graphic designer
+      - a content creator
+    contact:
+      title: Contact me for a free quote
+      description: >
+        We'll have a short chat: by the end of
+        the meeting I'll present some first solutions
+        right away. If I need to gather more
+        information to give you an accurate answer
+        (about costs or how to proceed), I'll send you
+        the full proposal in the following hours or days.<br><br>
+        Prefer not to use the form? Send me an
+        <a href="mailto:{{ params.support.email }}?subject=I%20saw%20your%20website%20and%20I%20have%20some%20questions">email</a>. 👋

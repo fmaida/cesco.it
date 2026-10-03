@@ -1,0 +1,6 @@
+{{- /* La sezione blog italiana: i post esistono solo in italiano, anche per /en/blog/ */ -}}
+{{- $blog := "" -}}
+{{- range hugo.Sites -}}
+  {{- if eq .Language.Lang "it" -}}{{- $blog = .GetPage "/blog" -}}{{- end -}}
+{{- end -}}
+{{- return $blog -}}

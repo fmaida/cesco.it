@@ -1,0 +1,51 @@
+{{- /*
+  Immagine responsive: rimpicciolisce "img" (una risorsa di Hugo), la
+  ritaglia alle proporzioni date e la genera nelle larghezze 400/800/1200/1600 px
+  in AVIF, WebP e JPEG (solo quelle che non richiedono di ingrandire l'originale).
+  Si usa Fill, che ridimensiona e poi ritaglia: Crop invece ritaglia senza
+  ridimensionare e mostrerebbe solo un dettaglio dell'originale.
+
+  Parametri (dict):
+    img      risorsa immagine (obbligatorio)
+    alt      testo alternativo
+    w, h     proporzioni del ritaglio (es. 16 e 10)
+    anchor   ancoraggio del ritaglio: "Center" (predefinito), "Top", …
+    width    larghezza dell'attributo width (predefinita 400; height in proporzione)
+    sizes    attributo sizes
+    loading  "lazy" (predefinito) o "eager"
+*/ -}}
+{{- $img := .img -}}
+{{- $w := .w | default 1 -}}
+{{- $h := .h | default 1 -}}
+{{- $anchor := .anchor | default "Center" -}}
+{{- $sizes := .sizes | default "(min-width: 1200px) 25vw, (min-width: 600px) 50vw, 100vw" -}}
+{{- $width := .width | default 400 -}}
+{{- $height := int (math.Round (div (mul (float $width) $h) $w)) -}}
+
+{{- /* Larghezze possibili senza ingrandire l'originale (la 400 c'è sempre) */ -}}
+{{- $larghezze := slice -}}
+{{- range slice 400 800 1200 1600 -}}
+  {{- $alta := int (math.Round (div (mul (float .) $h) $w)) -}}
+  {{- if or (eq . 400) (and (le . $img.Width) (le $alta $img.Height)) -}}
+    {{- $larghezze = $larghezze | append . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $set := dict -}}
+{{- $primo := "" -}}
+{{- range $formato := slice "avif" "webp" "jpg" -}}
+  {{- $voci := slice -}}
+  {{- range $larghezze -}}
+    {{- $alta := int (math.Round (div (mul (float .) $h) $w)) -}}
+    {{- $r := $img.Fill (printf "%dx%d %s %s" . $alta $anchor $formato) -}}
+    {{- $voci = $voci | append (printf "%s %dw" $r.RelPermalink .) -}}
+    {{- if and (eq $formato "jpg") (eq . 400) -}}{{- $primo = $r.RelPermalink -}}{{- end -}}
+  {{- end -}}
+  {{- $set = merge $set (dict $formato (delimit $voci ", ")) -}}
+{{- end -}}
+<picture>
+  <source type="image/avif" srcset="{{ $set.avif }}" sizes="{{ $sizes }}">
+  <source type="image/webp" srcset="{{ $set.webp }}" sizes="{{ $sizes }}">
+  <img src="{{ $primo }}" srcset="{{ $set.jpg }}" sizes="{{ $sizes }}" width="{{ $width }}" height="{{ $height }}" alt="{{ .alt }}" loading="{{ .loading | default "lazy" }}" decoding="async" style="aspect-ratio:{{ $w }}/{{ $h }};">
+</picture>
+{{- /* fine */ -}}

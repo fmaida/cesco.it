@@ -1,0 +1,10 @@
+# Valori usati solo con "hugo server" (ambiente development): si fondono con
+# quelli di config/_default/params.yaml. La build (hugo / build.py) usa
+# l'ambiente production e quindi ignora questa cartella.
+# Per provare in locale la configurazione vera: hugo server --environment production
+
+contact-form:
+  # Sitekey di prova di Cloudflare: il widget passa sempre, senza errori su localhost
+  turnstile-sitekey: 1x00000000000000000000AA
+  # Il modulo non viene inviato a Formcarry: alla conferma mostra solo un avviso
+  simulate: true

@@ -1,0 +1,52 @@
+# Configurazione generale del sito. Le altre chiavi stanno nei file
+# accanto: languages.yaml (lingue e testi tradotti), params.yaml (dati
+# comuni), menus.<lingua>.yaml (barra laterale), markup.yaml (markdown).
+
+baseURL: https://cesco.it/
+title: Francesco Maida
+
+# Cartella in cui "hugo" (e build.py) scrivono il sito compilato.
+# Percorso assoluto: Hugo non espande "~". "hugo server" lavora in memoria
+# e non la tocca.
+publishDir: /Users/cesco/Sites/cesco.it
+
+timeZone: Europe/Rome
+
+# Italiano alla radice (/), inglese sotto /en/
+defaultContentLanguage: it
+defaultContentLanguageInSubdir: false
+disableDefaultLanguageRedirect: true
+
+# Niente pagine automatiche per i tag: nelle voci delle collezioni
+# "tags" serve solo ai filtri della griglia
+disableKinds: [taxonomy, term]
+
+# Solo HTML ovunque; il feed RSS è attivato nel front matter del blog
+outputs:
+  home: [html]
+  section: [html]
+  page: [html]
+
+enableRobotsTXT: true
+disableHugoGeneratorInject: true
+
+# Valori predefiniti della sitemap: ogni pagina può sovrascriverli
+# con "sitemap" nel front matter (le sezioni lo fanno con "cascade")
+sitemap:
+  changeFreq: monthly
+  priority: 0.5
+
+# Qualità delle immagini ridimensionate (layouts/_partials/responsive-image.html)
+imaging:
+  resampleFilter: Lanczos
+  jpeg:
+    quality: 82
+  webp:
+    quality: 82
+  avif:
+    quality: 75
+
+module:
+  hugoVersion:
+    min: 0.146.0
+    extended: false

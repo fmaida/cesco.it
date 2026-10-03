@@ -1,0 +1,120 @@
+<meta name="color-scheme" content="light dark">
+<script>
+  /* Tema: applicato prima dei CSS per evitare il lampeggio. Preferenza in
+     localStorage["tema"] = "auto" | "light" | "dark" (assente = "auto"). */
+  (function () {
+    var radice = document.documentElement;
+    var sistemaScuro = window.matchMedia("(prefers-color-scheme: dark)");
+    var preferenza = "auto";
+    try { preferenza = localStorage.getItem("tema") || "auto"; } catch (e) {}
+    if (preferenza !== "light" && preferenza !== "dark") { preferenza = "auto"; }
+    function applica() {
+      var tema = preferenza === "light" || preferenza === "dark"
+        ? preferenza : (sistemaScuro.matches ? "dark" : "light");
+      radice.setAttribute("data-theme", tema);
+      radice.setAttribute("data-theme-pref", preferenza);
+    }
+    function seguiSistema() {
+      if (preferenza === "auto") { applica(); }
+    }
+    applica();
+    /* Safari < 14 conosce solo addListener */
+    if (sistemaScuro.addEventListener) { sistemaScuro.addEventListener("change", seguiSistema); }
+    else if (sistemaScuro.addListener) { sistemaScuro.addListener(seguiSistema); }
+    window.impostaTema = function (nuova) {
+      preferenza = nuova;
+      try {
+        if (nuova === "auto") { localStorage.removeItem("tema"); }
+        else { localStorage.setItem("tema", nuova); }
+      } catch (e) {}
+      applica();
+    };
+  })();
+</script>
+{{- $p := site.Params }}
+{{- $descrizione := $p.description | default "[No Description]" | plainify | strings.TrimSpace }}
+{{- $avatar := $p.author.avatar | absURL }}
+<meta name="description" content="{{ $descrizione }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="{{ $p.author.name }}">
+<link rel="icon" type="image/svg+xml" href="{{ "images/logo.svg" | relURL }}">
+<meta property="og:title" content="{{ site.Title }}">
+<meta property="og:description" content="{{ $descrizione }}">
+<meta property="og:image" content="{{ $avatar }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="{{ replace (site.Language.Locale | default "it-IT") "-" "_" }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{- if ne .Kind "404" }}
+{{- $link := partial "traduzioni.html" . }}
+{{- range hugo.Sites }}
+<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ index $link .Language.Lang }}">
+{{- end }}
+<link rel="alternate" hreflang="x-default" href="{{ index $link "it" }}">
+{{- end }}
+{{- with partial "blog-italiano.html" . }}{{ with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }} – Blog" href="{{ .Permalink }}">
+{{- end }}{{ end }}
+{{- range $p.social }}
+<link rel="me" href="{{ .url }}">
+{{- end }}
+
+{{- /* Dati strutturati schema.org: Person, con knowsAbout ricavato dai servizi */}}
+{{- $telefono := replace $p.support.phone " " "" }}
+{{- $competenze := slice }}
+{{- with site.GetPage "/services" }}
+  {{- range .Pages.ByWeight }}{{ $competenze = $competenze | append (.Params.meta | default .Title) }}{{ end }}
+  {{- range .Params.other }}{{ $competenze = $competenze | append . }}{{ end }}
+{{- end }}
+{{- $sameAs := slice }}
+{{- range $p.social }}{{ $sameAs = $sameAs | append .url }}{{ end }}
+{{- $persona := dict
+  "@context" "https://schema.org"
+  "@type" "Person"
+  "name" site.Title
+  "image" $avatar
+  "url" site.BaseURL
+  "taxID" (print $p.fiscal.country (index $p.fiscal "partita-iva"))
+  "jobTitle" (strings.TrimSpace $p.author.job)
+  "address" (dict
+    "@type" "PostalAddress"
+    "addressLocality" $p.fiscal.locality
+    "addressRegion" $p.fiscal.region
+    "postalCode" (index $p.fiscal "postal-code")
+    "addressCountry" $p.fiscal.country)
+  "telephone" $telefono
+  "email" $p.support.email
+  "availableLanguage" (slice "it" "en")
+  "areaServed" "Veneto, Italia"
+  "knowsAbout" $competenze
+  "contactPoint" (slice (dict
+    "@type" "ContactPoint"
+    "contactType" "customer support via SMS and WhatsApp only"
+    "telephone" $telefono
+    "email" $p.support.email
+    "url" $p.support.url
+    "availableLanguage" (slice "it" "en")
+    "areaServed" "Veneto, Italia"
+    "sameAs" (slice (print "https://wa.me/" (replace $telefono "+" "")))
+    "description" "Non disponibile per chiamate vocali, solo messaggi."))
+  "sameAs" $sameAs
+}}
+<script type="application/ld+json">{{ $persona | jsonify | safeJS }}</script>
+
+<!-- STYLESHEETS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+{{- with resources.Get "site/css/site.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+{{- end }}
+{{- $tema := $p.theme | default dict }}
+<style>
+  :root {
+    --accent-light: {{ index $tema "accent-light" | default "#18b3de" | safeCSS }};
+    --accent-dark: {{ index $tema "accent-dark" | default "#1391bb" | safeCSS }};
+  }
+</style>
+
+{{ with $p.analytics }}<script defer src="{{ .script }}" data-website-id="{{ index . "website-id" }}"></script>{{ end }}

@@ -1,0 +1,18 @@
+{{- /*
+  Indirizzo della pagina corrente in ogni lingua del sito, come dict
+  lingua → URL assoluto. Se una pagina non ha la traduzione (o è la 404)
+  si usa la home di quella lingua.
+*/ -}}
+{{- $pagina := . -}}
+{{- $link := dict -}}
+{{- range hugo.Sites -}}
+  {{- $lingua := .Language.Lang -}}
+  {{- $url := .Home.Permalink -}}
+  {{- if ne $pagina.Kind "404" -}}
+    {{- range $pagina.AllTranslations -}}
+      {{- if eq .Language.Lang $lingua -}}{{- $url = .Permalink -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $link = merge $link (dict $lingua $url) -}}
+{{- end -}}
+{{- return $link -}}

@@ -1,0 +1,5 @@
+{{- $piva := index (site.Params.fiscal | default dict) "partita-iva" }}
+<footer class="page-footer">
+    © {{ now.Year }} {{ site.Title }}{{ with $piva }} – {{ i18n "VAT number" }} {{ . }}{{ end }}
+    · <a href="{{ (site.GetPage "/privacy").RelPermalink }}">{{ i18n "Privacy Policy" }}</a>
+</footer>

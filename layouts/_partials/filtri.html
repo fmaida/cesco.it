@@ -1,0 +1,11 @@
+{{- /*
+  Riga di filtri per tag sopra una griglia: "Tutto" + un pulsante per tag.
+  Riceve la lista dei tag. I filtri agiscono sulle voci con data-groups
+  dentro il contenitore data-filtri (vedi site.js).
+*/ -}}
+<ul class="portfolio-filters">
+    <li><button type="button" class="filter active" data-group="all" aria-pressed="true">{{ i18n "Everything" }}</button></li>
+    {{- range . }}
+    <li><button type="button" class="filter" data-group="{{ . }}" aria-pressed="false">{{ partial "tag.html" . }}</button></li>
+    {{- end }}
+</ul>

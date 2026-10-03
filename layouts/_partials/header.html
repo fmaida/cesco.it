@@ -1,0 +1,61 @@
+<!-- sidebar: barra icone + colonna profilo (sotto i 1024px diventano un unico drawer) -->
+{{- $attiva := partial "sezione-corrente.html" . }}
+{{- $p := site.Params }}
+<div id="site_nav" class="site-nav">
+
+    <nav class="side-rail" aria-label="{{ i18n "Menu" }}">
+        <ul class="main-menu">
+            {{- range site.Menus.main }}
+            {{- $corrente := eq .Identifier $attiva }}
+            <li{{ if $corrente }} class="active"{{ end }}>
+                <a href="{{ .URL }}"{{ if $corrente }} aria-current="page"{{ end }}>
+                    <span class="menu-icon">{{ partial "icon.html" (dict "name" .Params.icon) }}</span>
+                    <span class="link-text">{{ i18n .Name }}</span>
+                </a>
+            </li>
+            {{- end }}
+        </ul>
+    </nav>
+
+    <header id="site_header" class="header">
+        <div class="header-content">
+            <div class="header-photo">
+                <img src="{{ $p.author.avatar | relURL }}" width="180" height="180" alt="{{ site.Title }}">
+            </div>
+            <div class="header-titles">
+                <h2>{{ site.Title }}</h2>
+                <h4>{{ strings.TrimSpace $p.author.job }}</h4>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <ul>
+                {{- range $p.social }}
+                <li><a href="{{ .url }}" target="_blank" rel="me noopener" aria-label="{{ .icon | title }}">{{ partial "icon.html" (dict "name" .icon) }}</a></li>
+                {{- end }}
+            </ul>
+        </div>
+
+        <div class="header-buttons">
+            <a href="{{ $p.author.cv | relURL }}" target="_blank" class="btn btn-light">{{ i18n "Download CV" }}</a>
+        </div>
+
+        {{- $link := partial "traduzioni.html" . }}
+        <ul class="lang-switch" aria-label="{{ i18n "Language" }}">
+            {{- range hugo.Sites }}
+            {{- $lingua := .Language.Lang }}
+            <li><a href="{{ index $link $lingua | relURL }}" hreflang="{{ $lingua }}" lang="{{ $lingua }}"{{ if eq $lingua site.Language.Lang }} class="active" aria-current="true"{{ end }}>{{ upper $lingua }}</a></li>
+            {{- end }}
+        </ul>
+
+        <div class="theme-switch" role="group" aria-label="{{ i18n "Theme" }}">
+            {{- range slice (slice "light" "sun" "Light theme") (slice "auto" "device-desktop" "Automatic theme") (slice "dark" "moon" "Dark theme") }}
+            {{- $etichetta := i18n (index . 2) }}
+            <button type="button" data-theme-choice="{{ index . 0 }}" aria-pressed="false" aria-label="{{ $etichetta }}" title="{{ $etichetta }}">{{ partial "icon.html" (dict "name" (index . 1) "size" 18 "stroke" 1.75) }}</button>
+            {{- end }}
+        </div>
+
+        <div class="copyrights">© {{ now.Year }} {{ site.Title }}</div>
+    </header>
+
+</div>

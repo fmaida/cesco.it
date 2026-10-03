@@ -1,0 +1,25 @@
+{{- /*
+  Immagine, video o icona di una voce di collezione (servizi, portfolio,
+  laboratorio). Parametri (dict): page (la voce), sizes (facoltativo).
+*/ -}}
+{{- $p := .page -}}
+{{- $sizes := .sizes | default "(min-width: 1200px) 25vw, (min-width: 600px) 50vw, 100vw" -}}
+{{- $media := cond (isset $p.Params "image") ($p.Resources.Get $p.Params.image) nil -}}
+{{- if and $p.Params.image (not $media) -}}
+  {{- errorf "%s: file %q non trovato nel bundle" $p.File.Path $p.Params.image -}}
+{{- end -}}
+{{- if and $media (eq $media.MediaType.MainType "image") -}}
+  {{- $a := partial "aspect.html" $p.Params.tags -}}
+  {{ partial "responsive-image.html" (dict "img" $media "alt" $p.Title "w" $a.w "h" $a.h "anchor" $a.anchor "sizes" $sizes) }}
+{{- else if $media -}}
+    <video autoplay muted playsinline loop preload="metadata" width="400" height="400">
+        <source src="{{ $media.RelPermalink }}" type="{{ $media.MediaType.Type }}">
+        {{ i18n "video_not_supported" }}
+    </video>
+{{- else if $p.Params.icon -}}
+    {{- /* Servizi: l'icona SVG della voce al posto dell'immagine */}}
+    <div class="media-placeholder" role="img" aria-label="{{ $p.Title }}"><img src="{{ $p.Params.icon | relURL }}" width="160" height="160" alt=""></div>
+{{- else -}}
+    {{- /* Nessuna immagine (capita nel laboratorio): segnaposto con icona */}}
+    <div class="media-placeholder" role="img" aria-label="{{ $p.Title }}">{{ partial "icon.html" (dict "name" "flask" "size" 64 "stroke" 1) }}</div>
+{{- end -}}

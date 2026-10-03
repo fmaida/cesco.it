@@ -1,0 +1,21 @@
+# Configurazione di build.py (la build del sito, non il sito: quello sta in config/_default/)
+
+# La cartella di destinazione è "publishDir" in config/_default/hugo.yaml.
+# Per usarne un'altra solo con build.py, togli il commento qui sotto
+# (sono ammessi ~ e le variabili d'ambiente) oppure usa --dest.
+# destination = "~/Sites/cesco.it"
+
+# Argomenti passati a hugo. --cleanDestinationDir cancella dalla destinazione
+# i file che non fanno più parte del sito (come faceva Frozen-Flask).
+hugo_args = ["--minify", "--gc", "--cleanDestinationDir"]
+
+# Comandi eseguiti prima e dopo la build, in ordine, dalla cartella del progetto.
+# Possono usare {destination}; la stessa cartella è nella variabile BUILD_DIR.
+# Se un comando fallisce la build si ferma; i "post" partono solo se Hugo è riuscito.
+pre = [
+    # "memos2hugo --output content/blog",
+]
+
+post = [
+    # "rsync -az --delete {destination}/ utente@vps:/var/www/cesco.it/",
+]

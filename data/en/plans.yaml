@@ -1,0 +1,68 @@
+description: >
+  My rate for a single hour is {{ params.fares.standard }} € per hour, taxes included.
+  For those who want an ongoing commitment I offer discounted
+  yearly subscription plans, with prepaid hour packages and
+  extra benefits. All the plans below last one year, include
+  taxes and require the full amount to be paid in advance;
+  they renew automatically every year unless cancelled at
+  least seven days before the expiry date.
+  Some packages also include a promotional page
+  on Venice.bio. [Find out more about Venice.bio](https://venice.bio).
+
+plans:
+
+  - title: Shampoo & Manicure for your Business
+    image: images/icons/009-cleaning.svg
+    description: >
+      Try my work with a 2.5-hour commitment.
+      Let me improve your profiles on Google, Instagram and
+      TripAdvisor, so that you get more bookings.
+    features:
+      - 2.5 hours of work
+      - ^Profile on Venice.bio
+      - ^Extra hours at {{ params.fares.discounted }}€/h for 12 months
+      - Support Monday to Friday
+      - Replies within 48 business hours
+      - Email support
+      - ^WhatsApp support
+      - ^Remote assistance
+    price: 199
+    url: https://buy.stripe.com/6oU4gAdi59J3aUdeU42VG03
+
+  - title: Corporate Beauty Treatment
+    image: images/icons/013-cut.svg
+    description: >
+      With 6 hours I can help your business look
+      renewed in your customers' eyes. For example with improved
+      social profiles, and quality photos and information.
+    features:
+      - 6 hours of work
+      - ^Profile on Venice.bio
+      - Extra hours at {{ params.fares.discounted }}€/h for 12 months
+      - Support Monday to Friday
+      - Replies within 48 business hours
+      - Email support
+      - ^WhatsApp support
+      - ^Remote assistance
+    price: 399
+    url: https://buy.stripe.com/8x25kEfqd9J39Q96ny2VG06
+
+  - title: The Make-up Artist of Corporate Divas
+    image: images/icons/018-woman.svg
+    recommended: true
+    description: >
+      Here the work gets serious: 12 hours in which, together with you,
+      I can do a lot to give your business a new face and get it
+      the appreciation it deserves.
+    features:
+      - 12 hours of work
+      - Profile on Venice.bio
+      - 261€ discount (-27%)
+      - Extra hours at {{ params.fares.discounted }}€/h for 12 months
+      - Support Monday to Friday
+      - Replies within 48 business hours
+      - Email support
+      - WhatsApp support
+      - Remote assistance
+    price: 699
+    url: https://buy.stripe.com/cNi14o1zn8EZ4vP27i2VG05

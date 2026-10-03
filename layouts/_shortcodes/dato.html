@@ -1,0 +1,12 @@
+{{- /*
+  Stampa un dato nel testo di una pagina: prima cerca la chiave nel front
+  matter della pagina, poi nei params del sito (config/_default/).
+  Le chiavi annidate si separano con il punto.
+  Uso: {{< dato "email" >}}  {{< dato "form-provider.name" >}}  {{< dato "fiscal.partita-iva" >}}
+*/ -}}
+{{- $chiave := .Get 0 -}}
+{{- $percorso := split $chiave "." -}}
+{{- $valore := index .Page.Params $percorso -}}
+{{- if not $valore -}}{{- $valore = index site.Params $percorso -}}{{- end -}}
+{{- if not $valore -}}{{- errorf "dato: chiave %q non trovata (%s)" $chiave .Position -}}{{- end -}}
+{{- $valore -}}

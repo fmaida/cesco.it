@@ -1,0 +1,5 @@
+{{- /*
+  Etichetta di un tag (es. "siti_web" → "Siti Web"): la traduzione in
+  i18n/<lingua>.json se c'è, altrimenti il tag stesso reso leggibile.
+*/ -}}
+{{- return ((i18n .) | default (. | replaceRE "[_-]" " " | title)) -}}

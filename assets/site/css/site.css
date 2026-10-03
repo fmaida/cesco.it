@@ -1,0 +1,1564 @@
+/*
+ * cesco.it – layout ispirato a BreezyCV (variante a tutta larghezza):
+ * barra icone a sinistra, colonna profilo colorata, contenuto bianco.
+ * Scritto da zero: nessun asset del tema originale.
+ *
+ * Scala z-index:
+ *   50   frecce prev/next
+ *   100  drawer di navigazione (mobile)
+ *   101  pulsante hamburger (mobile)
+ *   1000+ riservato al widget di supporto in basso, sul lato del contenuto
+ */
+
+:root {
+    color-scheme: light;
+    /* --accent-light / --accent-dark arrivano da settings.theme (head.html);
+       questi sono solo i valori di ripiego */
+    --accent-light: #18b3de;
+    --accent-dark: #1391bb;
+    --accent: var(--accent-light);
+    --accent-strong: color-mix(in srgb, var(--accent) 80%, black);
+    --on-accent: #fff;
+    --text: #555;
+    --text-muted: #999;
+    --text-faint: #aaa;
+    --heading: #222;
+    --icon: #666;
+    --border: #e5e5e5;
+    --border-soft: #f2f2f2;
+    --surface: #fff;
+    --surface-alt: #fbfbfb;
+    --surface-muted: #f5f5f5;
+    --rail-bg: #fff;
+    --error: #e06666;
+    /* fondo dietro le icone colorate (servizi, piani): nel tema scuro i loro
+       contorni neri sparirebbero, quindi lì diventa una piastrina chiara */
+    --icon-backdrop: transparent;
+    --icon-backdrop-pad: 0;
+    --rail-width: 80px;
+    --sidebar-width: 420px;
+    --content-pad-x: 60px;
+    /* angolo in basso sul lato del contenuto lasciato libero per il widget di supporto
+       (in basso a destra con la sidebar a sinistra, in basso a sinistra con la sidebar a destra) */
+    --support-zone: 96px;
+    /* barra di scorrimento della pagina: nel tema scuro cambia da sola,
+       perché --accent, --accent-strong e --surface-muted sono ridefiniti lì */
+    --scrollbar-thumb: var(--accent);
+    --scrollbar-thumb-hover: var(--accent-strong);
+    --scrollbar-track: var(--surface-muted);
+    --font: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Tema scuro: data-theme lo imposta lo script in head.html (automatico o scelta
+   dell'utente). Ogni colore nuovo va messo in variabile e ridefinito qui. */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --accent: var(--accent-dark);
+    --text: #c8c8c8;
+    --text-muted: #8b8f96;
+    --text-faint: #6f737a;
+    --heading: #f2f2f2;
+    --icon: #b0b0b0;
+    --border: #3a3d43;
+    --border-soft: #303237;
+    --surface: #222428;
+    --surface-alt: #2a2c31;
+    --surface-muted: #2e3035;
+    --rail-bg: #1b1c20;
+    --error: #f08080;
+    --icon-backdrop: #e9eaec;
+    --icon-backdrop-pad: 6px;
+}
+
+/* transizione morbida solo durante il cambio tema (classe messa da site.js) */
+.cambio-tema *,
+.cambio-tema *::before,
+.cambio-tema *::after {
+    transition: background-color .3s, color .3s, border-color .3s, fill .3s, stroke .3s !important;
+}
+
+/* ---------- base ---------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    /* barra sempre presente: senza, pagine corte e lunghe avrebbero
+       larghezze diverse e la sidebar si sposterebbe */
+    overflow-y: scroll;
+}
+
+/* Chrome, Edge, Safari: barra "classica" sempre visibile e colorata
+   (anche su macOS, dove altrimenti sarebbe sovrapposta e a scomparsa) */
+html::-webkit-scrollbar {
+    width: 12px;
+}
+
+html::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+html::-webkit-scrollbar-thumb {
+    /* il bordo del colore del binario fa da margine attorno al cursore */
+    border: 3px solid var(--scrollbar-track);
+    border-radius: 6px;
+    background: var(--scrollbar-thumb);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Firefox non conosce ::-webkit-scrollbar e usa scrollbar-color; sta qui dentro
+   perché in Chrome scrollbar-color disattiverebbe le regole qui sopra */
+@supports not selector(::-webkit-scrollbar) {
+    html {
+        scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    }
+}
+
+body {
+    margin: 0;
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text);
+    background: var(--surface);
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--font);
+    color: var(--heading);
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 .6em;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color .2s;
+}
+
+a:hover {
+    color: var(--accent-strong);
+}
+
+img,
+video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul {
+    padding-left: 1.2em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.note {
+    color: var(--text-muted);
+    font-size: .9em;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.icon {
+    display: block;
+}
+
+/* ---------- pulsanti ---------- */
+
+.btn {
+    display: inline-block;
+    padding: 10px 32px;
+    border: 2px solid var(--accent);
+    border-radius: 30px;
+    background: transparent;
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 10px 10px -8px rgba(0, 0, 0, .22);
+    transition: background-color .3s, color .3s, border-color .3s;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--heading);
+}
+
+.btn-secondary {
+    color: var(--heading);
+}
+
+.btn-secondary:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+/* bottone sulla colonna colorata */
+.btn-light {
+    border-color: var(--on-accent);
+    color: var(--on-accent);
+}
+
+.btn-light:hover {
+    background: var(--on-accent);
+    color: var(--accent);
+}
+
+/* ---------- barra icone ---------- */
+
+.side-rail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--rail-width);
+    background: var(--rail-bg);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.main-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-menu a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 20px 4px 14px;
+    border-bottom: 2px solid var(--surface-muted);
+    color: var(--heading);
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.menu-icon {
+    color: var(--icon);
+    transition: color .3s;
+}
+
+.main-menu a:hover .menu-icon,
+.main-menu .active .menu-icon {
+    color: var(--accent);
+}
+
+/* ---------- colonna profilo ---------- */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: var(--rail-width);
+    bottom: 0;
+    width: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 65px 30px 20px;
+    background: var(--accent);
+    color: var(--on-accent);
+    text-align: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.header-photo {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 30px;
+}
+
+.header-photo img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border: 5px solid var(--on-accent);
+    border-radius: 50%;
+    background: var(--on-accent);
+    object-fit: cover;
+}
+
+/* motivo a puntini sfalsato dietro la foto */
+.header-photo::after {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: radial-gradient(rgba(255, 255, 255, .55) 1px, transparent 1.5px);
+    background-size: 6px 6px;
+}
+
+.header-titles h2 {
+    color: var(--on-accent);
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 8px;
+}
+
+.header-titles h4 {
+    color: var(--on-accent);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0 0 20px;
+}
+
+.social-links ul,
+.lang-switch {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 0;
+    margin: 0 0 30px;
+}
+
+/* lingua, tema e copyright stanno in fondo alla colonna, raggruppati:
+   il margine automatico prende lo spazio libero sopra la lingua */
+.lang-switch {
+    margin-top: auto;
+    margin-bottom: 14px;
+}
+
+.social-links a {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    color: var(--on-accent);
+    font-size: 18px;
+    opacity: .9;
+}
+
+.social-links a:hover {
+    color: var(--on-accent);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.header-buttons {
+    margin-bottom: 25px;
+}
+
+.lang-switch a {
+    display: inline-block;
+    padding: 1px 12px;
+    border-radius: 30px;
+    color: var(--on-accent);
+    font-size: 12px;
+    font-weight: 500;
+    opacity: .8;
+}
+
+.lang-switch a:hover {
+    color: var(--on-accent);
+    opacity: 1;
+}
+
+.lang-switch a.active {
+    background: rgba(255, 255, 255, .22);
+    opacity: 1;
+}
+
+.theme-switch {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    margin-bottom: 14px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, .15);
+}
+
+.theme-switch button {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 30px;
+    background: transparent;
+    color: var(--on-accent);
+    opacity: .75;
+    cursor: pointer;
+}
+
+.theme-switch button:hover {
+    opacity: 1;
+}
+
+.theme-switch button[aria-pressed="true"] {
+    background: rgba(255, 255, 255, .25);
+    opacity: 1;
+}
+
+.copyrights {
+    font-size: 12px;
+}
+
+/* pulsante menu, visibile solo sotto i 1024px */
+.menu-toggle {
+    display: none;
+}
+
+/* ---------- area contenuti ---------- */
+
+.content-area {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-left: calc(var(--rail-width) + var(--sidebar-width));
+    padding: 55px var(--content-pad-x) var(--support-zone);
+    /* spazio per le frecce prev/next fisse sul bordo esterno del contenuto (10px + 46px) */
+    padding-right: max(calc(var(--content-pad-x) + 10px), 72px);
+}
+
+.section-content {
+    flex: 1;
+    container-type: inline-size;
+}
+
+/* frecce prev/next: centrate sul bordo esterno del contenuto, lontane dall'angolo del widget */
+.arrows-nav {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    width: 46px;
+    padding: 4px 0;
+    border: 2px solid var(--accent);
+    border-radius: 30px;
+    background: var(--surface);
+    transform: translateY(-50%);
+}
+
+.arrows-nav a {
+    display: grid;
+    place-items: center;
+    height: 46px;
+    color: var(--text-faint);
+}
+
+.arrows-nav a:hover {
+    color: var(--accent);
+}
+
+/* ---------- titoli ---------- */
+
+.page-title {
+    margin-bottom: 40px;
+}
+
+.page-title h1,
+.block-title h3 {
+    position: relative;
+    z-index: 0;
+    display: inline-block;
+    margin: 0;
+}
+
+.page-title h1 {
+    font-size: 34px;
+    line-height: 1.3;
+}
+
+.block-title h3 {
+    font-size: 21px;
+}
+
+.page-title h1 span,
+.block-title h3 span,
+.title-block h1 span {
+    color: var(--accent);
+}
+
+/* motivo a puntini dietro la fine del titolo */
+.page-title h1::after,
+.block-title h3::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background-image: radial-gradient(var(--accent) 1px, transparent 1.4px);
+    background-size: 5px 5px;
+    opacity: .45;
+}
+
+.page-title h1::after {
+    right: -24px;
+    bottom: -12px;
+    width: 50px;
+    height: 32px;
+}
+
+.block-title h3::after {
+    right: -12px;
+    bottom: -8px;
+    width: 26px;
+    height: 18px;
+}
+
+.block-title {
+    margin: 55px 0 25px;
+}
+
+.section-content > .block-title:first-child,
+.row > div > .block-title:first-child {
+    margin-top: 0;
+}
+
+.back-link {
+    display: block;
+    width: fit-content;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* ---------- griglia minima ---------- */
+
+.row {
+    display: grid;
+    gap: 40px 60px;
+}
+
+/* le colonne si affiancano in base allo spazio del contenuto, non della finestra */
+@container (min-width: 700px) {
+    .row:has(> .col-7) {
+        grid-template-columns: 7fr 5fr;
+    }
+
+    .row:has(> .col-4) {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+/* ---------- home ---------- */
+
+.start-page .section-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-block {
+    max-width: 760px;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.title-block h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 12px;
+}
+
+.text-rotation {
+    font-size: 20px;
+    margin-bottom: 24px;
+}
+
+.sp-roles {
+    display: inline-grid;
+    text-align: left;
+}
+
+/* ruoli in homepage: tutti nella stessa cella, così la riga è larga quanto
+   il ruolo più lungo e "Sono" non si sposta mentre il testo cambia */
+.sp-subtitle,
+.sp-typed {
+    grid-area: 1 / 1;
+    color: var(--accent);
+}
+
+/* senza JavaScript si vede solo il primo ruolo */
+.sp-subtitle:not(:first-child),
+.sp-roles.is-typing .sp-subtitle {
+    opacity: 0;
+}
+
+/* con lo script attivo la larghezza riservata comprende anche il cursore */
+.sp-roles.is-typing .sp-subtitle {
+    padding-right: calc(.55em + 2px);
+}
+
+/* testo scritto a macchina da site.js, con cursore a blocco */
+.sp-typed {
+    display: none;
+    white-space: pre;
+}
+
+.sp-roles.is-typing .sp-typed {
+    display: inline;
+}
+
+.sp-cursor {
+    display: inline-block;
+    width: .55em;
+    height: 1.15em;
+    margin-left: 2px;
+    background: var(--accent);
+    vertical-align: text-bottom;
+}
+
+/* nella pausa a frase completa: 0,5 s acceso e 0,5 s spento */
+.sp-cursor.is-blinking {
+    animation: lampeggio-cursore 1s steps(1, end) infinite;
+}
+
+@keyframes lampeggio-cursore {
+    50% {
+        opacity: 0;
+    }
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+/* ---------- chi sono ---------- */
+
+.info-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-list li {
+    margin-bottom: 10px;
+}
+
+.info-list .title {
+    margin-right: 6px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.info-list .value {
+    color: var(--heading);
+}
+
+.info-list .value small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.media-placeholder img,
+.fw-heading-row img {
+    box-sizing: content-box;
+    padding: var(--icon-backdrop-pad);
+    border-radius: 10px;
+    background: var(--icon-backdrop);
+}
+
+/* perché scegliere me */
+
+.answer {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 2px solid var(--border-soft);
+    border-radius: 5px;
+}
+
+.answer-image {
+    flex: 0 0 36%;
+}
+
+.answer-text h4 {
+    font-size: 18px;
+}
+
+.answer-text p:last-child {
+    margin-bottom: 0;
+}
+
+@container (max-width: 639.98px) {
+    .answer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .answer-image {
+        flex-basis: auto;
+    }
+}
+
+/* prezzi */
+
+.fw-pricing {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    margin: 30px 0;
+    align-items: start;
+}
+
+.fw-package {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 25px;
+    border: 2px solid var(--border-soft);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.fw-package.highlight-col {
+    border-color: var(--accent);
+    box-shadow: 0 15px 30px -15px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.fw-package .badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    padding: 0 14px;
+    border-radius: 30px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 12px;
+    line-height: 24px;
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+.fw-heading-row img {
+    margin: 0 auto 12px;
+}
+
+.fw-heading-row span {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--heading);
+}
+
+.fw-description {
+    margin: 12px 0 16px;
+    font-size: 14px;
+}
+
+.fw-pricing-row span {
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--heading);
+}
+
+.fw-pricing-row small {
+    color: var(--text-muted);
+}
+
+.fw-features {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 26px;
+    font-size: 14px;
+}
+
+.fw-features li {
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.fw-features li.missing {
+    color: var(--text-faint);
+}
+
+/* ---------- timeline (curriculum ed esempi) ---------- */
+
+.timeline {
+    margin-bottom: 20px;
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: minmax(90px, 25%) 1px 1fr;
+    gap: 0 25px;
+    padding-bottom: 30px;
+}
+
+.timeline-item .left-part {
+    text-align: right;
+}
+
+.timeline-item .divider {
+    position: relative;
+    background: var(--border);
+}
+
+.timeline-item .divider::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: -6px;
+    width: 13px;
+    height: 13px;
+    border: 3px solid var(--surface);
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: 0 0 0 2px var(--accent), inset 0 0 0 2px var(--accent);
+}
+
+.item-period {
+    margin: 0;
+    font-size: 15px;
+    color: var(--heading);
+}
+
+.item-company {
+    display: block;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.item-title {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.right-part p:last-child,
+.right-part ul:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- competenze ---------- */
+
+.skill {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.skill h4 {
+    margin: 0;
+    font-size: 13px;
+}
+
+.skill-value {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.skill-container {
+    height: 10px;
+    margin: 2px 0 18px;
+    padding: 2px;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+}
+
+.skill-percentage {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent);
+}
+
+/* chip */
+.knowledges {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0 0 20px;
+}
+
+.knowledges li {
+    padding: 2px 10px;
+    border-radius: 3px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 13px;
+}
+
+/* certificati */
+.certificates {
+    display: grid;
+    gap: 30px;
+}
+
+@container (min-width: 700px) {
+    .certificates {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.certificate-item {
+    display: flex;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+}
+
+.certi-logo {
+    flex: 0 0 120px;
+    display: grid;
+    place-items: center;
+    padding: 15px;
+    background: var(--surface-muted);
+}
+
+.certi-content {
+    padding: 22px 25px;
+}
+
+.certi-title {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.certi-id {
+    font-size: 14px;
+}
+
+.certi-date {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* ---------- portfolio ---------- */
+
+.portfolio-filters {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    padding: 0;
+    margin: 0 0 30px;
+}
+
+.portfolio-filters .filter {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.portfolio-filters .filter:hover,
+.portfolio-filters .filter.active {
+    color: var(--heading);
+}
+
+.portfolio-grid {
+    display: grid;
+    gap: 0 14px;
+}
+
+@container (min-width: 480px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@container (min-width: 900px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.portfolio-grid .item {
+    margin: 0 0 30px;
+}
+
+/* voci nascoste dai filtri (griglie e blog) */
+[data-groups][hidden] {
+    display: none;
+}
+
+.portfolio-grid a {
+    display: block;
+    color: inherit;
+}
+
+.portfolio-item-img {
+    overflow: hidden;
+}
+
+/* miniature quadrate: ritaglio dall'alto (le pagine dei siti sono alte 1:2) */
+.portfolio-item-img img,
+.portfolio-item-img video {
+    width: 100%;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover;
+    object-position: top;
+    transition: transform .5s;
+}
+
+/* voce senza immagine (laboratorio) o con un'icona SVG (servizi) */
+.media-placeholder {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+    background: var(--surface-muted);
+    color: var(--accent);
+    transition: transform .5s;
+}
+
+.portfolio-item-img .media-placeholder img,
+.project-media .media-placeholder img {
+    width: 35%;
+    height: auto;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain;
+}
+
+.portfolio-grid a:hover .portfolio-item-img img,
+.portfolio-grid a:hover .portfolio-item-img video,
+.portfolio-grid a:hover .media-placeholder {
+    transform: scale(1.06);
+}
+
+/* lo zoom in hover è già sul riquadro: non va ripetuto sull'icona */
+.portfolio-grid a:hover .media-placeholder img {
+    transform: none;
+}
+
+.portfolio-grid figcaption {
+    padding-top: 14px;
+}
+
+.portfolio-grid .name {
+    margin: 0;
+    font-size: 16px;
+    transition: color .2s;
+}
+
+.portfolio-grid a:hover .name {
+    color: var(--accent);
+}
+
+.portfolio-grid .category {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* pagina progetto */
+
+.project {
+    display: grid;
+    gap: 40px;
+}
+
+@container (min-width: 700px) {
+    .project {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+    }
+}
+
+/* gli screenshot dei siti sono lunghi: si scorrono dentro il riquadro */
+.project-media {
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 2px solid var(--border-soft);
+}
+
+.project-media img,
+.project-media video {
+    width: 100%;
+}
+
+.project-details .info-list {
+    margin-bottom: 20px;
+}
+
+.project-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-soft);
+}
+
+.project-nav a {
+    display: flex;
+    flex-direction: column;
+    max-width: 45%;
+    color: var(--heading);
+    font-weight: 500;
+}
+
+.project-nav a:hover {
+    color: var(--accent);
+}
+
+.project-nav small {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.project-nav .next {
+    margin-left: auto;
+    text-align: right;
+}
+
+/* ---------- blog ---------- */
+
+.blog-masonry {
+    display: grid;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+@container (min-width: 640px) {
+    .blog-masonry {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.blog-card {
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 0 0 1px var(--border-soft), 0 6px 14px -10px rgba(0, 0, 0, .12);
+}
+
+.media-block {
+    position: relative;
+    overflow: hidden;
+}
+
+.media-block img {
+    width: 100%;
+    aspect-ratio: 2.14 / 1;
+    object-fit: cover;
+    transition: transform .5s;
+}
+
+.blog-card:hover .media-block img {
+    transform: scale(1.04);
+}
+
+.media-block .category {
+    position: absolute;
+    top: 12px;
+    left: 10px;
+    z-index: 1;
+    padding: 0 7px;
+    background: var(--surface);
+    color: var(--heading);
+    font-size: 11px;
+    line-height: 20px;
+}
+
+.post-info {
+    padding: 20px 22px 22px;
+}
+
+.post-date {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.blog-item-title {
+    margin: 4px 0 0;
+    font-size: 18px;
+    transition: color .2s;
+}
+
+.post-info a:hover .blog-item-title {
+    color: var(--accent);
+}
+
+.empty-state {
+    padding: 40px 0;
+    text-align: center;
+}
+
+/* ---------- contatti ---------- */
+
+.lm-info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 20px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    background: var(--surface-alt);
+    text-align: center;
+}
+
+.lm-info-block .icon {
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.lm-info-block h4 {
+    margin: 0;
+    font-size: 15px;
+    word-break: break-word;
+}
+
+.lm-info-block h4 a {
+    color: inherit;
+}
+
+.lm-info-block h4 a:hover {
+    color: var(--accent);
+}
+
+.lm-info-block-text {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.contact-form {
+    margin-top: 25px;
+}
+
+.contact-form .fields {
+    display: grid;
+    gap: 22px 30px;
+}
+
+@container (min-width: 640px) {
+    .contact-form .fields {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.contact-form .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.contact-form .right-column {
+    display: flex;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 8px 15px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    background: var(--surface);
+    box-shadow: 0 10px 10px -8px rgba(0, 0, 0, .1);
+    color: var(--heading);
+    font: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.form-control::placeholder {
+    color: var(--text-faint);
+}
+
+.form-control:focus {
+    border-color: var(--accent);
+}
+
+.form-control:user-invalid {
+    border-color: var(--error);
+}
+
+.contact-form textarea.form-control {
+    min-height: 200px;
+    resize: vertical;
+}
+
+.form-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 22px 0 20px;
+    font-size: 14px;
+}
+
+.form-check input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: .3em;
+    accent-color: var(--accent);
+}
+
+.cf-turnstile {
+    margin-bottom: 22px;
+}
+
+/* ---------- privacy e testi lunghi ---------- */
+
+.prose h3 {
+    font-size: 18px;
+    margin-top: 1.8em;
+}
+
+.prose ul {
+    list-style-type: square;
+}
+
+/* ---------- footer del contenuto ---------- */
+
+.page-footer {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-soft);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ---------- sidebar a destra (params.yaml → layout.sidebar: right) ----------
+   Le regole sopra descrivono la sidebar a sinistra; qui si ribaltano solo le
+   proprietà orizzontali: barra icone sul bordo destro, colonna profilo alla
+   sua sinistra, contenuto e frecce prev/next sul lato sinistro. */
+
+:root[data-sidebar="right"] .side-rail {
+    left: auto;
+    right: 0;
+}
+
+:root[data-sidebar="right"] .header {
+    left: auto;
+    right: var(--rail-width);
+}
+
+:root[data-sidebar="right"] .content-area {
+    margin-left: 0;
+    margin-right: calc(var(--rail-width) + var(--sidebar-width));
+    padding-left: max(calc(var(--content-pad-x) + 10px), 72px);
+    padding-right: var(--content-pad-x);
+}
+
+:root[data-sidebar="right"] .arrows-nav {
+    left: 10px;
+    right: auto;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1279.98px) {
+    :root {
+        --sidebar-width: 320px;
+        --content-pad-x: 40px;
+    }
+
+    .header-photo {
+        width: 150px;
+        height: 150px;
+    }
+
+    .header-titles h2 {
+        font-size: 30px;
+    }
+}
+
+/* sotto i 1024px barra icone e colonna profilo diventano un unico drawer */
+@media (max-width: 1023.98px) {
+    .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        width: min(380px, 85vw);
+        overflow-y: auto;
+        background: var(--surface);
+        box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: transform .3s, visibility .3s;
+    }
+
+    .menu-open .site-nav {
+        transform: none;
+        visibility: visible;
+    }
+
+    .header,
+    .side-rail {
+        position: static;
+        width: auto;
+        overflow: visible;
+    }
+
+    .header {
+        order: -1;
+        padding: 40px 20px 25px;
+    }
+
+    .header-photo {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+    }
+
+    .header-titles h2 {
+        font-size: 26px;
+    }
+
+    .header-titles h4 {
+        font-size: 15px;
+    }
+
+    .social-links ul,
+    .lang-switch {
+        margin-bottom: 18px;
+    }
+
+    .header-buttons {
+        margin-bottom: 18px;
+    }
+
+    /* nel drawer starebbe tra profilo e menu: il © è già nel footer del contenuto */
+    .copyrights {
+        display: none;
+    }
+
+    .main-menu a {
+        flex-direction: row;
+        gap: 16px;
+        padding: 12px 24px;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .main-menu .icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .menu-toggle {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 101;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 46px;
+        height: 46px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 50%;
+        background: var(--surface);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, .15);
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        display: block;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--heading);
+        transition: transform .3s, opacity .3s;
+    }
+
+    .menu-open .menu-toggle span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-open .menu-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-open .menu-toggle span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .content-area {
+        margin-left: 0;
+        padding: 80px 20px var(--support-zone);
+    }
+
+    .arrows-nav {
+        display: none;
+    }
+
+    /* sidebar a destra: il drawer entra da destra, il pulsante menu va a sinistra */
+    :root[data-sidebar="right"] .site-nav {
+        left: auto;
+        right: 0;
+        transform: translateX(100%);
+    }
+
+    :root[data-sidebar="right"] .menu-open .site-nav {
+        transform: none;
+    }
+
+    :root[data-sidebar="right"] .menu-toggle {
+        left: 16px;
+        right: auto;
+    }
+
+    :root[data-sidebar="right"] .content-area {
+        margin-right: 0;
+        padding: 80px 20px var(--support-zone);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .page-title h1 {
+        font-size: 28px;
+    }
+
+    .timeline-item {
+        grid-template-columns: 80px 1px 1fr;
+        gap: 0 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+}
+
+/* Icone piene (social, freccia, rss) in SVG inline, allineate al testo come le vecchie icone di Font Awesome */
+.icon-fill {
+    vertical-align: -.125em;
+}

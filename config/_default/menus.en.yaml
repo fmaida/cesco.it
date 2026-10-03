@@ -1,0 +1,45 @@
+# Barra laterale e ordine delle frecce prev/next. "name" è una chiave di
+# i18n/*.json, "icon" un'icona di layouts/_partials/icon.html.
+main:
+  - identifier: home
+    name: Home
+    pageRef: /
+    weight: 10
+    params:
+      icon: home
+  - identifier: about
+    name: About
+    pageRef: /about
+    weight: 20
+    params:
+      icon: user
+  - identifier: services
+    name: Services
+    pageRef: /services
+    weight: 30
+    params:
+      icon: tools
+  - identifier: portfolio
+    name: Portfolio
+    pageRef: /portfolio
+    weight: 40
+    params:
+      icon: briefcase
+  - identifier: lab
+    name: Lab
+    pageRef: /lab
+    weight: 50
+    params:
+      icon: flask
+  - identifier: blog
+    name: Blog
+    pageRef: /blog
+    weight: 60
+    params:
+      icon: book
+  - identifier: contact
+    name: Contact
+    pageRef: /contact
+    weight: 70
+    params:
+      icon: mail

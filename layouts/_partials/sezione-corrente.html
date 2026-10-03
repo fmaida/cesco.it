@@ -1,0 +1,16 @@
+{{- /*
+  La voce del menu a cui appartiene una pagina: la pagina stessa se è nel
+  menu, altrimenti la sua sezione (una voce di collezione conta come la
+  pagina elenco). Riceve la pagina, restituisce l'identifier della voce
+  oppure "" (privacy, 404: niente voce attiva e niente frecce).
+*/ -}}
+{{- $pagina := . -}}
+{{- $trovata := "" -}}
+{{- range $voce := site.Menus.main -}}
+  {{- with $voce.Page -}}
+    {{- if or (eq . $pagina) (and (eq .Kind "section") ($pagina.IsDescendant .)) -}}
+      {{- $trovata = $voce.Identifier -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $trovata -}}

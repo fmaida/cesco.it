@@ -1,0 +1,10 @@
+{{- /*
+  Sostituisce nei testi i segnaposto con i valori di config/_default/params.yaml:
+  {{ params.fares.standard }}, {{ params.fares.discounted }}, {{ params.support.email }}.
+  Uso: {{ partial "testo.html" .description }}
+*/ -}}
+{{- $s := string . -}}
+{{- $s = replace $s "{{ params.fares.standard }}" (string site.Params.fares.standard) -}}
+{{- $s = replace $s "{{ params.fares.discounted }}" (string site.Params.fares.discounted) -}}
+{{- $s = replace $s "{{ params.support.email }}" site.Params.support.email -}}
+{{- return $s -}}

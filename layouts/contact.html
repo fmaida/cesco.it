@@ -1,0 +1,84 @@
+{{ define "title" }}{{ i18n "Contact" }} – {{ site.Title }}{{ end }}
+
+{{ define "head_extra" }}
+<link rel="preconnect" href="https://challenges.cloudflare.com">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{{ end }}
+
+{{ define "page_title" }}
+    <div class="page-title"><h1>{{ i18n "Contact" }}</h1></div>
+{{ end }}
+
+{{ define "main" }}
+{{- $p := site.Params }}
+{{- $form := index $p "contact-form" }}
+{{- $privacy := (site.GetPage "/privacy").RelPermalink }}
+    <div class="row">
+        <!-- contact info -->
+        <div class="col-4">
+            <div class="lm-info-block">
+                {{ partial "icon.html" (dict "name" "map-pin" "size" 36) }}
+                <h4>{{ $p.fiscal.locality }}</h4>
+            </div>
+            <div class="lm-info-block">
+                {{ partial "icon.html" (dict "name" "phone" "size" 36) }}
+                <h4><a href="https://wa.me/{{ replace (replace $p.support.phone " " "") "+" "" }}" rel="noopener">{{ $p.support.phone }}</a></h4>
+                <span class="lm-info-block-text">{{ i18n "phone_note" }}</span>
+            </div>
+            <div class="lm-info-block">
+                {{ partial "icon.html" (dict "name" "mail" "size" 36) }}
+                <h4><a href="mailto:{{ $p.support.email }}">{{ $p.support.email }}</a></h4>
+            </div>
+        </div>
+
+        <!-- contact form -->
+        <div class="col-8">
+            <div class="block-title"><h3>{{ i18n "How Can I Help You" | safeHTML }}</h3></div>
+            <p class="contact-lead"><strong>{{ $p.contact.title }}</strong></p>
+            <p>{{ partial "testo.html" $p.contact.description | safeHTML }}</p>
+
+            {{- /* Con "simulate" (config/development/params.yaml, solo hugo server)
+                   il modulo non va a Formcarry: l'invio viene intercettato qui sotto */}}
+            {{- if $form.simulate }}
+            <p class="note" role="status">{{ i18n "dev_form_note" }}</p>
+            <form id="contact-form" class="contact-form" method="post" data-simulate>
+            {{- else }}
+            <form id="contact-form" class="contact-form" method="post" action="{{ $form.action }}">
+            {{- end }}
+                <div class="fields">
+                    <div class="left-column">
+                        <input type="text" class="form-control" name="InputName" id="InputName" placeholder="{{ i18n "Your name" }}" aria-label="{{ i18n "Your name" }}" required autocomplete="name">
+                        <input type="tel" class="form-control" name="InputPhone" id="InputPhone" placeholder="{{ i18n "Your phone" }}" aria-label="{{ i18n "Your phone" }}" required pattern="[0-9+\s]{6,}" minlength="6" title="{{ i18n "phone_pattern_title" }}" autocomplete="tel">
+                        <input type="email" class="form-control" id="InputEmail" name="email" placeholder="{{ i18n "Email address" }}" aria-label="{{ i18n "Email address" }}" required pattern="[^@\s]+@[^@\s]{2,}\.[^@\s]{2,}" title="{{ i18n "email_pattern_title" }}" autocomplete="email">
+                        <input type="text" class="form-control" id="InputSubject" name="subject" placeholder="{{ i18n "Subject" }}" aria-label="{{ i18n "Subject" }}" required autocomplete="off">
+                    </div>
+                    <div class="right-column">
+                        <textarea name="message" id="InputMessage" class="form-control" rows="9" placeholder="{{ i18n "Message" }}" aria-label="{{ i18n "Message" }}" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" id="privacyCheck" required>
+                    <label for="privacyCheck">{{ replace (i18n "privacy_consent") "{url}" $privacy | safeHTML }}</label>
+                </div>
+
+                <div class="cf-turnstile" data-sitekey="{{ index $form "turnstile-sitekey" }}" data-theme="light" data-size="normal" data-language="{{ site.Language.Lang }}"></div>
+                <script>
+                    /* "auto" di Turnstile segue solo il sistema: si usa il tema effettivo del sito */
+                    document.currentScript.previousElementSibling.setAttribute("data-theme", document.documentElement.getAttribute("data-theme") || "light");
+                </script>
+
+                <button type="submit" name="submit" id="submit" value="Submit" class="btn btn-secondary">{{ i18n "Send Message" }}</button>
+            </form>
+            {{- if $form.simulate }}
+            <script>
+                /* Modalità di sviluppo: la validazione dei campi resta, l'invio no */
+                document.querySelector("form[data-simulate]").addEventListener("submit", function (evento) {
+                    evento.preventDefault();
+                    alert({{ i18n "dev_form_sent" }});
+                });
+            </script>
+            {{- end }}
+        </div>
+    </div>
+{{ end }}

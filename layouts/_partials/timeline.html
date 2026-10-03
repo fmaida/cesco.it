@@ -1,0 +1,17 @@
+{{- /* Linea del tempo del curriculum: riceve (dict "page" pagina "voci" lista di voci: period, place, title, description) */ -}}
+<div class="timeline">
+    {{- $pagina := .page }}
+    {{- range .voci }}
+    <div class="timeline-item">
+        <div class="left-part">
+            <h5 class="item-period">{{ .period }}</h5>
+            {{ with .place }}<span class="item-company">{{ . }}</span>{{ end }}
+        </div>
+        <div class="divider"></div>
+        <div class="right-part">
+            <h4 class="item-title">{{ .title }}</h4>
+            {{ with .description }}{{ partial "markdown.html" (dict "page" $pagina "testo" .) }}{{ end }}
+        </div>
+    </div>
+    {{- end }}
+</div>
