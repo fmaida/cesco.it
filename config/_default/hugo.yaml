@@ -74,6 +74,14 @@ sitemap:
   changeFreq: monthly
   priority: 0.5
 
+# Data di ultima modifica (lastmod nella sitemap, dateModified nel JSON-LD):
+# "lastmod" nel front matter se c'è, altrimenti l'ultimo commit git del
+# file, altrimenti la data del file. Mai "date", che è la data di
+# pubblicazione (es. un gioco del 2018 non è stato modificato nel 2018).
+enableGitInfo: true
+frontmatter:
+  lastmod: [lastmod, ":git", ":fileModTime"]
+
 # Qualità delle immagini ridimensionate (layouts/_partials/responsive-image.html)
 imaging:
   resampleFilter: Lanczos

@@ -10,7 +10,7 @@
 {{ define "main" }}
     <article class="prose">
         <p class="note"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "02/01/2006" }}</time></p>
-        {{ with partial "copertina.html" . }}<p><img src="{{ . }}" alt=""></p>{{ end }}
+        {{ with partial "copertina.html" . }}<p>{{ partial "immagine.html" (dict "src" . "page" $ "w" 4 "h" 3 "width" 800 "sizes" "(min-width: 1024px) 800px, 100vw" "loading" "eager") }}</p>{{ end }}
         {{ .Content }}
     </article>
 {{ end }}

@@ -1,0 +1,20 @@
+{{- /*
+  Scheda con le informazioni personali (titolo a sinistra, valore a destra).
+  Contiene una o più {{< voce >}}.
+  lato="destra" o lato="sinistra" (facoltativo): la scheda si affianca al
+  testo che la segue, che le scorre attorno; va quindi scritta PRIMA del testo.
+  Quando lo spazio è poco (sotto i 600px di contenuto) sta sopra il testo.
+  Uso:
+    {{< scheda lato="destra" >}}
+        {{< voce titolo="Residenza" >}}Venezia (VE){{< /voce >}}
+    {{< /scheda >}}
+
+    Testo che scorre attorno alla scheda…
+*/ -}}
+{{- $lato := .Get "lato" -}}
+{{- $classe := "info-list" -}}
+{{- with $lato -}}
+  {{- if not (in (slice "destra" "sinistra") .) -}}{{- errorf "scheda: lato %q non valido, usa \"destra\" o \"sinistra\" (%s)" . $.Position -}}{{- end -}}
+  {{- $classe = print $classe " affiancata affiancata-" . -}}
+{{- end -}}
+<div class="{{ $classe }}"><ul>{{ partial "compatta.html" .Inner }}</ul></div>

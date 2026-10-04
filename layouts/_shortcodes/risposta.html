@@ -1,0 +1,18 @@
+{{- /*
+  Riquadro con immagine e testo (sezione "Perché scegliere me").
+  "immagine" è un file dentro assets/images/answers/ (ritagliato a 16:10),
+  facoltativo. Il contenuto è il testo in markdown.
+  Uso:
+    {{< risposta titolo="Cosa faccio per te" immagine="venice-bio.jpg" >}}
+    Testo in **markdown**.
+    {{< /risposta >}}
+*/ -}}
+{{- $titolo := .Get "titolo" -}}
+{{- $immagine := "" -}}
+{{- with .Get "immagine" -}}
+  {{- $img := resources.Get (print "images/answers/" .) -}}
+  {{- if not $img }}{{ errorf "risposta: immagine assets/images/answers/%s non trovata (%s)" . $.Position }}{{ end -}}
+  {{- $immagine = partial "responsive-image.html" (dict "img" $img "alt" $titolo "w" 16 "h" 10 "width" 400 "sizes" "(min-width: 768px) 300px, 100vw") -}}
+{{- end -}}
+{{- $testo := partial "rientro.html" .Inner | .Page.RenderString (dict "display" "block") -}}
+<div class="answer">{{ with $immagine }}<div class="answer-image">{{ partial "compatta.html" . }}</div>{{ end }}<div class="answer-text"><h4>{{ $titolo }}</h4>{{ partial "compatta.html" $testo }}</div></div>

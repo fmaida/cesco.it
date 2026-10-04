@@ -1,0 +1,10 @@
+{{- /*
+  Linea del tempo (curriculum, esempi di lavori). Contiene una o più {{< tappa >}}.
+  Uso:
+    {{< timeline >}}
+    {{< tappa periodo="2016 – oggi" luogo="Azienda" titolo="Ruolo" >}}
+    Descrizione in markdown.
+    {{< /tappa >}}
+    {{< /timeline >}}
+*/ -}}
+<div class="timeline">{{ partial "compatta.html" .Inner }}</div>

@@ -18,7 +18,7 @@
     </video>
 {{- else if $p.Params.icon -}}
     {{- /* Servizi: l'icona SVG della voce al posto dell'immagine */}}
-    <div class="media-placeholder" role="img" aria-label="{{ $p.Title }}"><img src="{{ $p.Params.icon | relURL }}" width="160" height="160" alt=""></div>
+    <div class="media-placeholder" role="img" aria-label="{{ $p.Title }}">{{ partial "immagine.html" (dict "src" $p.Params.icon "page" $p "w" 1 "h" 1 "width" 160 "sizes" "160px") }}</div>
 {{- else -}}
     {{- /* Nessuna immagine (capita nel laboratorio): segnaposto con icona */}}
     <div class="media-placeholder" role="img" aria-label="{{ $p.Title }}">{{ partial "icon.html" (dict "name" "flask" "size" 64 "stroke" 1) }}</div>

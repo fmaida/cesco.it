@@ -1,0 +1,8 @@
+{{- /*
+  Titolo grande della pagina (h1). La parola dentro <span> prende il colore
+  d'accento, il resto il colore normale dei titoli.
+  Uso: {{< titolo "Chi <span>Sono</span>" >}}
+*/ -}}
+{{- $testo := .Get 0 -}}
+{{- if not $testo -}}{{- errorf "titolo: manca il testo (%s)" .Position -}}{{- end -}}
+<div class="page-title"><h1>{{ $testo | safeHTML }}</h1></div>

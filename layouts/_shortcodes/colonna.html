@@ -1,0 +1,10 @@
+{{- /*
+  Una colonna dentro {{< riga >}}. Il numero è la larghezza in dodicesimi:
+  7 (predefinito) e 5 per la coppia larga/stretta, 4 per la coppia stretta/larga.
+  Dentro si scrive markdown normale (anche indentato) e si possono usare altri
+  shortcode.
+  Uso: {{< colonna 5 >}} … {{< /colonna >}}
+*/ -}}
+{{- $larghezza := .Get 0 | default 7 -}}
+{{- $testo := partial "rientro.html" .Inner | .Page.RenderString (dict "display" "block") -}}
+<div class="col-{{ $larghezza }}">{{ partial "compatta.html" $testo }}</div>

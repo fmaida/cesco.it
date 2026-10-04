@@ -1,0 +1,8 @@
+{{- /*
+  Griglia dei certificati. Contiene uno o più {{< certificato >}}.
+  Uso:
+    {{< certificati >}}
+    {{< certificato titolo="Nome" id="XXXX" data="19 aprile 2018" logo="images/certificates/logo.png" >}}
+    {{< /certificati >}}
+*/ -}}
+<div class="certificates">{{ partial "compatta.html" .Inner }}</div>

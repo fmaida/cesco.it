@@ -1,0 +1,32 @@
+{{- /*
+  llms.txt (https://llmstxt.org): presentazione del sito per le IA, in
+  /llms.txt e /en/llms.txt. Il testo (titolo, riassunto, FAQ) sta in
+  content/llms/index(.en).md; qui si aggiungono solo gli elenchi che devono
+  restare allineati al sito: le pagine del menu con le voci delle sezioni,
+  i profili online e il link alle altre lingue.
+  È testo, non HTML: htmlUnescape toglie le entità (&#43;, &rsquo;) che gli
+  shortcode e .Plain producono.
+*/ -}}
+{{ with site.GetPage "/llms" }}{{ .RenderShortcodes | htmlUnescape | strings.TrimSpace }}{{ end }}
+
+## {{ i18n "llms_pages" }}
+{{ range site.Menus.main }}
+  {{- with .Page }}{{ if not .IsHome }}
+- [{{ .Title }}]({{ .Permalink }})
+    {{- range .Pages.ByWeight }}
+  - [{{ .Title }}]({{ .Permalink }}){{ with .Plain | htmlUnescape | strings.TrimSpace }}: {{ replaceRE `\s+` " " . }}{{ end }}
+    {{- end }}
+  {{- end }}{{ end }}
+{{- end }}
+
+## {{ i18n "llms_profiles" }}
+{{ range site.Params.social }}
+- [{{ .icon | title }}]({{ .url }})
+{{- end }}
+{{- with .Translations }}
+
+## {{ i18n "llms_languages" }}
+{{ range . }}{{ $lingua := .Language.Label }}{{ with .OutputFormats.Get "llms" }}
+- [{{ $lingua }}]({{ .Permalink }})
+{{- end }}{{ end }}
+{{- end }}

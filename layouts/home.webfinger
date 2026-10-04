@@ -1,0 +1,21 @@
+{{- /*
+  WebFinger (RFC 7033) per Mastodon: chi cerca params.fediverse.alias
+  (es. francesco.maida@cesco.it) trova l'account params.fediverse.mastodon.
+  "subject" resta l'account vero, che Mastodon riverifica sul suo server.
+  Caddy lo serve solo per quel "resource" (layouts/home.caddy).
+*/ -}}
+{{- with site.Params.fediverse.mastodon }}
+  {{- $profilo := printf "https://%s/@%s" .server .user }}
+  {{- $attore := printf "https://%s/users/%s" .server .user }}
+  {{- dict
+      "subject" (printf "acct:%s@%s" .user .server)
+      "aliases" (slice $profilo $attore)
+      "links" (slice
+        (dict "rel" "http://webfinger.net/rel/profile-page" "type" "text/html" "href" $profilo)
+        (dict "rel" "self" "type" "application/activity+json" "href" $attore)
+        (dict "rel" "http://ostatus.org/schema/1.0/subscribe" "template" (printf "https://%s/authorize_interaction?uri={uri}" .server))
+      )
+    | jsonify }}
+{{- else }}
+  {{- errorf "WebFinger: manca fediverse.mastodon (user, server) in config/_default/params.yaml" }}
+{{- end -}}

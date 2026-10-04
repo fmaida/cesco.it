@@ -50,20 +50,22 @@ Quando aggiungi funzionalità, mantieni questa separazione.
 | `i18n/{it,en}.json` | Stringhe di interfaccia (formato piatto chiave → testo, stesse chiavi nei due file) |
 | `layouts/` | Template: `baseof`, `home`, `about`, `contact`, `privacy`, `404`, `section` (griglia delle collezioni), `page` (dettaglio voce), `blog/` (elenco, post, feed RSS), `robots.txt`, e i file senza estensione della home: `home.webfinger`, `home.atproto-did`, `home.caddy` (vedi "Caddy") e `home.llms.txt` (vedi "SEO") |
 | `layouts/_partials/` | `head`, `header`, `footer`, `arrows` e gli helper (vedi sotto) |
-| `layouts/_shortcodes/` | `dato` (`{{< dato "chiave" >}}`: un dato del front matter o dei params nel testo di una pagina) e i blocchi grafici della pagina Chi sono (vedi sotto) |
+| `layouts/_markup/` | Render hook delle immagini nel markdown: `render-image.html` (`<picture>`) e `render-image.rss.xml` (un `<img>` assoluto per il feed) |
+| `layouts/_shortcodes/` | `dato` (`{{< dato "chiave" >}}`: un dato del front matter o dei params nel testo di una pagina), `itchio` (`{{< itchio iframe="https://itch.io/embed/<id>" src="<pagina del gioco>" title="…" >}}`: widget di un gioco su itch.io, 552×167 px) e i blocchi grafici della pagina Chi sono (vedi sotto) |
 | `assets/site/` | `css/site.css` e `js/site.js` del layout (minificati e con fingerprint) |
-| `assets/images/answers/` | Immagini della sezione "Perché scegliere me" |
-| `static/` | Copiati così come sono alla radice del sito: avatar, logo, icone SVG, `downloads/cv.pdf`, `assets/images/no-image.jpg` |
+| `assets/images/` | Immagini elaborate da Hugo (vedi "Immagini"): `avatar.jpg`, `no-image.jpg` (copertina dei post senza immagine), `answers/` (sezione "Perché scegliere me") |
+| `static/` | Copiati così come sono alla radice del sito: logo, icone SVG, favicon, `downloads/cv.pdf`. **Niente immagini raster qui**: non verrebbero convertite |
 | `build.py`, `build.toml` | Script di build con comandi pre/post |
 
-Helper in `layouts/_partials/`: `icon` (SVG inline), `responsive-image`,
+Helper in `layouts/_partials/`: `icon` (SVG inline), `immagine` e
+`responsive-image` (vedi "Immagini"),
 `project-media`, `aspect` (proporzioni dai tag), `rientro` (toglie
 l'indentazione comune al contenuto di uno shortcode, ignorando le righe
 vuote), `compatta` (HTML su una riga sola), `testo` (segnaposto
 `{{ params.fares.* }}` e `{{ params.support.email }}` nei testi di
 `languages.yaml`), `tag` (etichetta tradotta di un tag),
 `traduzioni` (URL della pagina in ogni lingua), `sezione-corrente` (voce di
-menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`.
+menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina` (il valore di `image` di un post).
 
 ## Pagine e lingue
 
@@ -122,13 +124,41 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`.
   con ripiego sul tag reso leggibile. Le pagine di tassonomia sono disattivate.
 - **Proporzioni** delle immagini dai tag (`_partials/aspect.html`):
   `siti_web` → 1:2 ancorata in alto, `documenti` → 2:3, `app` → 16:9, altrimenti 1:1.
-- **Immagini responsive** (`_partials/responsive-image.html`): `Fill` di Hugo
-  (ridimensiona e poi ritaglia) a 400/800/1200/1600 px in AVIF, WebP e JPEG,
-  senza ingrandire l'originale. **Non usare `Crop`**: ritaglia senza
-  ridimensionare e mostra solo un dettaglio dell'immagine. Qualità in
-  `hugo.yaml` → `imaging` (jpeg/webp 82, avif 75).
+- **Immagini responsive**: vedi la sezione "Immagini".
 - Prev/next nel dettaglio: ordine per `weight`. In Hugo `.Next` restituisce la
   voce che viene **prima** nella lista e `.Prev` quella dopo (già gestito in `page.html`).
+
+## Immagini
+
+Ogni immagine raster mostrata dal sito esiste in **AVIF, WebP e nel formato
+di ripiego** (PNG se l'originale è PNG, così resta la trasparenza; altrimenti
+JPEG), dentro un `<picture>`: il browser prende il primo formato che sa
+mostrare e, nel formato, la larghezza giusta da `srcset`/`sizes`.
+
+- **`_partials/immagine.html`** è il punto d'ingresso: riceve un percorso o un
+  URL (`src`) e cerca, nell'ordine, l'URL remoto (scaricato con
+  `resources.GetRemote` e pubblicato sotto `/images/esterne/`; se non
+  risponde: warning e `<img>` verso l'URL), il file del page bundle (`page`),
+  `assets/`, e infine `static/` (servito così com'è). SVG e GIF (animate)
+  restano un `<img>`. Con `abs: true` dà un solo `<img>` assoluto nel formato
+  di ripiego (feed RSS). Usarlo per **ogni** immagine nuova nei template.
+- **`_partials/responsive-image.html`** fa le conversioni: `Fill` di Hugo
+  (ridimensiona e poi ritaglia) alle proporzioni `w`/`h` (senza: quelle
+  dell'originale) a 400/800/1200/1600 px, più la larghezza massima
+  dell'originale se sta in mezzo o sotto i 400; mai ingrandimenti, e
+  `width`/`height` mai oltre l'originale. **Non usare `Crop`**: ritaglia senza
+  ridimensionare e mostra solo un dettaglio dell'immagine. Qualità in
+  `hugo.yaml` → `imaging` (jpeg/webp 82, avif 75).
+- Mette `style="aspect-ratio:w/h"` sull'`<img>`, che vince sul CSS: se il CSS
+  impone un'altra proporzione, passa la stessa in `w`/`h` (es. le copertine
+  nell'elenco del blog, 214:100 come `.media-block img`) o usa `!important`.
+- `picture { display: contents }` nel CSS: i selettori scritti per `img`
+  continuano a valere.
+- Dove si usa: voci delle collezioni (`project-media`), avatar della sidebar,
+  copertine e segnaposto del blog, immagini nel markdown (render hook in
+  `layouts/_markup/`), `risposta`, `certificato` (`logo=`), `piano`
+  (`icona=`). Restano fuori, di proposito: favicon e `og:image`/JSON-LD
+  (l'avatar JPEG originale: i social non leggono AVIF/WebP).
 
 ## Convenzioni importanti
 
@@ -154,7 +184,9 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`.
   **Niente Bootstrap, jQuery né Font Awesome**: tutte le icone sono SVG inline da `_partials/icon.html` (linea: Tabler, MIT;
   piene — social, freccia, rss — glifi di Font Awesome Free 5, CC BY 4.0,
   classe `icon-fill`; `bluesky` viene da Font Awesome Free 6, con le y
-  ribaltate per usare le stesse coordinate di font degli altri). Font Poppins da Google Fonts. Sotto i 1024px barra e
+  ribaltate per usare le stesse coordinate di font degli altri; `substack`, che
+  Font Awesome non ha, viene da Simple Icons, CC0, scalata e ribaltata allo
+  stesso modo). Font Poppins da Google Fonts. Sotto i 1024px barra e
   colonna diventano un drawer.
   Barra icone e colonna profilo sono `position: fixed`, alte quanto la
   finestra; i loro colori sono dipinti anche sullo sfondo del `body`
@@ -210,7 +242,7 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`.
   contenuto sta sopra, a tutta larghezza; i titoli `###` hanno `clear: both`), `competenze` + `competenza nome= valore=` (barre),
   `conoscenze "a" "b"` (etichette), `timeline` + `tappa periodo= luogo= titolo=`
   (curriculum ed esempi di lavori), `certificati` + `certificato titolo= id=
-  data= logo=`, `risposta titolo= immagine=` (immagine in
+  data= logo=` (logo in `assets/` o SVG in `static/`), `risposta titolo= immagine=` (immagine in
   `assets/images/answers/`), `piani` + `piano titolo= icona= prezzo= link=
   consigliato="true"` (contenuto: descrizione + elenco; le voci non incluse
   si barrano con `~~…~~`; il CSS mette il prezzo tra i due con `order`;
@@ -239,7 +271,7 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`.
 - **Blog**: sezione Hugo normale, oggi vuota. I post (solo in italiano, mostrati
   anche in `/en/blog/`) saranno scritti in `content/blog/` dal progetto
   *memos 2 hugo* (markdown + front matter: `title`, `date`, `tags`,
-  `image` = file del bundle o URL). Il comando andrà tra i `pre` di `build.toml`.
+  `image` = file del bundle o URL, che Hugo scarica e converte). Il comando andrà tra i `pre` di `build.toml`.
 - **Feed RSS**: `/blog/index.xml` (`layouts/blog/section.rss.xml`), ultimi 20
   post con il corpo in HTML; attivato con `outputs: [html, rss]` solo nel
   `_index.md` italiano del blog. RSS disattivato altrove.
@@ -280,9 +312,16 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`.
   `mainEntity`. Proprietà ammesse da schema.org per `Person`: niente
   `areaServed`/`availableLanguage` (stanno nel `ContactPoint`). I testi sono
   provvisori, come il resto del sito.
-- Sitemap nativa di Hugo: `/sitemap.xml` è un indice che punta a
-  `/it/sitemap.xml` e `/en/sitemap.xml` (con alternates tra lingue);
+- Sitemap: `/sitemap.xml` è **un'unica sitemap con le pagine di tutte le
+  lingue** (`layouts/sitemapindex.xml`, con alternates hreflang), non l'indice
+  standard di Hugo: quello rimanderebbe a `/it/sitemap.xml`, che per il
+  protocollo non può elencare le pagine italiane (stanno alla radice, fuori
+  da `/it/`). Hugo pubblica comunque `/it/` e `/en/sitemap.xml` (non si
+  possono spegnere da sole): Caddy li redirige a `/sitemap.xml`.
   changefreq/priority dal front matter `sitemap` (con `cascade` nelle sezioni).
+  `lastmod` (anche `dateModified` nel JSON-LD): `lastmod` del front matter,
+  poi l'ultimo commit git del file (`enableGitInfo`), poi la data del file;
+  mai `date`, che è la data di pubblicazione.
 - `robots.txt` da `layouts/robots.txt`.
 - **llms.txt** (formato https://llmstxt.org): presentazione e domande
   frequenti per le IA, in `/llms.txt` e `/en/llms.txt` (formato `llms` in
@@ -355,5 +394,5 @@ temporanea>` senza errori né warning (non `hugo` da solo, che scrive nella
 cartella di deploy), poi `hugo server` e controllo delle pagine nelle due lingue.
 
 ## Metadata
-- Ultima modifica: 2026-10-03
+- Ultima modifica: 2026-10-04
 - Modello: claude-opus-5-5

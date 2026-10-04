@@ -1,0 +1,8 @@
+{{- /*
+  Bluesky: il DID dell'account, senza a capo finale. Con questo file il
+  dominio del sito si può usare come handle (impostazione dell'account
+  Bluesky: Cambia handle → "Ho un mio dominio" → "Nessun accesso al DNS").
+*/ -}}
+{{- with site.Params.bluesky.did }}{{ . }}{{ else }}
+  {{- errorf "Bluesky: manca bluesky.did in config/_default/params.yaml" }}
+{{- end -}}

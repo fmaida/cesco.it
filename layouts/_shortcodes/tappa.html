@@ -1,0 +1,8 @@
+{{- /*
+  Una voce di {{< timeline >}}: "periodo" a sinistra (anni, oppure ore di lavoro
+  negli esempi), "luogo" facoltativo sotto il periodo, "titolo" a destra.
+  Il contenuto (facoltativo) è la descrizione in markdown.
+  Uso: {{< tappa periodo="2,5 ore" titolo="Registrazione di un dominio" >}} … {{< /tappa >}}
+*/ -}}
+{{- $testo := partial "rientro.html" .Inner -}}
+<div class="timeline-item"><div class="left-part"><h5 class="item-period">{{ .Get "periodo" }}</h5>{{ with .Get "luogo" }}<span class="item-company">{{ . }}</span>{{ end }}</div><div class="divider"></div><div class="right-part"><h4 class="item-title">{{ .Get "titolo" }}</h4>{{ with $testo }}{{ partial "compatta.html" ($.Page.RenderString (dict "display" "block") .) }}{{ end }}</div></div>

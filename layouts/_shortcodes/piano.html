@@ -1,0 +1,36 @@
+{{- /*
+  Un piano tariffario di {{< piani >}}.
+  Parametri: "titolo" e "prezzo" (€ l'anno) obbligatori; "icona" (SVG dentro
+  static/, o immagine dentro assets/), consigliato="true" (bordo colorato ed etichetta "Raccomandato") e
+  "link" (pagina di acquisto) facoltativi. Senza "link" il pulsante "Acquista"
+  apre la pagina Contatti con l'oggetto già scritto ("buy_subject" in i18n,
+  passato come ?oggetto= e messo nel campo da site.js).
+  Contenuto: la descrizione e poi l'elenco delle caratteristiche; quelle non
+  incluse si barrano con ~~…~~. Il prezzo compare tra descrizione ed elenco.
+  Uso:
+    {{< piano titolo="Nome" icona="images/icons/013-cut.svg" prezzo="399" >}}
+    Descrizione del piano.
+
+    - 6 ore di lavoro
+    - ~~Profilo su Venice.bio~~
+    {{< /piano >}}
+*/ -}}
+{{- range slice "titolo" "prezzo" -}}
+{{- if not ($.Get .) -}}{{- errorf "piano: manca il parametro %s (%s)" . $.Position -}}{{- end -}}
+{{- end -}}
+{{- $consigliato := eq (string (.Get "consigliato")) "true" -}}
+{{- $link := .Get "link" -}}
+{{- if not $link -}}
+{{- $oggetto := replace (i18n "buy_subject") "{titolo}" (.Get "titolo") -}}
+{{- $link = printf "%s?oggetto=%s" (site.GetPage "/contact").RelPermalink (urlquery $oggetto) -}}
+{{- end -}}
+{{- $testo := partial "rientro.html" .Inner | .Page.RenderString (dict "display" "block") -}}
+<div class="fw-package{{ if $consigliato }} highlight-col{{ end }}">
+{{- if $consigliato }}<span class="badge">{{ i18n "Recommended" }}</span>{{ end -}}
+<div class="fw-heading-row">{{ with .Get "icona" }}{{ partial "compatta.html" (partial "immagine.html" (dict "src" . "w" 1 "h" 1 "width" 56 "sizes" "56px")) }}{{ end }}<span>{{ .Get "titolo" }}</span></div>
+{{- partial "compatta.html" $testo -}}
+<div class="fw-pricing-row"><span>€{{ .Get "prezzo" }}</span><small>/ {{ i18n "Year" }}</small></div>
+{{- /**/ -}}
+<div class="fw-button-row"><a href="{{ $link }}" class="btn {{ cond $consigliato "btn-primary" "btn-secondary" }}">{{ i18n "Buy" }}</a></div>
+{{- /**/ -}}
+</div>

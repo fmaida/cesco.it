@@ -26,7 +26,8 @@
                     {{- with .Params.tags }}{{ range $i, $tag := . }}{{ if $i }}, {{ end }}{{ partial "tag.html" $tag }}{{ end }}{{ else }}News{{ end -}}
                 </div>
                 <a href="{{ .RelPermalink }}" tabindex="-1">
-                    <img src="{{ partial "copertina.html" . | default ("assets/images/no-image.jpg" | relURL) }}" width="400" height="300" alt="" loading="lazy">
+                    {{- /* ritaglio come nel CSS di .media-block img (2,14:1) */}}
+                    {{ partial "immagine.html" (dict "src" (partial "copertina.html" . | default "images/no-image.jpg") "page" . "w" 214 "h" 100 "width" 400) }}
                 </a>
             </div>
             <div class="post-info">

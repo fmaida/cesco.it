@@ -1,51 +1,62 @@
 {{- /*
   Immagine responsive: rimpicciolisce "img" (una risorsa di Hugo), la
   ritaglia alle proporzioni date e la genera nelle larghezze 400/800/1200/1600 px
-  in AVIF, WebP e JPEG (solo quelle che non richiedono di ingrandire l'originale).
+  in AVIF, WebP e nel formato di ripiego (solo quelle che non richiedono di
+  ingrandire l'originale). Il browser prende il primo formato che sa mostrare.
+  Ripiego: PNG se l'originale è PNG (conserva la trasparenza), altrimenti JPEG.
   Si usa Fill, che ridimensiona e poi ritaglia: Crop invece ritaglia senza
   ridimensionare e mostrerebbe solo un dettaglio dell'originale.
+  Di solito non si chiama direttamente: si passa da immagine.html.
 
   Parametri (dict):
     img      risorsa immagine (obbligatorio)
     alt      testo alternativo
-    w, h     proporzioni del ritaglio (es. 16 e 10)
+    title    attributo title (facoltativo)
+    w, h     proporzioni del ritaglio (es. 16 e 10); senza, quelle
+             dell'originale (nessun ritaglio)
     anchor   ancoraggio del ritaglio: "Center" (predefinito), "Top", …
-    width    larghezza dell'attributo width (predefinita 400; height in proporzione)
+    width    larghezza dell'attributo width (predefinita 400, al massimo quella
+             dell'originale; height in proporzione)
     sizes    attributo sizes
     loading  "lazy" (predefinito) o "eager"
 */ -}}
 {{- $img := .img -}}
-{{- $w := .w | default 1 -}}
-{{- $h := .h | default 1 -}}
+{{- $w := .w | default $img.Width -}}
+{{- $h := .h | default $img.Height -}}
+{{- $ripiego := cond (eq $img.MediaType.SubType "png") "png" "jpg" -}}
 {{- $anchor := .anchor | default "Center" -}}
 {{- $sizes := .sizes | default "(min-width: 1200px) 25vw, (min-width: 600px) 50vw, 100vw" -}}
-{{- $width := .width | default 400 -}}
-{{- $height := int (math.Round (div (mul (float $width) $h) $w)) -}}
 
-{{- /* Larghezze possibili senza ingrandire l'originale (la 400 c'è sempre) */ -}}
+{{- /* Larghezze possibili senza ingrandire l'originale, più la larghezza
+       massima che consente l'originale quando sta tra due misure (es. 550 px:
+       400 e 550) o sotto i 400 px */ -}}
+{{- $massima := math.Min $img.Width (math.Floor (div (mul (float $img.Height) $w) $h)) | int -}}
 {{- $larghezze := slice -}}
 {{- range slice 400 800 1200 1600 -}}
-  {{- $alta := int (math.Round (div (mul (float .) $h) $w)) -}}
-  {{- if or (eq . 400) (and (le . $img.Width) (le $alta $img.Height)) -}}
+  {{- if le . $massima -}}
     {{- $larghezze = $larghezze | append . -}}
   {{- end -}}
 {{- end -}}
+{{- if and (lt $massima 1600) (not (in $larghezze $massima)) }}{{ $larghezze = $larghezze | append $massima }}{{ end -}}
+{{- /* attributi width/height: mai più larghi dell'originale */ -}}
+{{- $width := math.Min (.width | default 400) $massima | int -}}
+{{- $height := int (math.Round (div (mul (float $width) $h) $w)) -}}
 
 {{- $set := dict -}}
 {{- $primo := "" -}}
-{{- range $formato := slice "avif" "webp" "jpg" -}}
+{{- range $formato := slice "avif" "webp" $ripiego -}}
   {{- $voci := slice -}}
   {{- range $larghezze -}}
     {{- $alta := int (math.Round (div (mul (float .) $h) $w)) -}}
     {{- $r := $img.Fill (printf "%dx%d %s %s" . $alta $anchor $formato) -}}
     {{- $voci = $voci | append (printf "%s %dw" $r.RelPermalink .) -}}
-    {{- if and (eq $formato "jpg") (eq . 400) -}}{{- $primo = $r.RelPermalink -}}{{- end -}}
+    {{- if and (eq $formato $ripiego) (not $primo) -}}{{- $primo = $r.RelPermalink -}}{{- end -}}
   {{- end -}}
   {{- $set = merge $set (dict $formato (delimit $voci ", ")) -}}
 {{- end -}}
 <picture>
   <source type="image/avif" srcset="{{ $set.avif }}" sizes="{{ $sizes }}">
   <source type="image/webp" srcset="{{ $set.webp }}" sizes="{{ $sizes }}">
-  <img src="{{ $primo }}" srcset="{{ $set.jpg }}" sizes="{{ $sizes }}" width="{{ $width }}" height="{{ $height }}" alt="{{ .alt }}" loading="{{ .loading | default "lazy" }}" decoding="async" style="aspect-ratio:{{ $w }}/{{ $h }};">
+  <img src="{{ $primo }}" srcset="{{ index $set $ripiego }}" sizes="{{ $sizes }}" width="{{ $width }}" height="{{ $height }}" alt="{{ .alt }}"{{ with .title }} title="{{ . }}"{{ end }} loading="{{ .loading | default "lazy" }}" decoding="async" style="aspect-ratio:{{ $w }}/{{ $h }};">
 </picture>
 {{- /* fine */ -}}

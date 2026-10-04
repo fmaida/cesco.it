@@ -20,7 +20,7 @@
     <header id="site_header" class="header">
         <div class="header-content">
             <div class="header-photo">
-                <img src="{{ $p.author.avatar | relURL }}" width="180" height="180" alt="{{ site.Title }}">
+                {{ partial "immagine.html" (dict "src" $p.author.avatar "alt" site.Title "w" 1 "h" 1 "width" 180 "sizes" "180px" "loading" "eager") }}
             </div>
             <div class="header-titles">
                 <h2>{{ site.Title }}</h2>

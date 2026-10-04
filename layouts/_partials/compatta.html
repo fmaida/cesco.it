@@ -1,0 +1,8 @@
+{{- /*
+  Mette un pezzo di HTML su una sola riga (gli a capo diventano spazi).
+  Gli shortcode della pagina Chi sono producono una riga sola: così, annidati
+  dentro un altro shortcode e indentati, restano allineati e il markdown non li
+  scambia per codice. Non usarlo su HTML con <pre>, che perderebbe gli a capo.
+  Uso: {{ partial "compatta.html" .Inner }}
+*/ -}}
+{{- return (replaceRE `\s*\n\s*` " " (string .) | strings.TrimSpace | safeHTML) -}}

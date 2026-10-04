@@ -1,0 +1,6 @@
+{{- /*
+  Immagini nel testo markdown (![alt](file "titolo")): un file del page
+  bundle, di assets/ o un URL diventano un <picture> AVIF + WebP + JPEG/PNG
+  con le proporzioni dell'originale (vedi _partials/immagine.html).
+*/ -}}
+{{- partial "immagine.html" (dict "src" .Destination "page" .Page "alt" .PlainText "title" .Title "width" 800 "sizes" "(min-width: 1024px) 60vw, 100vw") -}}

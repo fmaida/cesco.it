@@ -1,0 +1,62 @@
+{{- /*
+  Un'immagine da un percorso o da un URL, nei formati giusti: se è
+  un'immagine raster che Hugo sa elaborare diventa un <picture> AVIF + WebP +
+  JPEG/PNG (responsive-image.html); SVG, GIF e file di static/ restano un
+  semplice <img>.
+
+  Dove cerca "src", nell'ordine:
+    1. URL http(s):// → lo scarica (resources.GetRemote, con la cache di
+       Hugo) e lo serve dal sito, sotto /images/esterne/; se il server remoto
+       non risponde, avviso e <img> verso l'URL originale;
+    2. un file del page bundle di "page" (se c'è);
+    3. un file dentro assets/;
+    4. altrimenti un file di static/, così com'è.
+
+  Parametri (dict):
+    src      percorso o URL (obbligatorio)
+    page     pagina in cui cercare il file del bundle (facoltativo)
+    alt      testo alternativo
+    title    attributo title (facoltativo)
+    w, h, anchor, width, sizes, loading   come in responsive-image.html
+    abs      true = un solo <img> con URL assoluto nel formato di ripiego,
+             largo al massimo "width" (predefinita 800): per il feed RSS
+*/ -}}
+{{- $src := .src -}}
+{{- $risorsa := false -}}
+{{- if findRE `^https?://` $src -}}
+  {{- with try (resources.GetRemote $src) -}}
+    {{- with .Err -}}
+      {{- warnf "immagine: %s non scaricata, resta il link esterno (%s)" $src . -}}
+    {{- else with .Value -}}
+      {{- $risorsa = resources.Copy (printf "images/esterne/%s" .Name) . -}}
+    {{- else -}}
+      {{- warnf "immagine: %s non trovata, resta il link esterno" $src -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- with .page }}{{ with .Resources.Get $src }}{{ $risorsa = . }}{{ end }}{{ end -}}
+  {{- if not $risorsa }}{{ with resources.Get $src }}{{ $risorsa = . }}{{ end }}{{ end -}}
+{{- end -}}
+
+{{- /* formati raster che Hugo converte (le GIF no: perderebbero l'animazione) */ -}}
+{{- $raster := and $risorsa (eq $risorsa.MediaType.MainType "image") (in (slice "jpeg" "png" "webp" "tiff" "bmp") $risorsa.MediaType.SubType) -}}
+
+{{- if and $raster .abs -}}
+  {{- $img := $risorsa -}}
+  {{- $w := .w | default $img.Width -}}
+  {{- $h := .h | default $img.Height -}}
+  {{- $ripiego := cond (eq $img.MediaType.SubType "png") "png" "jpg" -}}
+  {{- $larga := math.Min (.width | default 800) $img.Width (math.Floor (div (mul (float $img.Height) $w) $h)) | int -}}
+  {{- $alta := int (math.Round (div (mul (float $larga) $h) $w)) -}}
+  {{- $r := $img.Fill (printf "%dx%d %s %s" $larga $alta (.anchor | default "Center") $ripiego) -}}
+  <img src="{{ $r.Permalink }}" width="{{ $r.Width }}" height="{{ $r.Height }}" alt="{{ .alt }}"{{ with .title }} title="{{ . }}"{{ end }}>
+{{- else if $raster -}}
+  {{- partial "responsive-image.html" (merge . (dict "img" $risorsa)) -}}
+{{- else -}}
+  {{- $url := cond .abs ($src | absURL) ($src | relURL) -}}
+  {{- with $risorsa }}{{ $url = cond $.abs .Permalink .RelPermalink }}{{ end -}}
+  {{- /* width e height solo se le proporzioni sono note (es. icone 1:1) */ -}}
+  {{- $misure := "" -}}
+  {{- if and .width .w .h }}{{ $misure = printf ` width="%d" height="%d"` (int .width) (int (math.Round (div (mul (float .width) .h) .w))) }}{{ end -}}
+  <img src="{{ $url }}"{{ $misure | safeHTMLAttr }} alt="{{ .alt }}"{{ with .title }} title="{{ . }}"{{ end }} loading="{{ .loading | default "lazy" }}">
+{{- end -}}

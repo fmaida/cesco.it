@@ -1,0 +1,5 @@
+{{- /*
+  Elenco di conoscenze mostrate come etichette colorate.
+  Uso: {{< conoscenze "Marketing" "Social media" "Fotografia" >}}
+*/ -}}
+<ul class="knowledges">{{ range .Params }}<li>{{ . }}</li>{{ end }}</ul>

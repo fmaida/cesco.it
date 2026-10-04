@@ -1,0 +1,7 @@
+{{- /*
+  Un certificato di {{< certificati >}}: "titolo" obbligatorio; "id", "data" e
+  "logo" (immagine dentro assets/, convertita in AVIF/WebP/JPEG-PNG, o SVG
+  dentro static/) facoltativi.
+  Uso: {{< certificato titolo="Nome" id="XXXX" data="19 aprile 2018" logo="images/certificates/logo.png" >}}
+*/ -}}
+<div class="certificate-item"><div class="certi-logo">{{ with .Get "logo" }}{{ partial "compatta.html" (partial "immagine.html" (dict "src" . "width" 90 "sizes" "90px")) }}{{ end }}</div><div class="certi-content"><h4 class="certi-title">{{ .Get "titolo" }}</h4>{{ with .Get "id" }}<div class="certi-id">{{ i18n "Membership ID" }}: {{ . }}</div>{{ end }}{{ with .Get "data" }}<div class="certi-date">{{ . }}</div>{{ end }}</div></div>

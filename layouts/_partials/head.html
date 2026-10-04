@@ -39,7 +39,8 @@
 {{- if and (not $descrizione) .IsPage .Section }}{{ $descrizione = .Plain | htmlUnescape | truncate 160 }}{{ end }}
 {{- $descrizione = $descrizione | default $p.description | default "[No Description]" | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimSpace }}
 {{- $titolo := cond .IsHome site.Title (printf "%s – %s" .Title site.Title) }}
-{{- $avatar := $p.author.avatar | absURL }}
+{{- /* l'avatar originale (JPEG) per og:image e JSON-LD: i social non leggono AVIF/WebP */}}
+{{- $avatar := (resources.Get $p.author.avatar).Permalink }}
 <meta name="description" content="{{ $descrizione }}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="{{ $p.author.name }}">

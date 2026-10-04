@@ -1,0 +1,41 @@
+{{- /*
+  /sitemap.xml: una sola sitemap con le pagine di tutte le lingue.
+
+  Hugo, con più lingue, qui metterebbe un indice che rimanda a
+  /it/sitemap.xml e /en/sitemap.xml. Ma l'italiano sta alla radice, e per il
+  protocollo delle sitemap un file sotto /it/ può elencare solo URL sotto
+  /it/: i motori di ricerca scarterebbero tutte le pagine italiane. Così
+  invece la sitemap sta alla radice e copre tutto il sito.
+  (Hugo pubblica comunque /it/sitemap.xml e /en/sitemap.xml, ma nessuno li
+  cita: robots.txt punta a questo file.)
+
+  Il contesto è l'elenco dei siti (uno per lingua). Per ogni pagina:
+  changefreq e priority dal front matter "sitemap", lastmod se c'è, e i
+  link alle traduzioni (hreflang), come nella sitemap standard di Hugo.
+*/ -}}
+{{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+{{- range $sito := . }}
+  {{- range where $sito.Pages "Sitemap.Disable" "ne" true }}
+    {{- if .Permalink }}
+  <url>
+    <loc>{{ .Permalink }}</loc>
+    {{- if not .Lastmod.IsZero }}
+    <lastmod>{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTML }}</lastmod>
+    {{- end }}
+    {{- with .Sitemap.ChangeFreq }}
+    <changefreq>{{ . }}</changefreq>
+    {{- end }}
+    {{- if ge .Sitemap.Priority 0.0 }}
+    <priority>{{ .Sitemap.Priority }}</priority>
+    {{- end }}
+    {{- if .IsTranslated }}
+      {{- range .AllTranslations }}
+    <xhtml:link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}"/>
+      {{- end }}
+    {{- end }}
+  </url>
+    {{- end }}
+  {{- end }}
+{{- end }}
+</urlset>

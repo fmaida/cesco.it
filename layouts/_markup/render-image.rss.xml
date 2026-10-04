@@ -1,0 +1,6 @@
+{{- /*
+  Immagini nel testo markdown, versione per il feed RSS: un solo <img> in
+  JPEG/PNG con URL assoluto (i lettori di feed non sempre gestiscono
+  <picture> e gli URL relativi).
+*/ -}}
+{{- partial "immagine.html" (dict "src" .Destination "page" .Page "alt" .PlainText "title" .Title "abs" true) -}}

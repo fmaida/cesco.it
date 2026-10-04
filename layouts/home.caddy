@@ -38,6 +38,12 @@ respond @webfinger_sconosciuto 404
 # permette di usare il dominio come handle (@cesco.it).
 header /.well-known/atproto-did Content-Type "text/plain; charset=utf-8"
 
+# Sitemap per lingua che Hugo pubblica comunque: vale quella unica alla
+# radice (layouts/sitemapindex.xml), perché /it/sitemap.xml non potrebbe
+# elencare le pagine italiane, che stanno fuori da /it/.
+redir /it/sitemap.xml /sitemap.xml permanent
+redir /en/sitemap.xml /sitemap.xml permanent
+
 # Vecchio feed RSS del sito Flask
 redir /rss /blog/index.xml permanent
 redir /rss/ /blog/index.xml permanent

@@ -1,0 +1,9 @@
+{{- /*
+  Una barra di {{< competenze >}}: "nome" e "valore" (percentuale da 0 a 100).
+  Uso: {{< competenza nome="Python" valore="80" >}}
+*/ -}}
+{{- $nome := .Get "nome" -}}
+{{- $valore := .Get "valore" -}}
+{{- if not $nome -}}{{- errorf "competenza: manca il parametro nome (%s)" .Position -}}{{- end -}}
+{{- if not (findRE `^\d{1,3}$` (string $valore)) -}}{{- errorf "competenza: valore %q non valido, serve un numero da 0 a 100 (%s)" $valore .Position -}}{{- end -}}
+<div class="skill"><h4>{{ $nome }}</h4><div class="skill-value">{{ $valore }}%</div></div><div class="skill-container" role="progressbar" aria-label="{{ $nome }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ $valore }}"><div class="skill-percentage" style="width: {{ $valore }}%"></div></div>

@@ -1,0 +1,8 @@
+{{- /*
+  Una riga di {{< scheda >}}. Il contenuto è il valore (markdown in linea,
+  anche con {{< dato "…" >}}); "nota" è un testo facoltativo in piccolo sotto.
+  Uso:
+    {{< voce titolo="Email" >}}<{{< dato "support.email" >}}>{{< /voce >}}
+    {{< voce titolo="Telefono" nota="Solo SMS" >}}{{< dato "support.phone" >}}{{< /voce >}}
+*/ -}}
+<li><span class="title">{{ .Get "titolo" }}</span><span class="value">{{ partial "compatta.html" (partial "rientro.html" .Inner | .Page.RenderString) }}{{ with .Get "nota" }}<small>{{ . }}</small>{{ end }}</span></li>

@@ -1,0 +1,12 @@
+{{- /*
+  Pulsante centrato. "pagina" è una pagina del sito (es. "/contact"), con l'URL
+  nella lingua corrente; in alternativa "link" per un indirizzo qualsiasi.
+  Il contenuto è il testo del pulsante.
+  Uso: {{< pulsante pagina="/contact" >}}Richiedi un preventivo gratuito{{< /pulsante >}}
+*/ -}}
+{{- $url := .Get "link" -}}
+{{- with .Get "pagina" -}}
+{{- with site.GetPage . }}{{ $url = .RelPermalink }}{{ else }}{{ errorf "pulsante: pagina %q non trovata (%s)" . $.Position }}{{ end -}}
+{{- end -}}
+{{- if not $url -}}{{- errorf "pulsante: serve il parametro pagina o link (%s)" .Position -}}{{- end -}}
+<div class="text-center"><a href="{{ $url }}" class="btn btn-primary">{{ partial "compatta.html" (partial "rientro.html" .Inner | .Page.RenderString) }}</a></div>

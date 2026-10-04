@@ -4,7 +4,7 @@
 support:
   url: https://assistenza.cesco.it
   phone: +39 352 00 68000
-  email: museo05_vasto@icloud.com
+  email: support-b735q@cesco.it
 
 # Prezzi all'ora del mio lavoro: nei testi si richiamano con
 # {{ params.fares.standard }} e {{ params.fares.discounted }}
@@ -14,7 +14,7 @@ fares:
 
 author:
   name: Francesco Maida
-  avatar: images/avatar.jpg   # dentro static/
+  avatar: images/avatar.jpg   # dentro assets/
   cv: downloads/cv.pdf        # dentro static/
 
 # Icone disponibili: linkedin, github, mastodon, bluesky, instagram
@@ -30,6 +30,8 @@ social:
   # cambiando handle
   - icon: bluesky
     url: https://bsky.app/profile/did:plc:n2vai2einsc5e2jntilosmeh
+  - icon: substack
+    url: https://blog.cesco.it
 
 # Identità nel fediverso e su Bluesky, pubblicate in /.well-known/
 # (layouts/home.webfinger, layouts/home.atproto-did, regola in layouts/home.caddy)

@@ -1,0 +1,14 @@
+{{- /*
+  Riga a più colonne (pagina Chi sono): le colonne si affiancano quando c'è
+  spazio, altrimenti vanno una sotto l'altra.
+  Uso:
+    {{< riga >}}
+        {{< colonna 7 >}}
+            testo markdown
+        {{< /colonna >}}
+        {{< colonna 5 >}}
+            testo markdown
+        {{< /colonna >}}
+    {{< /riga >}}
+*/ -}}
+<div class="row">{{ partial "compatta.html" .Inner }}</div>

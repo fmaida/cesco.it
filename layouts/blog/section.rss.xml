@@ -25,7 +25,8 @@
         {{- end }}
         {{- /* l'HTML del corpo va escapato una volta, come richiede RSS 2.0 */}}
         {{- $html := string .Content }}
-        {{- with partial "copertina.html" . }}{{ $html = printf "<p><img src=%q alt=\"\"></p>\n%s" (. | absURL) $html }}{{ end }}
+        {{- $post := . }}
+        {{- with partial "copertina.html" . }}{{ $html = printf "<p>%s</p>\n%s" (partial "immagine.html" (dict "src" . "page" $post "w" 4 "h" 3 "abs" true)) $html }}{{ end }}
         <description>{{ $html | transform.XMLEscape | safeHTML }}</description>
     </item>
     {{- end }}

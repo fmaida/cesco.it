@@ -1,0 +1,20 @@
+{{- /*
+  Toglie a un testo l'indentazione comune alle righe non vuote: così il
+  contenuto degli shortcode si può indentare senza che il markdown lo legga
+  come codice (4 spazi = blocco di codice). A differenza di .InnerDeindent
+  ignora le righe vuote o di soli spazi, come quella prima del tag di chiusura.
+  Uso: {{ $testo := partial "rientro.html" .Inner }}
+*/ -}}
+{{- $righe := split (string .) "\n" -}}
+{{- $minimo := -1 -}}
+{{- range $righe -}}
+  {{- if strings.TrimSpace . -}}
+    {{- $n := sub (len .) (len (strings.TrimLeft " \t" .)) -}}
+    {{- if or (lt $minimo 0) (lt $n $minimo) }}{{ $minimo = $n }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- $uscita := slice -}}
+{{- range $righe -}}
+  {{- if gt (len .) $minimo }}{{ $uscita = $uscita | append (substr . $minimo) }}{{ else }}{{ $uscita = $uscita | append "" }}{{ end -}}
+{{- end -}}
+{{- return (delimit $uscita "\n" | strings.TrimSpace) -}}

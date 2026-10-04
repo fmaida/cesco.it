@@ -1,0 +1,17 @@
+{{- /*
+  Widget di un gioco su itch.io (riquadro con copertina e "Play on itch.io"),
+  alla sua misura nativa di 552×167 px; si restringe se la colonna è più
+  stretta (CSS: .itchio). "iframe" è l'indirizzo che itch.io dà in
+  "Embed game" (https://itch.io/embed/<numero>), "title" descrive il
+  riquadro per gli screen reader. "src" (facoltativo) è la pagina del gioco
+  su itch.io: diventa il link dentro l'iframe, con "title" come testo, per
+  chi non vede il widget (non si ricava da iframe, che ha solo il numero).
+  Uso: {{< itchio iframe="https://itch.io/embed/192603" src="https://cesco.itch.io/no-tomorrow" title="No Tomorrow su itch.io" >}}
+*/ -}}
+{{- $iframe := .Get "iframe" -}}
+{{- if not $iframe -}}{{- errorf "itchio: manca il parametro iframe (%s)" .Position -}}{{- end -}}
+{{- if not (hasPrefix $iframe "https://itch.io/embed/") -}}
+  {{- errorf "itchio: iframe deve iniziare con https://itch.io/embed/, trovato %q (%s)" $iframe .Position -}}
+{{- end -}}
+{{- $title := .Get "title" | default "itch.io" -}}
+<iframe class="itchio" src="{{ $iframe }}" width="552" height="167" title="{{ $title }}" loading="lazy">{{ with .Get "src" }}<a href="{{ . }}">{{ $title }}</a>{{ end }}</iframe>
