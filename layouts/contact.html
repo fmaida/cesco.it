@@ -5,14 +5,12 @@
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 {{ end }}
 
-{{ define "page_title" }}
-    <div class="page-title"><h1>{{ i18n "Contact" }}</h1></div>
-{{ end }}
-
 {{ define "main" }}
 {{- $p := site.Params }}
 {{- $form := index $p "contact-form" }}
 {{- $privacy := (site.GetPage "/privacy").RelPermalink }}
+    {{- /* il titolo è nel testo di content/contact(.en).md */}}
+    {{ .Content }}
     <div class="row">
         <!-- contact info -->
         <div class="col-4">

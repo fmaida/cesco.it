@@ -17,7 +17,7 @@ author:
   avatar: images/avatar.jpg   # dentro static/
   cv: downloads/cv.pdf        # dentro static/
 
-# Icone disponibili: linkedin, github, mastodon, instagram
+# Icone disponibili: linkedin, github, mastodon, bluesky, instagram
 # (tracciati in layouts/_partials/icon.html)
 social:
   - icon: linkedin
@@ -26,6 +26,25 @@ social:
     url: https://github.com/fmaida
   - icon: mastodon
     url: "https://livellosegreto.it/@cesco"
+  # Bluesky: link con il DID (bluesky.did qui sotto), che resta valido anche
+  # cambiando handle
+  - icon: bluesky
+    url: https://bsky.app/profile/did:plc:n2vai2einsc5e2jntilosmeh
+
+# Identità nel fediverso e su Bluesky, pubblicate in /.well-known/
+# (layouts/home.webfinger, layouts/home.atproto-did, regola in layouts/home.caddy)
+fediverse:
+  # Chi cerca questo indirizzo su Mastodon trova l'account qui sotto
+  alias: francesco.maida@cesco.it
+  mastodon:
+    user: cesco
+    server: livellosegreto.it
+
+bluesky:
+  # DID dell'account (oggi @cesco.bsky.social): permette di usare il dominio
+  # del sito come handle (@cesco.it). Lo dà l'API pubblica:
+  # https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=cesco.bsky.social
+  did: did:plc:n2vai2einsc5e2jntilosmeh
 
 fiscal:
   locality: Venezia

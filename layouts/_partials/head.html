@@ -32,26 +32,41 @@
   })();
 </script>
 {{- $p := site.Params }}
-{{- $descrizione := $p.description | default "[No Description]" | plainify | strings.TrimSpace }}
+{{- /* Descrizione della pagina: "description" nel front matter; per le voci
+       delle collezioni e i post il loro testo (accorciato); altrimenti la
+       descrizione del sito (languages.yaml) */}}
+{{- $descrizione := .Description }}
+{{- if and (not $descrizione) .IsPage .Section }}{{ $descrizione = .Plain | htmlUnescape | truncate 160 }}{{ end }}
+{{- $descrizione = $descrizione | default $p.description | default "[No Description]" | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimSpace }}
+{{- $titolo := cond .IsHome site.Title (printf "%s – %s" .Title site.Title) }}
 {{- $avatar := $p.author.avatar | absURL }}
 <meta name="description" content="{{ $descrizione }}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="{{ $p.author.name }}">
-<link rel="icon" type="image/svg+xml" href="{{ "images/logo.svg" | relURL }}">
-<meta property="og:title" content="{{ site.Title }}">
+{{- /* favicon: l'avatar (static/favicon.png), più favicon.ico e apple-touch-icon.png ricavati da lì */}}
+<link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="48x48">
+<link rel="icon" type="image/png" href="{{ "favicon.png" | relURL }}" sizes="192x192">
+<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+<meta property="og:title" content="{{ $titolo }}">
 <meta property="og:description" content="{{ $descrizione }}">
 <meta property="og:image" content="{{ $avatar }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ .Permalink }}">
-<meta name="twitter:card" content="summary_large_image">
+{{- /* "summary": l'immagine è l'avatar, quadrato */}}
+<meta name="twitter:card" content="summary">
 <meta property="og:locale" content="{{ replace (site.Language.Locale | default "it-IT") "-" "_" }}">
 <link rel="canonical" href="{{ .Permalink }}">
-{{- if ne .Kind "404" }}
-{{- $link := partial "traduzioni.html" . }}
-{{- range hugo.Sites }}
-<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ index $link .Language.Lang }}">
+{{- /* hreflang solo verso le traduzioni che esistono davvero (un post del
+       blog, solo in italiano, non ne ha); x-default = la versione nella
+       lingua predefinita del sito, se c'è */}}
+{{- if and (ne .Kind "404") (gt (len .AllTranslations) 1) }}
+{{- $predefinita := (index hugo.Sites 0).Language.Lang }}
+{{- range .AllTranslations }}
+<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
 {{- end }}
-<link rel="alternate" hreflang="x-default" href="{{ index $link "it" }}">
+{{- range .AllTranslations }}{{ if eq .Language.Lang $predefinita }}
+<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+{{- end }}{{ end }}
 {{- end }}
 {{- with partial "blog-italiano.html" . }}{{ with .OutputFormats.Get "rss" }}
 <link rel="alternate" type="application/rss+xml" title="{{ site.Title }} – Blog" href="{{ .Permalink }}">
@@ -60,8 +75,17 @@
 <link rel="me" href="{{ .url }}">
 {{- end }}
 
-{{- /* Dati strutturati schema.org: Person, con knowsAbout ricavato dai servizi */}}
+{{- /*
+  Dati strutturati schema.org: una Person, uguale su tutte le pagine e con un
+  @id fisso (<baseURL>#person). knowsAbout viene dai "meta" dei servizi e da
+  "other" in content/services/_index(.en).md; i testi tradotti (author.job,
+  author.bio, support.*) da languages.yaml, il resto da params.yaml.
+  Le pagine con "schema" nel front matter (Chi sono: ProfilePage) diventano
+  quel tipo di pagina, con la Person come mainEntity.
+*/}}
 {{- $telefono := replace $p.support.phone " " "" }}
+{{- $lingue := slice }}
+{{- range hugo.Sites }}{{ $lingue = $lingue | append .Language.Lang }}{{ end }}
 {{- $competenze := slice }}
 {{- with site.GetPage "/services" }}
   {{- range .Pages.ByWeight }}{{ $competenze = $competenze | append (.Params.meta | default .Title) }}{{ end }}
@@ -70,9 +94,10 @@
 {{- $sameAs := slice }}
 {{- range $p.social }}{{ $sameAs = $sameAs | append .url }}{{ end }}
 {{- $persona := dict
-  "@context" "https://schema.org"
   "@type" "Person"
-  "name" site.Title
+  "@id" (print site.BaseURL "#person")
+  "name" $p.author.name
+  "description" (strings.TrimSpace $p.author.bio)
   "image" $avatar
   "url" site.BaseURL
   "taxID" (print $p.fiscal.country (index $p.fiscal "partita-iva"))
@@ -85,22 +110,32 @@
     "addressCountry" $p.fiscal.country)
   "telephone" $telefono
   "email" $p.support.email
-  "availableLanguage" (slice "it" "en")
-  "areaServed" "Veneto, Italia"
+  "knowsLanguage" $lingue
   "knowsAbout" $competenze
   "contactPoint" (slice (dict
     "@type" "ContactPoint"
-    "contactType" "customer support via SMS and WhatsApp only"
+    "contactType" $p.support.type
+    "description" $p.support.note
     "telephone" $telefono
     "email" $p.support.email
     "url" $p.support.url
-    "availableLanguage" (slice "it" "en")
-    "areaServed" "Veneto, Italia"
-    "sameAs" (slice (print "https://wa.me/" (replace $telefono "+" "")))
-    "description" "Non disponibile per chiamate vocali, solo messaggi."))
+    "availableLanguage" $lingue
+    "areaServed" $p.support.area
+    "sameAs" (slice (print "https://wa.me/" (replace $telefono "+" "")))))
   "sameAs" $sameAs
 }}
-<script type="application/ld+json">{{ $persona | jsonify | safeJS }}</script>
+{{- $dati := $persona }}
+{{- with .Params.schema }}
+  {{- $dati = dict
+    "@type" .
+    "url" $.Permalink
+    "name" $.Title
+    "inLanguage" (site.Language.Locale | default site.Language.Lang)
+    "mainEntity" $persona }}
+  {{- if not $.Lastmod.IsZero }}{{ $dati = merge $dati (dict "dateModified" ($.Lastmod.Format "2006-01-02T15:04:05-07:00")) }}{{ end }}
+{{- end }}
+{{- $dati = merge (dict "@context" "https://schema.org") $dati }}
+<script type="application/ld+json">{{ $dati | jsonify | safeJS }}</script>
 
 <!-- STYLESHEETS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

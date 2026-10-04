@@ -4,12 +4,10 @@
 */ -}}
 {{ define "title" }}{{ i18n "Blog" }} – {{ site.Title }}{{ end }}
 
-{{ define "page_title" }}
-    <div class="page-title"><h1>{{ i18n "Blog" }}</h1></div>
-{{ end }}
-
 {{ define "main" }}
 {{- $blog := partial "blog-italiano.html" . }}
+    {{- /* il titolo è nel testo di content/blog/_index(.en).md */}}
+    {{ .Content }}
     {{ with i18n "posts_language_note" }}<p class="note">{{ . }}</p>{{ end }}
 
     {{- with $blog.Pages.ByDate.Reverse }}

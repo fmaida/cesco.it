@@ -1,5 +1,6 @@
 ---
 title: Privacy Policy
+description: "Privacy policy of cesco.it: which personal data are processed, by whom, for what purposes, and what your rights are."
 slug: privacy
 layout: privacy
 sitemap: {changefreq: yearly, priority: 0.2}
@@ -15,9 +16,21 @@ form-provider:
   name: Formcarry
   location: at N. 3 Germay Dr, Unit 4 – 1278, Wilmington, DE 19804, United States
   url: https://formcarry.com/legal/privacy-policy
+antispam-provider:
+  full-name: Cloudflare, Inc.
+  name: Cloudflare Turnstile
+  location: at 101 Townsend St, San Francisco, CA 94107, United States
+  url: https://www.cloudflare.com/turnstile-privacy-policy/
+fonts-provider:
+  full-name: Google Ireland Limited
+  name: Google Fonts
+  location: at Gordon House, Barrow Street, Dublin 4, Ireland
+  url: https://policies.google.com/privacy
 ---
 
-<p class="note">Last updated: Wednesday, 25 March 2026. This is a translation: in case of discrepancy, the <a href="{{< relref path="/privacy.md" lang="it" >}}">Italian version</a> prevails.</p>
+{{< titolo "Privacy Policy" >}}
+
+<p class="note">Last updated: Saturday, 3 October 2026. This is a translation: in case of discrepancy, the <a href="{{< relref path="/privacy.md" lang="it" >}}">Italian version</a> prevails.</p>
 
 <h3>1. Data Controller</h3>
 <p>
@@ -47,7 +60,11 @@ Users' personal data are processed for:
 </li>
 <li>
 <strong>Technical operation of the website,</strong>
-including hosting and infrastructure services.
+including hosting and infrastructure services and the fonts of the pages.
+</li>
+<li>
+<strong>Protection of the contact form from spam and abuse</strong>
+(legitimate interest of the controller pursuant to Art. 6(1)(f) GDPR).
 </li>
 </ul>
 <p>
@@ -55,22 +72,22 @@ No profiling or tracking for commercial purposes is carried out.
 </p>
 <h3>5. Analytics Services</h3>
 <p>
-<strong>Umami Analytics – Umami Software Inc.</strong>
+<strong>Umami Analytics</strong>, open source software installed on the website's server.
 </p>
 <ul>
 <li>
-<strong>Personal Data processed:</strong>
-technical cookies and anonymised usage data.
+<strong>Data processed:</strong>
+anonymous, aggregated usage data (pages visited, referring website, browser and
+device type, country). Umami does not use cookies and does not store visitors'
+IP addresses.
 </li>
 <li>
 <strong>Purpose:</strong>
 anonymous analysis of web traffic.
 </li>
 <li>
-<strong>Privacy policy:</strong>
-<a href="https://umami.is/privacy" target="_blank">
-available at this link
-</a>
+<strong>Place of processing:</strong>
+the data stay on the website's server ({{< dato "service-provider.name" >}}) and are not shared with third parties.
 </li>
 </ul>
 <p>
@@ -115,15 +132,44 @@ If, following the contact through {{< dato "form-provider.name" >}}, the user be
 <li><strong>Place of processing:</strong> {{< dato "form-provider.full-name" >}} ({{< dato "form-provider.name" >}}) is based {{< dato "form-provider.location" >}}. Data are processed on European servers in accordance with the GDPR.</li>
 <li><strong>Privacy policy of the service:</strong> <a href="{{< dato "form-provider.url" >}}">{{< dato "form-provider.url" >}}</a></li>
 </ul>
-<h3>8. Data Transfers Outside the EU</h3>
+<h3>8. Spam Protection – {{< dato "antispam-provider.name" >}}</h3>
 <p>
-Should data be transferred outside the
+To protect the contact form from spam and automated programs, the Contacts page
+uses <strong>{{< dato "antispam-provider.name" >}}</strong> ({{< dato "antispam-provider.full-name" >}}):
+the check is loaded only on that page and collects the technical information
+needed to tell a person from an automated program.
+</p>
+<ul>
+<li><strong>Personal Data processed:</strong> IP address, browser and device information, technical data about the interaction with the page.</li>
+<li><strong>Purpose:</strong> website security and prevention of spam and abuse of the contact form.</li>
+<li><strong>Legal basis:</strong> legitimate interest of the controller (Art. 6(1)(f) GDPR).</li>
+<li><strong>Place of processing:</strong> {{< dato "antispam-provider.full-name" >}} is based {{< dato "antispam-provider.location" >}}.</li>
+<li><strong>Privacy policy of the service:</strong> <a href="{{< dato "antispam-provider.url" >}}">{{< dato "antispam-provider.url" >}}</a></li>
+</ul>
+<h3>9. Fonts – {{< dato "fonts-provider.name" >}}</h3>
+<p>
+The website uses the Poppins font from <strong>{{< dato "fonts-provider.name" >}}</strong>: to display it,
+the browser downloads it from Google's servers, which receive the IP address and
+technical information about the browser. The service does not use cookies.
+</p>
+<ul>
+<li><strong>Personal Data processed:</strong> IP address and technical information about the browser.</li>
+<li><strong>Purpose:</strong> displaying the website's pages with a consistent design.</li>
+<li><strong>Legal basis:</strong> legitimate interest of the controller (Art. 6(1)(f) GDPR).</li>
+<li><strong>Place of processing:</strong> {{< dato "fonts-provider.full-name" >}} is based {{< dato "fonts-provider.location" >}}; data may also be processed by Google LLC in the United States.</li>
+<li><strong>Privacy policy of the service:</strong> <a href="{{< dato "fonts-provider.url" >}}">{{< dato "fonts-provider.url" >}}</a></li>
+</ul>
+<h3>10. Data Transfers Outside the EU</h3>
+<p>
+Some providers ({{< dato "form-provider.name" >}}, Cloudflare and Google) are based in or have servers
+in the United States. Should data be transferred outside the
 European Union, this will take place in compliance
 with Articles 44 et seq. of the GDPR and, where
-necessary, by means of standard contractual clauses.
+necessary, by means of standard contractual clauses or
+under the EU-U.S. Data Privacy Framework.
 </p>
 
-<h3>9. Rights of Data Subjects</h3>
+<h3>11. Rights of Data Subjects</h3>
 <p>
 As a data subject you can exercise the following
 rights at any time:
@@ -152,7 +198,7 @@ Lodging a complaint with the Italian Data Protection Authority (Garante per la p
 To exercise your rights you can contact
 the Controller or the DPO at the addresses above.
 </p>
-<h3>10. Updates</h3>
+<h3>12. Updates</h3>
 <p>
 This policy may be updated at any time.
 We recommend checking it periodically.

@@ -27,6 +27,44 @@ outputs:
   section: [html]
   page: [html]
 
+# File generati dalla home ("outputs" in content/_index.md e _index.en.md).
+# Solo dalla home italiana, senza estensione: /.well-known/webfinger
+# (Mastodon), /.well-known/atproto-did (Bluesky) e /.caddy (regole di Caddy);
+# il suffisso vuoto toglie l'estensione e i tipi servono solo a Hugo (il
+# Content-Type lo decide Caddy). Da tutte e due le lingue: llms.txt.
+mediaTypes:
+  application/jrd+json:
+    suffixes: [""]
+  text/x-atproto-did:
+    suffixes: [""]
+  text/x-caddyfile:
+    suffixes: [""]
+
+outputFormats:
+  webfinger:
+    mediaType: application/jrd+json
+    baseName: webfinger
+    path: .well-known
+    isPlainText: true
+    notAlternative: true
+  atproto-did:
+    mediaType: text/x-atproto-did
+    baseName: atproto-did
+    path: .well-known
+    isPlainText: true
+    notAlternative: true
+  caddy:
+    mediaType: text/x-caddyfile
+    baseName: .caddy
+    isPlainText: true
+    notAlternative: true
+  # /llms.txt e /en/llms.txt: presentazione e FAQ per le IA (layouts/home.llms.txt)
+  llms:
+    mediaType: text/plain
+    baseName: llms
+    isPlainText: true
+    notAlternative: true
+
 enableRobotsTXT: true
 disableHugoGeneratorInject: true
 
@@ -50,3 +88,33 @@ module:
   hugoVersion:
     min: 0.146.0
     extended: false
+
+# Minificazione: sempre attiva (anche con "hugo" da solo e "hugo server"),
+# con le opzioni più spinte di tdewolff che non cambiano il risultato.
+# Le stesse opzioni valgono per il pipe "minify" di CSS e JS.
+minify:
+  minifyOutput: true              # HTML, XML (sitemap, RSS), JSON, SVG generati
+  tdewolff:
+    html:
+      keepComments: false
+      keepSpecialComments: false
+      keepDefaultAttrVals: false  # es. type="text" sugli input
+      keepDocumentTags: false     # <head>/<body> senza attributi
+      keepEndTags: false          # </p>, </li>… facoltativi in HTML5
+      keepQuotes: false
+      keepWhitespace: false
+    css:
+      version: 0                  # 0 = CSS più recente (forme più corte)
+      precision: 0                # 0 = nessun arrotondamento dei numeri
+    js:
+      keepVarNames: false
+      version: 0                  # 0 = sintassi JS più recente
+      precision: 0
+    json:
+      keepNumbers: false
+      precision: 0
+    svg:
+      keepComments: false
+      precision: 0
+    xml:
+      keepWhitespace: false

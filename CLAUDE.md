@@ -18,11 +18,19 @@ Quando aggiungi funzionalità, mantieni questa separazione.
 - `python3 build.py` — build nella cartella `publishDir` di
   `config/_default/hugo.yaml` (`/Users/cesco/Sites/cesco.it`, percorso
   assoluto perché Hugo non espande `~`), con le opzioni di `build.toml`:
-  esegue i comandi `pre`, poi `hugo --minify --gc --cleanDestinationDir`, poi
+  esegue i comandi `pre`, poi `hugo --gc --cleanDestinationDir`, poi
   i comandi `post`. Opzioni: `--dest`, `--config`, `--skip-hooks`. Solo
   libreria standard (Python ≥ 3.11). Al primo comando che fallisce si ferma
   con lo stesso exit code; i `post` partono solo se Hugo è riuscito.
   Rifiuta destinazioni pericolose (/, home, cartella del progetto).
+- **Minificazione** sempre attiva, anche con `hugo` da solo e `hugo server`:
+  blocco `minify` di `hugo.yaml` (`minifyOutput: true` per HTML, XML, JSON,
+  SVG; opzioni tdewolff al massimo senza perdita, che valgono anche per il
+  pipe `minify` di CSS e JS). L'HTML perde tag di chiusura facoltativi,
+  virgolette e valori predefiniti degli attributi (es. `type="text"`): nel
+  CSS e nel JS non selezionare elementi con `[type=text]` e simili, usa
+  classi o `data-*`. `css.version`/`js.version: 0` = versione più recente
+  (in Hugo ≥ 0.150 `keepCSS2` non esiste più).
 - **Attenzione**: `hugo` da solo scrive direttamente nella cartella di deploy
   (`publishDir`). Per le prove usa `hugo server` (lavora in memoria) oppure
   `hugo -d <cartella temporanea>`.
@@ -32,31 +40,30 @@ Quando aggiungi funzionalità, mantieni questa separazione.
 
 | Percorso | Contenuto |
 |---|---|
-| `config/_default/hugo.yaml` | Impostazioni generali (baseURL, lingua predefinita, output, sitemap, robots, immagini) |
-| `config/_default/languages.yaml` | Lingue, permalink per lingua e testi tradotti in `<lingua>.params` (descrizione, bio, ruoli, testo contatti) |
-| `config/_default/params.yaml` | Dati comuni: contatti, tariffe, autore (avatar, cv), social, dati fiscali, lato della sidebar (`layout.sidebar`), accenti del tema, Formcarry/Turnstile, Umami |
+| `config/_default/hugo.yaml` | Impostazioni generali (baseURL, lingua predefinita, output, sitemap, robots, immagini, minificazione) |
+| `config/_default/languages.yaml` | Lingue, permalink per lingua e testi tradotti in `<lingua>.params` (descrizione, ruoli, testo contatti) |
+| `config/_default/params.yaml` | Dati comuni: contatti, tariffe, autore (avatar, cv), social, identità nel fediverso e su Bluesky (`fediverse`, `bluesky`), dati fiscali, lato della sidebar (`layout.sidebar`), accenti del tema, Formcarry/Turnstile, Umami |
 | `config/_default/menus.{it,en}.yaml` | Barra laterale e ordine delle frecce prev/next (`name` = chiave i18n, `params.icon`) |
 | `config/_default/markup.yaml` | Goldmark con `unsafe: true` (i testi contengono HTML) |
 | `config/development/params.yaml` | Valori solo per `hugo server`: Turnstile di prova e invio simulato del modulo |
-| `content/` | Pagine: `_index.md` (home), `about.md`, `contact.md`, `privacy.md` (+ `.en.md`) e le sezioni `services/`, `portfolio/`, `lab/`, `blog/` |
-| `data/{it,en}/` | `curriculum.yaml`, `answers.yaml`, `plans.yaml`, `examples.yaml` (pagina Chi sono) |
+| `content/` | Pagine: `_index.md` (home), `about.md` (tutto il testo di Chi sono), `contact.md`, `privacy.md` (+ `.en.md`), le sezioni `services/`, `portfolio/`, `lab/`, `blog/` e `llms/` (testo di `llms.txt`, senza pagina HTML) |
 | `i18n/{it,en}.json` | Stringhe di interfaccia (formato piatto chiave → testo, stesse chiavi nei due file) |
-| `layouts/` | Template: `baseof`, `home`, `about`, `contact`, `privacy`, `404`, `section` (griglia delle collezioni), `page` (dettaglio voce), `blog/` (elenco, post, feed RSS), `robots.txt` |
+| `layouts/` | Template: `baseof`, `home`, `about`, `contact`, `privacy`, `404`, `section` (griglia delle collezioni), `page` (dettaglio voce), `blog/` (elenco, post, feed RSS), `robots.txt`, e i file senza estensione della home: `home.webfinger`, `home.atproto-did`, `home.caddy` (vedi "Caddy") e `home.llms.txt` (vedi "SEO") |
 | `layouts/_partials/` | `head`, `header`, `footer`, `arrows` e gli helper (vedi sotto) |
-| `layouts/_shortcodes/dato.html` | `{{< dato "chiave" >}}`: un dato del front matter o dei params nel testo di una pagina |
+| `layouts/_shortcodes/` | `dato` (`{{< dato "chiave" >}}`: un dato del front matter o dei params nel testo di una pagina) e i blocchi grafici della pagina Chi sono (vedi sotto) |
 | `assets/site/` | `css/site.css` e `js/site.js` del layout (minificati e con fingerprint) |
 | `assets/images/answers/` | Immagini della sezione "Perché scegliere me" |
-| `static/` | Copiati così come sono alla radice del sito: avatar, logo, icone SVG, `downloads/cv.pdf`, `assets/images/no-image.jpg`, `.caddy` (regole di Caddy, vedi sotto) |
+| `static/` | Copiati così come sono alla radice del sito: avatar, logo, icone SVG, `downloads/cv.pdf`, `assets/images/no-image.jpg` |
 | `build.py`, `build.toml` | Script di build con comandi pre/post |
 
 Helper in `layouts/_partials/`: `icon` (SVG inline), `responsive-image`,
-`project-media`, `aspect` (proporzioni dai tag), `dati` (file di `data/` nella
-lingua corrente, con ripiego sull'italiano), `testo` (segnaposto
-`{{ params.fares.* }}` e `{{ params.support.email }}` nei testi), `markdown`
-(markdown → HTML sempre a blocchi), `tag` (etichetta tradotta di un tag),
+`project-media`, `aspect` (proporzioni dai tag), `rientro` (toglie
+l'indentazione comune al contenuto di uno shortcode, ignorando le righe
+vuote), `compatta` (HTML su una riga sola), `testo` (segnaposto
+`{{ params.fares.* }}` e `{{ params.support.email }}` nei testi di
+`languages.yaml`), `tag` (etichetta tradotta di un tag),
 `traduzioni` (URL della pagina in ogni lingua), `sezione-corrente` (voce di
-menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
-`timeline`.
+menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`.
 
 ## Pagine e lingue
 
@@ -76,8 +83,17 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
   singole e da `permalinks` in `languages.yaml` per le sezioni.
 - Per aggiungere una pagina: file in `content/` (+ `.en.md`) con `slug` e
   `layout`, template in `layouts/`, voce in `menus.*.yaml` se va nella sidebar.
-- Il nome di menu e di pagina viene da `i18n` (chiave in `menus.*.yaml`) o dal
-  `title` del front matter.
+- Il nome di menu viene da `i18n` (chiave in `menus.*.yaml`); il `title` del
+  front matter dà il `<title>` e `og:title`, `description` la meta
+  description e `og:description` (vedi "SEO").
+- **Titolo grande (h1)**: nelle pagine singole (Chi sono, contatti, privacy) e
+  negli `_index.md` delle sezioni (servizi, portfolio, laboratorio, blog) è la
+  prima riga del testo: `{{< titolo "Chi <span>Sono</span>" >}}` (la parola
+  nello `<span>` prende il colore d'accento). I template non lo stampano più:
+  una pagina nuova di questo tipo deve avere lo shortcode, altrimenti resta
+  senza h1. Fanno eccezione le voci delle collezioni e i post del blog (h1 dal
+  `title`, con il link di ritorno; i post li genera *memos 2 hugo*), la home
+  e la 404 (`title-block`).
 
 ## Collezioni (servizi, portfolio, laboratorio)
 
@@ -88,7 +104,8 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
   `meta` (voce di `knowsAbout` nel JSON-LD, servizi), `client`, `year`,
   `website` (link "Visita il sito"; **non** `url`, che in Hugo è riservato).
   Il corpo markdown è la descrizione.
-- `_index.md` della sezione: `title`, descrizione nel corpo, `filters` (tag
+- `_index.md` della sezione: `title`, titolo grande (`{{< titolo "…" >}}`) e
+  descrizione nel corpo, `filters` (tag
   dei pulsanti filtro), `back` (chiave i18n del link di ritorno),
   `contatto: true` (pulsante "Richiedi un preventivo" e invito sotto la
   griglia), `senza_categoria: true` (niente tag sotto i nomi), `other`
@@ -117,7 +134,13 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
 
 - **Titoli pagina**: `baseof.html` ha `<title>{{ block "title" . }}`; ogni
   template di pagina definisce `title`. Canonical, og:url e hreflang
-  (it/en/x-default) sono per pagina, da `.Permalink` e `_partials/traduzioni.html`.
+  (it/en/x-default) sono per pagina, da `.Permalink` e `.AllTranslations`:
+  `hreflang` solo verso le traduzioni che esistono (i post del blog, solo in
+  italiano, non ne hanno). Il selettore di lingua invece usa
+  `_partials/traduzioni.html`, che ripiega sulla home dell'altra lingua.
+- **Linkify** di Goldmark attivo: nel markdown `www.qualcosa.it` e gli
+  indirizzi email diventano link da soli. Negli esempi fittizi si evita con
+  `\.` (`*www\.azienda\.com*`).
 - **Layout**: ricalca BreezyCV (barra icone 80px, colonna profilo 420px color
   accento, contenuto bianco) ma è scritto da zero.
   **Lato della sidebar configurabile** con `layout.sidebar` (`left`/`right`,
@@ -130,8 +153,13 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
   versione ribaltata. Nessun asset del tema originale, che è a pagamento.
   **Niente Bootstrap, jQuery né Font Awesome**: tutte le icone sono SVG inline da `_partials/icon.html` (linea: Tabler, MIT;
   piene — social, freccia, rss — glifi di Font Awesome Free 5, CC BY 4.0,
-  classe `icon-fill`). Font Poppins da Google Fonts. Sotto i 1024px barra e
+  classe `icon-fill`; `bluesky` viene da Font Awesome Free 6, con le y
+  ribaltate per usare le stesse coordinate di font degli altri). Font Poppins da Google Fonts. Sotto i 1024px barra e
   colonna diventano un drawer.
+  Barra icone e colonna profilo sono `position: fixed`, alte quanto la
+  finestra; i loro colori sono dipinti anche sullo sfondo del `body`
+  (gradienti ripetuti in verticale, dalle stesse variabili), così negli
+  screenshot "pagina intera" la colonna resta colorata per tutta la pagina.
 - **Barra di scorrimento** della pagina sempre visibile (`html { overflow-y:
   scroll }` + `html::-webkit-scrollbar` per Chrome/Safari, `scrollbar-color`
   in `@supports` per Firefox) e nei colori del tema (`--scrollbar-thumb`,
@@ -165,14 +193,48 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
   I `.sp-subtitle` trasparenti riservano la larghezza (cursore compreso) così
   il prefisso non si sposta. Con "Riduci movimento" attivo o senza JavaScript
   resta il primo ruolo, fermo.
-- **Curriculum**: `data/<lingua>/curriculum.yaml`, mostrato in "Chi sono"
-  subito dopo la bio; le sezioni vuote non compaiono.
-- **Testi con segnaposto**: nei file di `data/` e in `languages.yaml` si
+- **Pagina Chi sono**: tutto il testo (bio, scheda, competenze, perché
+  scegliere me, piani, esempi, pulsante) sta nel corpo di
+  `content/about(.en).md`, compreso il titolo grande; `layouts/about.html` stampa solo `.Content` dentro
+  `<div class="testo-blocchi">` (il `title` del front matter serve per il
+  `<title>` e i meta). I titoli dei blocchi sono
+  titoli markdown `### Parola <span>Evidenziata</span>` (il CSS di
+  `.testo-blocchi h3` li fa uguali a `.block-title h3`). I blocchi grafici
+  sono shortcode con parametri in `layouts/_shortcodes/`, ognuno con l'uso
+  scritto in cima al file; quelli con contenuto accettano markdown e altri
+  shortcode (es. `{{< dato "fares.discounted" >}}`):
+  `riga` + `colonna 7|5|4` (colonne affiancate; oggi non usate nella
+  pagina), `scheda lato=` + `voce titolo= nota=` (informazioni personali; con
+  `lato="destra|sinistra"` la scheda va in `float` e il testo che la **segue**
+  le scorre attorno, quindi si scrive prima del testo; sotto i 600px di
+  contenuto sta sopra, a tutta larghezza; i titoli `###` hanno `clear: both`), `competenze` + `competenza nome= valore=` (barre),
+  `conoscenze "a" "b"` (etichette), `timeline` + `tappa periodo= luogo= titolo=`
+  (curriculum ed esempi di lavori), `certificati` + `certificato titolo= id=
+  data= logo=`, `risposta titolo= immagine=` (immagine in
+  `assets/images/answers/`), `piani` + `piano titolo= icona= prezzo= link=
+  consigliato="true"` (contenuto: descrizione + elenco; le voci non incluse
+  si barrano con `~~…~~`; il CSS mette il prezzo tra i due con `order`;
+  `link` è facoltativo: senza, oggi il caso di tutti i piani, "Acquista" apre
+  Contatti con `?oggetto=` = `buy_subject` di i18n, che `site.js` mette nel
+  campo Oggetto),
+  `pulsante pagina=|link=`. Gli esempi dei blocchi oggi non usati sono nei
+  commenti del front matter di `about.md`. **Non mettere esempi di shortcode
+  in commenti HTML** nel corpo: Hugo li eseguirebbe comunque.
+  **Indentazione**: il contenuto degli shortcode si indenta di 4 spazi per
+  livello (i tag del livello più esterno restano a inizio riga, altrimenti
+  diventano codice). Funziona perché ogni shortcode toglie l'indentazione del
+  suo contenuto con `_partials/rientro.html` (non `.InnerDeindent`, che conta
+  anche la riga di spazi prima del tag di chiusura) e produce HTML su una riga
+  sola con `_partials/compatta.html`, così annidato resta allineato. Uno
+  shortcode nuovo deve fare lo stesso.
+- **Testi con segnaposto**: in `languages.yaml` si
   possono scrivere `{{ params.fares.standard }}`, `{{ params.fares.discounted }}`
   e `{{ params.support.email }}`; li sostituisce `_partials/testo.html`.
 - **Privacy**: il testo è il corpo HTML di `content/privacy(.en).md`; i dati
   (indirizzo, email, fornitori) stanno nel front matter e si richiamano con
-  `{{< dato "chiave" >}}`. Nei file markdown le righe HTML non vanno
+  `{{< dato "chiave" >}}`; ogni servizio esterno usato dal sito (hosting,
+  Umami, Formcarry, Turnstile, Google Fonts) ha la sua sezione: se ne aggiungi
+  uno, aggiorna l'informativa e la data in tutte e due le lingue. Nei file markdown le righe HTML non vanno
   indentate (diventerebbero blocchi di codice).
 - **Blog**: sezione Hugo normale, oggi vuota. I post (solo in italiano, mostrati
   anche in `/en/blog/`) saranno scritti in `content/blog/` dal progetto
@@ -202,22 +264,73 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina`,
 ## SEO
 
 - `head.html` genera meta description, Open Graph, canonical, `hreflang` e
-  JSON-LD (schema.org `Person`, costruito come dict e serializzato con
-  `jsonify`; `knowsAbout` dai `meta` dei servizi + `other`).
+  JSON-LD su ogni pagina. Descrizione: `description` nel front matter (c'è
+  in Chi sono, contatti, privacy e negli `_index.md` delle sezioni); per le
+  voci delle collezioni e i post il loro testo, accorciato a 160 caratteri;
+  altrimenti la `description` del sito in `languages.yaml`. Dati strutturati: schema.org `Person`, costruito come dict e
+  serializzato con `jsonify`, con `@id` fisso `<baseURL>#person`.
+  `knowsAbout` dai `meta` dei servizi + `other` di
+  `content/services/_index(.en).md`; `knowsLanguage` e `availableLanguage`
+  dalle lingue del sito (`hugo.Sites`; `site.Languages` è deprecato da Hugo
+  0.156). **Nessun testo scritto nel template**: `author.job`,
+  `author.bio` (descrizione in terza persona) e `support.type/note/area`
+  (il `contactPoint`) sono tradotti in `languages.yaml`; gli altri dati
+  vengono da `params.yaml`. Le pagine con `schema: ProfilePage` nel front
+  matter (`about(.en).md`) pubblicano un `ProfilePage` con la `Person` come
+  `mainEntity`. Proprietà ammesse da schema.org per `Person`: niente
+  `areaServed`/`availableLanguage` (stanno nel `ContactPoint`). I testi sono
+  provvisori, come il resto del sito.
 - Sitemap nativa di Hugo: `/sitemap.xml` è un indice che punta a
   `/it/sitemap.xml` e `/en/sitemap.xml` (con alternates tra lingue);
   changefreq/priority dal front matter `sitemap` (con `cascade` nelle sezioni).
 - `robots.txt` da `layouts/robots.txt`.
-- Favicon: `static/images/logo.svg`.
+- **llms.txt** (formato https://llmstxt.org): presentazione e domande
+  frequenti per le IA, in `/llms.txt` e `/en/llms.txt` (formato `llms` in
+  `hugo.yaml`, attivato negli `outputs` di `content/_index(.en).md`). Il
+  testo (titolo, riassunto, FAQ in terza persona) sta in
+  `content/llms/index(.en).md`, page bundle con
+  `build: {render: never, list: never}`: niente pagina HTML, niente sitemap,
+  non compare negli elenchi. Nel testo si usano `{{< dato "…" >}}` e
+  `{{< ref "/pagina" >}}` (URL assoluti). `layouts/home.llms.txt` lo stampa
+  con `.RenderShortcodes | htmlUnescape` e aggiunge in fondo, generati, le
+  pagine del menu con le voci delle sezioni, i profili di `social` e il link
+  all'altra lingua (titoli da i18n: `llms_pages`, `llms_profiles`,
+  `llms_languages`). **Niente prezzi in llms.txt** (scelta di Francesco): per
+  i costi si rimanda al preventivo gratuito.
+- Favicon: l'avatar `static/favicon.png` (192×192), da cui sono ricavati
+  `static/favicon.ico` (16/32/48 px) e `static/apple-touch-icon.png` (180 px);
+  i link sono in `head.html`. Se cambi l'avatar della favicon, rigenera anche
+  gli altri due file. `static/images/logo.svg` (la scritta "C | FRANCESCO
+  MAIDA", bianca e larga) non è adatto come favicon.
 
 ## Caddy (VPS)
 
 Il server web è **Caddy**, che non legge file per cartella come `.htaccess`.
-Le regole del sito stanno in `static/.caddy`, che Hugo copia nella radice
-della cartella di deploy; il Caddyfile del server le include una volta sola
-con `import <cartella del sito>/.caddy` dentro il blocco del sito (dopo ogni
-modifica: `caddy reload`). Contiene:
-- il blocco dell'accesso a `/.caddy` stesso (404);
+Le regole del sito stanno in `layouts/home.caddy`, che Hugo pubblica come
+`/.caddy` nella radice della cartella di deploy; il Caddyfile del server le
+include una volta sola con `import <cartella del sito>/.caddy` dentro il
+blocco del sito (dopo ogni modifica: `caddy reload`).
+
+**File senza estensione generati dalla home.** `content/_index.md` (solo
+quello italiano) ha `outputs: [html, webfinger, atproto-did, caddy]`; i
+formati sono in `hugo.yaml` (`mediaTypes` con suffisso vuoto = nessuna
+estensione, `outputFormats` con `path: .well-known` per i primi due) e i
+template sono `layouts/home.<formato>`. I dati stanno in `params.yaml`
+(`fediverse`, `bluesky`): per cambiarli non si toccano i template.
+
+Il file `.caddy` contiene:
+- il blocco dell'accesso a `/.caddy` stesso (404; con `hugo server` invece
+  si legge);
+- **WebFinger** per Mastodon: `GET /.well-known/webfinger?resource=acct:<fediverse.alias>`
+  risponde con il JSON di `home.webfinger` (`subject` = l'account Mastodon
+  vero, `acct:<user>@<server>`, perché Mastodon lo riverifica lì; più profilo,
+  attore ActivityPub e modello di "segui"), con `Content-Type:
+  application/jrd+json` e `Access-Control-Allow-Origin: *`; altri `resource`
+  o nessuno → 404, metodi diversi da GET/HEAD → 405 (`file_server`);
+- **Bluesky**: `/.well-known/atproto-did` (da `home.atproto-did`) contiene
+  `bluesky.did`, senza a capo finale, servito come `text/plain`; serve per
+  usare il dominio come handle. Bluesky non usa WebFinger: l'handle è il
+  dominio (`@cesco.it`), non un indirizzo come quello di Mastodon;
 - i redirect 301 dal vecchio sito Flask: `/rss/` → `/blog/index.xml` e
   `/static/…` → `/…` (i file statici non hanno più il prefisso);
 - `handle_errors 404` con `/404.html` (e `/en/404.html` sotto `/en/`),

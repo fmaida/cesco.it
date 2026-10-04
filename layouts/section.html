@@ -1,13 +1,10 @@
 {{- /*
   Elenco di una collezione (servizi, portfolio, laboratorio): griglia di
   voci filtrabile per tag. Le opzioni stanno nel front matter di
-  content/<sezione>/_index.md: filters, contatto, senza_categoria.
+  content/<sezione>/_index.md: filters, contatto, senza_categoria; il titolo
+  e la descrizione sono nel suo testo.
 */ -}}
 {{ define "title" }}{{ .Title }} – {{ site.Title }}{{ end }}
-
-{{ define "page_title" }}
-    <div class="page-title"><h1>{{ .Title }}</h1></div>
-{{ end }}
 
 {{ define "main" }}
     {{ .Content }}

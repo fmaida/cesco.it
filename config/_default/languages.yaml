@@ -22,13 +22,17 @@ it:
     author:
       job: >
         Consulente digitale per aziende (siti web, social e comunicazione online)
-      description: >
-        Mi chiamo Francesco. Puoi pensarmi come un’estetista
-        per aziende: lavoro con cura e dedizione per rendere
-        bella e desiderabile la tua impresa agli occhi delle
-        persone, così che tu possa vendere di più. Non infiocchetto,
-        né creo illusioni: faccio emergere il meglio della tua azienda,
-        raccontandone con autenticità e passione la missione.
+      # Presentazione in terza persona per i dati strutturati (JSON-LD in head.html)
+      bio: >
+        Perito informatico e consulente digitale a Venezia: siti web, social
+        network, comunicazione online e software su misura per il mondo
+        dell'ospitalità (ristoranti, bar e alberghi) e per le piccole
+        attività commerciali.
+    # Assistenza clienti nei dati strutturati (contactPoint del JSON-LD)
+    support:
+      type: Assistenza clienti solo via SMS e WhatsApp
+      note: Non disponibile per chiamate vocali, solo messaggi.
+      area: Veneto, Italia
     # Ruoli che ruotano in homepage dopo "Sono"
     roles:
       - uno sviluppatore web
@@ -67,14 +71,15 @@ en:
     author:
       job: >
         Digital consultant for businesses (websites, social media and online communication)
-      description: >
-        My name is Francesco. Think of me as a beautician
-        for businesses: I work with care and dedication
-        to make your company attractive and desirable in
-        people's eyes, so that you can sell more. I don't dress
-        things up or create illusions: I bring out the best of
-        your business, telling its mission with authenticity
-        and passion.
+      bio: >
+        IT specialist and digital consultant in Venice, Italy: websites,
+        social media, online communication and custom software for the
+        hospitality industry (restaurants, bars and hotels) and for small
+        businesses.
+    support:
+      type: Customer support via SMS and WhatsApp only
+      note: Not available for voice calls, messages only.
+      area: Veneto, Italy
     roles:
       - a web developer
       - a graphic designer

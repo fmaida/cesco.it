@@ -1,0 +1,59 @@
+{{- /* Template delle regole di Caddy: Hugo lo pubblica come /.caddy (formato
+  "caddy" in hugo.yaml, solo dalla home italiana). È testo di Caddy normale;
+  l'unico segnaposto è l'alias WebFinger, preso da params.yaml. */ -}}
+# Regole di Caddy per cesco.it, generate da Hugo (layouts/home.caddy) nella
+# radice della cartella di deploy.
+#
+# Il Caddyfile del server le include dentro il blocco del sito, per esempio:
+#
+#   cesco.it {
+#       root * /var/www/cesco.it
+#       import /var/www/cesco.it/.caddy
+#       file_server
+#   }
+#
+# Caddy legge i file importati solo all'avvio: dopo averli cambiati serve
+# "caddy reload" (o "systemctl reload caddy") sul server.
+
+# Questo file non deve essere scaricabile dal sito
+@caddy_regole path /.caddy
+respond @caddy_regole 404
+
+# WebFinger (RFC 7033): chi cerca acct:{{ site.Params.fediverse.alias }} nel fediverso
+# trova l'account Mastodon. La risposta è il file /.well-known/webfinger
+# (generato da Hugo); per ogni altro "resource" (o senza) si risponde 404.
+# file_server accetta solo GET e HEAD (gli altri metodi ricevono 405).
+@webfinger path /.well-known/webfinger
+header @webfinger {
+	Content-Type "application/jrd+json; charset=utf-8"
+	Access-Control-Allow-Origin "*"
+}
+@webfinger_sconosciuto {
+	path /.well-known/webfinger
+	not query resource=acct:{{ site.Params.fediverse.alias }}
+}
+respond @webfinger_sconosciuto 404
+
+# Bluesky: il file /.well-known/atproto-did contiene il DID dell'account e
+# permette di usare il dominio come handle (@cesco.it).
+header /.well-known/atproto-did Content-Type "text/plain; charset=utf-8"
+
+# Vecchio feed RSS del sito Flask
+redir /rss /blog/index.xml permanent
+redir /rss/ /blog/index.xml permanent
+
+# Vecchi file statici serviti sotto /static/ (es. /static/downloads/cv.pdf)
+@vecchio_static path_regexp vecchio_static ^/static/(.*)$
+redir @vecchio_static /{re.vecchio_static.1} permanent
+
+# Pagina 404 del sito (in inglese sotto /en/). Richiede Caddy 2.8 o successivo.
+handle_errors 404 {
+	handle /en/* {
+		rewrite * /en/404.html
+		file_server
+	}
+	handle {
+		rewrite * /404.html
+		file_server
+	}
+}

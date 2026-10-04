@@ -122,4 +122,12 @@
             });
         });
     });
+
+    // Contatti: ?oggetto= nell'URL (pulsanti "Acquista" dei piani in Chi sono)
+    // precompila il campo Oggetto
+    var oggetto = document.getElementById("InputSubject");
+    if (oggetto && !oggetto.value) {
+        var precompilato = new URLSearchParams(window.location.search).get("oggetto");
+        if (precompilato) oggetto.value = precompilato;
+    }
 })();

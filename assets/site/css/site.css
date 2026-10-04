@@ -272,6 +272,18 @@ ul {
 
 /* ---------- colonna profilo ---------- */
 
+/* Barra icone e colonna profilo sono fisse e alte quanto la finestra: negli
+   screenshot "pagina intera" comparirebbero una volta sola e il resto della
+   colonna resterebbe bianco. Per questo i loro colori sono dipinti anche
+   sullo sfondo della pagina, ripetuti per tutta la sua altezza (sotto le
+   colonne vere, quindi normalmente non si vedono). */
+body {
+    background:
+        linear-gradient(var(--rail-bg), var(--rail-bg)) left top / var(--rail-width) 100% repeat-y,
+        linear-gradient(var(--accent), var(--accent)) left var(--rail-width) top / var(--sidebar-width) 100% repeat-y,
+        var(--surface);
+}
+
 .header {
     position: fixed;
     top: 0;
@@ -485,7 +497,8 @@ ul {
 }
 
 .page-title h1,
-.block-title h3 {
+.block-title h3,
+.testo-blocchi h3 {
     position: relative;
     z-index: 0;
     display: inline-block;
@@ -497,19 +510,22 @@ ul {
     line-height: 1.3;
 }
 
-.block-title h3 {
+.block-title h3,
+.testo-blocchi h3 {
     font-size: 21px;
 }
 
 .page-title h1 span,
 .block-title h3 span,
+.testo-blocchi h3 span,
 .title-block h1 span {
     color: var(--accent);
 }
 
 /* motivo a puntini dietro la fine del titolo */
 .page-title h1::after,
-.block-title h3::after {
+.block-title h3::after,
+.testo-blocchi h3::after {
     content: "";
     position: absolute;
     z-index: -1;
@@ -525,7 +541,8 @@ ul {
     height: 32px;
 }
 
-.block-title h3::after {
+.block-title h3::after,
+.testo-blocchi h3::after {
     right: -12px;
     bottom: -8px;
     width: 26px;
@@ -538,6 +555,25 @@ ul {
 
 .section-content > .block-title:first-child,
 .row > div > .block-title:first-child {
+    margin-top: 0;
+}
+
+/* titoli di blocco scritti in markdown (### …) nelle pagine con .testo-blocchi
+   (Chi sono): stesso aspetto di .block-title; "table" li stringe al testo
+   come inline-block ma li lascia su una riga propria */
+.testo-blocchi h3 {
+    display: table;
+    clear: both;   /* un titolo non scorre mai attorno a una scheda affiancata */
+    margin: 55px 0 25px;
+}
+
+/* una scheda affiancata non esce dal fondo del contenuto */
+.testo-blocchi {
+    display: flow-root;
+}
+
+.testo-blocchi > h3:first-child,
+.testo-blocchi .row > div > h3:first-child {
     margin-top: 0;
 }
 
@@ -682,6 +718,29 @@ ul {
     font-size: 12px;
 }
 
+/* scheda con lato="destra|sinistra": il testo che la segue le scorre attorno.
+   Con poco spazio resta sopra il testo, a tutta larghezza. */
+.affiancata {
+    margin-bottom: 25px;
+}
+
+@container (min-width: 600px) {
+    .affiancata {
+        width: min(320px, 42%);
+        margin-bottom: 20px;
+    }
+
+    .affiancata-destra {
+        float: right;
+        margin-left: 40px;
+    }
+
+    .affiancata-sinistra {
+        float: left;
+        margin-right: 40px;
+    }
+}
+
 .media-placeholder img,
 .fw-heading-row img {
     box-sizing: content-box;
@@ -732,7 +791,7 @@ ul {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 30px;
     margin: 30px 0;
-    align-items: start;
+    /* piani tutti alti quanto il più lungo (align-items: stretch, predefinito) */
 }
 
 .fw-package {
@@ -775,9 +834,25 @@ ul {
     color: var(--heading);
 }
 
-.fw-description {
+/* contenuto dello shortcode piano: la descrizione (p) e le caratteristiche (ul);
+   con "order" il prezzo, che nel markup viene dopo, sta tra le due */
+.fw-package > p {
     margin: 12px 0 16px;
     font-size: 14px;
+}
+
+.fw-pricing-row {
+    order: 1;
+}
+
+.fw-package > ul,
+.fw-button-row {
+    order: 2;
+}
+
+/* il pulsante va in fondo al piano: lo spazio in più dei piani corti sta sopra */
+.fw-button-row {
+    margin-top: auto;
 }
 
 .fw-pricing-row span {
@@ -790,19 +865,20 @@ ul {
     color: var(--text-muted);
 }
 
-.fw-features {
+.fw-package > ul {
     list-style: none;
     padding: 0;
     margin: 16px 0 26px;
     font-size: 14px;
 }
 
-.fw-features li {
+.fw-package > ul li {
     padding: 5px 0;
     border-bottom: 1px solid var(--border-soft);
 }
 
-.fw-features li.missing {
+/* caratteristica non inclusa: ~~barrata~~ nel markdown */
+.fw-package > ul li:has(> del) {
     color: var(--text-faint);
 }
 
@@ -1362,6 +1438,10 @@ ul {
     right: var(--rail-width);
 }
 
+:root[data-sidebar="right"] body {
+    background-position: right top, right var(--rail-width) top;
+}
+
 :root[data-sidebar="right"] .content-area {
     margin-left: 0;
     margin-right: calc(var(--rail-width) + var(--sidebar-width));
@@ -1394,6 +1474,11 @@ ul {
 
 /* sotto i 1024px barra icone e colonna profilo diventano un unico drawer */
 @media (max-width: 1023.98px) {
+    /* niente colonne dipinte sullo sfondo della pagina */
+    body {
+        background: var(--surface);
+    }
+
     .site-nav {
         position: fixed;
         top: 0;

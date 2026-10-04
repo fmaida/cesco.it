@@ -7,7 +7,8 @@
 
 # Argomenti passati a hugo. --cleanDestinationDir cancella dalla destinazione
 # i file che non fanno più parte del sito (come faceva Frozen-Flask).
-hugo_args = ["--minify", "--gc", "--cleanDestinationDir"]
+# Niente --minify: la minificazione è già attiva in config/_default/hugo.yaml.
+hugo_args = ["--gc", "--cleanDestinationDir"]
 
 # Comandi eseguiti prima e dopo la build, in ordine, dalla cartella del progetto.
 # Possono usare {destination}; la stessa cartella è nella variabile BUILD_DIR.

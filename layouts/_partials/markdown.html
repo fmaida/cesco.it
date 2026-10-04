@@ -1,6 +1,0 @@
-{{- /*
-  Converte un testo markdown (dai file di data/) in HTML, sempre a blocchi:
-  a differenza di markdownify, un testo di un solo paragrafo resta dentro <p>.
-  Uso: {{ partial "markdown.html" (dict "page" $ "testo" .description) }}
-*/ -}}
-{{- return (.page.RenderString (dict "display" "block") (string .testo)) -}}
