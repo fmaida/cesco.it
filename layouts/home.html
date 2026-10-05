@@ -4,25 +4,29 @@
 
 {{ define "main" }}
     <div class="title-block">
-        <h1>{{ site.Title }}</h1>
-        <div class="text-rotation">
-            <span class="sp-prefix">{{ i18n "I'm" }}</span>
-            {{- /* Ruoli da "roles" in config/_default/languages.yaml. Lo script
-                   "macchina da scrivere" di site.js li scrive uno alla volta in
-                   .sp-typed; i .sp-subtitle restano (trasparenti) per riservare la
-                   larghezza del ruolo più lungo e per gli screen reader. Senza
-                   JavaScript si vede il primo ruolo, fermo. */}}
+        <p class="home-name">{{ site.Title }}</p>
+        {{- /* Promessa grande (h1) da "slogan" in config/_default/languages.yaml,
+               una riga per parte. Lo script "macchina da scrivere" di site.js
+               scrive i nomi uno alla volta in .sp-typed. Nell'HTML è già scritto
+               il primo .sp-subtitle (gli altri sono nascosti): è quello che
+               leggono Google e chi non ha JavaScript, e con lo script attivo resta
+               per gli screen reader. */}}
+        {{- with site.Params.slogan }}
+        <h1 class="slogan">
+            <span class="sp-prefix">{{ .prefix }}</span>
             <span class="sp-roles" data-typewriter>
-                {{- range site.Params.roles }}
+                {{- range .subjects }}
                 <span class="sp-subtitle">{{ . }}</span>
                 {{- end }}
                 <span class="sp-typed" aria-hidden="true"><span class="sp-typed-text"></span><span class="sp-cursor"></span></span>
             </span>
+            <span class="sp-suffix">{{ .suffix }}</span>
+        </h1>
+        {{- end }}
+        <div class="buttons">
+            <a href="{{ (site.GetPage "/services").RelPermalink }}" class="btn btn-primary">{{ i18n "home_cta" }}</a>
+            <a href="{{ (site.GetPage "/contact").RelPermalink }}" class="btn btn-secondary">{{ i18n "home_quote" }}</a>
         </div>
         <p class="intro">{{ strings.TrimSpace site.Params.description }}</p>
-        <div class="buttons">
-            <a href="{{ (site.GetPage "/contact").RelPermalink }}" class="btn btn-primary">{{ i18n "Request a Quote" }}</a>
-            <a href="{{ (site.GetPage "/about").RelPermalink }}" class="btn btn-secondary">{{ i18n "About" }}</a>
-        </div>
     </div>
 {{ end }}

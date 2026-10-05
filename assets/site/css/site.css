@@ -639,55 +639,92 @@ body {
     margin-bottom: 12px;
 }
 
-.text-rotation {
-    font-size: 20px;
-    margin-bottom: 24px;
+/* nome piccolo sopra la promessa */
+.home-name {
+    margin-bottom: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text);
 }
 
+/* promessa grande (h1): "Rendo il tuo" / NOME / "bello e desiderabile…",
+   una riga per parte. La dimensione segue la larghezza del contenuto (cqi:
+   .section-content è un container), così il nome più lungo sta su una riga
+   anche su uno smartphone da 360 px */
+.title-block .slogan {
+    margin-bottom: 0;
+    font-size: clamp(28px, 9cqi, 48px);
+    line-height: 1.15;
+    text-wrap: balance;
+}
+
+.sp-prefix,
+.sp-roles,
+.sp-suffix {
+    display: block;
+}
+
+/* solo il nome nel colore d'accento: ".title-block h1 span" colorerebbe tutto */
+.title-block .sp-prefix,
+.title-block .sp-suffix {
+    color: var(--heading);
+}
+
+/* riga del nome che cambia: alta sempre una riga (anche quando il nome è
+   cancellato del tutto), così il testo sotto non salta */
 .sp-roles {
-    display: inline-grid;
-    text-align: left;
-}
-
-/* ruoli in homepage: tutti nella stessa cella, così la riga è larga quanto
-   il ruolo più lungo e "Sono" non si sposta mentre il testo cambia */
-.sp-subtitle,
-.sp-typed {
-    grid-area: 1 / 1;
+    min-height: 1.15em;
+    white-space: nowrap;
     color: var(--accent);
 }
 
-/* senza JavaScript si vede solo il primo ruolo */
-.sp-subtitle:not(:first-child),
-.sp-roles.is-typing .sp-subtitle {
-    opacity: 0;
+/* senza JavaScript si vede solo il primo nome, già scritto nell'HTML */
+.sp-subtitle:not(:first-child) {
+    display: none;
 }
 
-/* con lo script attivo la larghezza riservata comprende anche il cursore */
+/* con lo script attivo il primo nome resta solo per gli screen reader */
 .sp-roles.is-typing .sp-subtitle {
-    padding-right: calc(.55em + 2px);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
 }
 
-/* testo scritto a macchina da site.js, con cursore a blocco */
+/* testo scritto a macchina da site.js */
 .sp-typed {
     display: none;
+    position: relative;
     white-space: pre;
 }
 
 .sp-roles.is-typing .sp-typed {
-    display: inline;
+    display: inline-block;
 }
 
+/* uno spazio di larghezza zero: anche a parola cancellata il blocco resta
+   alto una riga di testo, e il cursore non scende sulla linea di base */
+.sp-typed::before {
+    content: "\200b";
+}
+
+/* cursore a blocco subito a destra del testo, fuori dal flusso: non occupa
+   spazio, quindi a essere centrata è solo la parola */
 .sp-cursor {
-    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 100%;
     width: .55em;
-    height: 1.15em;
+    height: 1em;
     margin-left: 2px;
     background: var(--accent);
-    vertical-align: text-bottom;
+    transform: translateY(-50%);
 }
 
-/* nella pausa a frase completa: 0,5 s acceso e 0,5 s spento */
+/* nella pausa a parola completa: 0,5 s acceso e 0,5 s spento */
 .sp-cursor.is-blinking {
     animation: lampeggio-cursore 1s steps(1, end) infinite;
 }
@@ -704,6 +741,13 @@ body {
     justify-content: center;
     gap: 16px;
     margin-top: 30px;
+}
+
+/* in homepage il paragrafo sta sotto i pulsanti, così "Richiedi un
+   preventivo" si vede senza scorrere */
+.title-block .buttons + .intro {
+    margin: 32px 0 0;
+    text-wrap: balance;
 }
 
 /* ---------- chi sono ---------- */

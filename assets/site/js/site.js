@@ -53,9 +53,10 @@
     });
     segnaTemaAttivo();
 
-    // Ruoli in homepage scritti "a macchina": scrive un ruolo una lettera alla
-    // volta, lo lascia 3 secondi con il cursore che lampeggia, lo cancella
-    // da destra a sinistra e passa al successivo; dopo l'ultimo riparte dal primo.
+    // Nomi della promessa in homepage scritti "a macchina": scrive un nome
+    // una lettera alla volta, lo lascia 3 secondi con il cursore che lampeggia,
+    // lo cancella da destra a sinistra e passa al successivo; dopo l'ultimo
+    // riparte dal primo.
     var SCRITTURA = 90;            // ms per ogni lettera scritta
     var CANCELLAZIONE = SCRITTURA / 2;  // ms per ogni lettera cancellata
     var PAUSA = 3000;              // ms a frase completa, con il cursore che lampeggia

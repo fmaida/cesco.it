@@ -41,7 +41,7 @@ Quando aggiungi funzionalità, mantieni questa separazione.
 | Percorso | Contenuto |
 |---|---|
 | `config/_default/hugo.yaml` | Impostazioni generali (baseURL, lingua predefinita, output, sitemap, robots, immagini, minificazione) |
-| `config/_default/languages.yaml` | Lingue, permalink per lingua e testi tradotti in `<lingua>.params` (descrizione, ruoli, testo contatti) |
+| `config/_default/languages.yaml` | Lingue, permalink per lingua e testi tradotti in `<lingua>.params` (descrizione, promessa della home, testo contatti) |
 | `config/_default/params.yaml` | Dati comuni: contatti, tariffe, autore (avatar, cv), social, identità nel fediverso e su Bluesky (`fediverse`, `bluesky`), dati fiscali, lato della sidebar (`layout.sidebar`), accenti del tema, Formcarry/Turnstile, Umami |
 | `config/_default/menus.{it,en}.yaml` | Barra laterale e ordine delle frecce prev/next (`name` = chiave i18n, `params.icon`) |
 | `config/_default/markup.yaml` | Goldmark con `unsafe: true` (i testi contengono HTML) |
@@ -95,7 +95,7 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina` (i
   una pagina nuova di questo tipo deve avere lo shortcode, altrimenti resta
   senza h1. Fanno eccezione le voci delle collezioni e i post del blog (h1 dal
   `title`, con il link di ritorno; i post li genera *memos 2 hugo*), la home
-  e la 404 (`title-block`).
+  (h1 = la promessa di `slogan`, vedi "Homepage") e la 404 (`title-block`).
 
 ## Collezioni (servizi, portfolio, laboratorio)
 
@@ -215,16 +215,28 @@ mostrare e, nel formato, la larghezza giusta da `srcset`/`sizes`.
   sinistra; `--support-zone` nel CSS, z-index ≥ 1000). Il widget dovrà
   scegliere l'angolo leggendo `data-sidebar` su `<html>`. Non mettere nulla
   di fisso lì.
-- **Ruoli in homepage** ("Sono …"): effetto macchina da scrivere in
-  `site.js` (blocco `[data-typewriter]`, solo in `home.html`). Scrive un
-  ruolo di `roles` (`languages.yaml`, quindi nella lingua della pagina) una
-  lettera alla volta con un cursore a blocco nel colore d'accento, pausa di
-  3 s con il cursore che lampeggia (0,5 s acceso / 0,5 s spento), cancella a
-  velocità doppia e passa al successivo, in ciclo. Tempi nelle costanti
-  `SCRITTURA`, `CANCELLAZIONE` (= metà della scrittura), `PAUSA`, `ATTESA`.
-  I `.sp-subtitle` trasparenti riservano la larghezza (cursore compreso) così
-  il prefisso non si sposta. Con "Riduci movimento" attivo o senza JavaScript
-  resta il primo ruolo, fermo.
+- **Homepage**: dall'alto il nome piccolo (`.home-name`, da `site.Title`),
+  la promessa grande come **h1** (`.slogan`, una riga per parte: "Rendo il
+  tuo" / NOME / "bello e desiderabile su internet."), i pulsanti (principale "Scopri
+  cosa posso fare per te" → Servizi, secondario "Chiedimi un preventivo" →
+  Contatti; chiavi i18n `home_cta` e `home_quote`) e sotto il paragrafo
+  `description` (dopo i pulsanti, così si vedono senza scorrere). Testi in `slogan` di `languages.yaml` (`prefix`,
+  `subjects`, `suffix`). Font dell'h1 con `clamp(28px, 9cqi, 48px)` (cqi =
+  larghezza del contenuto) e `text-wrap: balance`: il nome più lungo
+  (APPARTAMENTO) sta su una riga anche a 360 px di schermo; se aggiungi un
+  nome più lungo, provalo lì. **Il primo nome di `subjects` è già scritto
+  nell'HTML** (gli altri `.sp-subtitle` sono `display: none`): è quello che
+  leggono Google e chi non ha JavaScript; con lo script attivo resta nascosto
+  alla vista per gli screen reader. Effetto macchina da scrivere in
+  `site.js` (blocco `[data-typewriter]`): scrive un nome una lettera alla
+  volta con un cursore a blocco nel colore d'accento, pausa di 3 s con il
+  cursore che lampeggia (0,5 s acceso / 0,5 s spento), cancella a velocità
+  doppia e passa al successivo, in ciclo. Tempi nelle costanti `SCRITTURA`,
+  `CANCELLAZIONE` (= metà della scrittura), `PAUSA`, `ATTESA`. La riga del
+  nome ha `min-height` di una riga (il testo sotto non salta quando il nome è
+  cancellato) e il cursore è in `position: absolute`, così non sposta la
+  parola centrata. Con "Riduci movimento" attivo o senza JavaScript resta il
+  primo nome, fermo.
 - **Pagina Chi sono**: tutto il testo (bio, scheda, competenze, perché
   scegliere me, piani, esempi, pulsante) sta nel corpo di
   `content/about(.en).md`, compreso il titolo grande; `layouts/about.html` stampa solo `.Content` dentro
@@ -394,5 +406,5 @@ temporanea>` senza errori né warning (non `hugo` da solo, che scrive nella
 cartella di deploy), poi `hugo server` e controllo delle pagine nelle due lingue.
 
 ## Metadata
-- Ultima modifica: 2026-10-04
+- Ultima modifica: 2026-10-05
 - Modello: claude-opus-5-5

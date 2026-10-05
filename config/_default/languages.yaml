@@ -16,9 +16,8 @@ it:
       lab: /laboratorio/:slug/
   params:
     description: >
-      Puoi pensarmi come un’estetista per aziende: lavoro con dedizione
-      per rendere bella e desiderabile la tua impresa agli occhi delle
-      persone, così che tu possa vendere di più.
+      Pensa a me come a un’estetista per aziende: rendo bella e
+      desiderabile la tua impresa, così che tu possa vendere di più.
     author:
       job: >
         Consulente digitale per aziende (siti web, social e comunicazione online)
@@ -33,11 +32,21 @@ it:
       type: Assistenza clienti solo via SMS e WhatsApp
       note: Non disponibile per chiamate vocali, solo messaggi.
       area: Veneto, Italia
-    # Ruoli che ruotano in homepage dopo "Sono"
-    roles:
-      - uno sviluppatore web
-      - un designer grafico
-      - un creatore di contenuti
+    # Frase grande in homepage (è l'h1): "prefix", poi il nome scritto "a
+    # macchina" (uno alla volta, nel colore d'accento), poi "suffix".
+    # Il primo nome è quello già scritto nell'HTML: lo leggono Google e chi
+    # non ha JavaScript, prima che parta l'animazione.
+    slogan:
+      prefix: Rendo il tuo
+      subjects:
+        - RISTORANTE
+        - ALBERGO
+        - BAR
+        - APPARTAMENTO
+        - NEGOZIO
+        - ARTIGIANATO
+        - LAVORO
+      suffix: bello e desiderabile su internet.
     contact:
       title: Contattami per un preventivo gratuito
       description: >
@@ -65,9 +74,8 @@ en:
       lab: /lab/:slug/
   params:
     description: >
-      Think of me as a beautician for businesses: I work with dedication
-      to make your company attractive and desirable in people's eyes,
-      so that you can sell more.
+      Think of me as a stylist for your business: I help it stand out,
+      so customers choose you and you sell more.
     author:
       job: >
         Digital consultant for businesses (websites, social media and online communication)
@@ -80,10 +88,17 @@ en:
       type: Customer support via SMS and WhatsApp only
       note: Not available for voice calls, messages only.
       area: Veneto, Italy
-    roles:
-      - a web developer
-      - a graphic designer
-      - a content creator
+    slogan:
+      prefix: I make your
+      subjects:
+        - RESTAURANT
+        - HOTEL
+        - BAR
+        - APARTMENT
+        - SHOP
+        - CRAFT
+        - BUSINESS
+      suffix: beautiful and desirable online.
     contact:
       title: Contact me for a free quote
       description: >
