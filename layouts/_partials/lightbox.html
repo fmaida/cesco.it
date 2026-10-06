@@ -1,0 +1,27 @@
+{{- /*
+  CSS e JS di GLightbox (https://github.com/biati-digital/glightbox, licenza
+  MIT), per lo shortcode "immagine". Hugo li scarica da jsDelivr al build (con
+  la sua cache) e li pubblica dal sito sotto /vendor/glightbox/: il visitatore
+  non contatta servizi esterni. Per aggiornare la libreria basta cambiare
+  $versione. L'avvio sta in site.js (blocco "Lightbox").
+  Se il download non riesce, la pagina funziona lo stesso: il clic
+  sull'immagine apre la versione grande nel browser.
+*/ -}}
+{{- $versione := "3.3.1" -}}
+{{- range slice "css/glightbox.min.css" "js/glightbox.min.js" -}}
+  {{- $url := printf "https://cdn.jsdelivr.net/npm/glightbox@%s/dist/%s" $versione . -}}
+  {{- with try (resources.GetRemote $url) -}}
+    {{- with .Err -}}
+      {{- warnf "lightbox: %s non scaricato (%s)" $url . -}}
+    {{- else with .Value -}}
+      {{- $file := resources.Copy (printf "vendor/glightbox/%s" (path.Base $url)) . | fingerprint -}}
+      {{- if eq $file.MediaType.SubType "css" }}
+<link rel="stylesheet" href="{{ $file.RelPermalink }}" integrity="{{ $file.Data.Integrity }}">
+      {{- else }}
+<script src="{{ $file.RelPermalink }}" integrity="{{ $file.Data.Integrity }}" defer></script>
+      {{- end -}}
+    {{- else -}}
+      {{- warnf "lightbox: %s non trovato" $url -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}

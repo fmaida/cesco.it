@@ -131,4 +131,10 @@
         var precompilato = new URLSearchParams(window.location.search).get("oggetto");
         if (precompilato) oggetto.value = precompilato;
     }
+
+    // Lightbox delle immagini dello shortcode "immagine": GLightbox è caricata
+    // (prima di questo file) solo nelle pagine che la usano
+    if (window.GLightbox && document.querySelector("[data-lightbox]")) {
+        window.GLightbox({ selector: "[data-lightbox]" });
+    }
 })();

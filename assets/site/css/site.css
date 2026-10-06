@@ -41,6 +41,8 @@
     /* angolo in basso sul lato del contenuto lasciato libero per il widget di supporto
        (in basso a destra con la sidebar a sinistra, in basso a sinistra con la sidebar a destra) */
     --support-zone: 96px;
+    /* angoli arrotondati di copertine, immagini nel testo, lightbox e prezzo dell'offerta */
+    --radius-media: 6px;
     /* barra di scorrimento della pagina: nel tema scuro cambia da sola,
        perché --accent, --accent-strong e --surface-muted sono ridefiniti lì */
     --scrollbar-thumb: var(--accent);
@@ -1154,6 +1156,9 @@ body {
 
 .portfolio-item-img {
     overflow: hidden;
+    border-radius: var(--radius-media);
+    /* Safari altrimenti perde gli angoli durante lo zoom in hover */
+    isolation: isolate;
 }
 
 /* miniature quadrate: ritaglio dall'alto (le pagine dei siti sono alte 1:2) */
@@ -1233,6 +1238,7 @@ body {
     max-height: 80vh;
     overflow-y: auto;
     border: 2px solid var(--border-soft);
+    border-radius: var(--radius-media);
 }
 
 .project-media img,
@@ -1242,6 +1248,28 @@ body {
 
 .project-details .info-list {
     margin-bottom: 20px;
+}
+
+/* voce con il blocco "offer": l'offerta sta accanto alla copertina e il
+   testo va sotto, su tutte e due le colonne */
+.project-body {
+    grid-column: 1 / -1;
+}
+
+.offer-description,
+.offer-price {
+    margin-bottom: 24px;
+}
+
+.offer-price {
+    padding: 18px 20px;
+    background: var(--surface-muted);
+    border: 2px solid var(--border-soft);
+    border-radius: var(--radius-media);
+}
+
+:is(.offer-description, .offer-price) > :last-child {
+    margin-bottom: 0;
 }
 
 /* widget incorporati nel testo (es. shortcode itchio): larghezza fissa
@@ -1301,6 +1329,8 @@ body {
 
 .blog-card {
     overflow: hidden;
+    border-radius: var(--radius-media);
+    isolation: isolate;
     background: var(--surface);
     box-shadow: 0 0 0 1px var(--border-soft), 0 6px 14px -10px rgba(0, 0, 0, .12);
 }
@@ -1480,6 +1510,64 @@ body {
 
 .prose ul {
     list-style-type: square;
+}
+
+/* ---------- immagini con lightbox (shortcode "immagine") ---------- */
+
+/* al centro della colonna, larga al massimo quanto l'originale
+   (max-width nell'attributo style, dallo shortcode) */
+.figura {
+    margin: 1.5em auto;
+}
+
+.figura a {
+    display: block;
+    cursor: zoom-in;
+}
+
+.figura img {
+    width: 100%;
+}
+
+/* immagini nel testo: figure, markdown delle voci e dei post, copertina del post */
+:is(.figura, .project-details, .prose) img {
+    border-radius: var(--radius-media);
+}
+
+.figura figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* didascalia nella lightbox con i colori del tema; :root alza la
+   specificità sopra il CSS di GLightbox, caricato dopo questo. Sui telefoni
+   resta quella di GLightbox (testo bianco sopra l'immagine) */
+:root .glightbox-clean .gslide-description {
+    background: var(--surface);
+}
+
+:root .glightbox-clean :is(.gslide-title, .gslide-desc) {
+    font-family: inherit;
+    color: var(--text);
+}
+
+/* angoli arrotondati anche nella lightbox: l'immagine e il riquadro con
+   l'ombra (.gslide-media) */
+:root .glightbox-clean :is(.gslide-media, .gslide-image img) {
+    border-radius: var(--radius-media);
+}
+
+/* con la didascalia sotto l'immagine gli angoli in basso passano a lei; sui
+   telefoni (classe di GLightbox sul body) la didascalia sta sopra l'immagine */
+:root body:not(.glightbox-mobile) .glightbox-clean .desc-bottom :is(.gslide-media, .gslide-image img) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+:root body:not(.glightbox-mobile) .glightbox-clean .desc-bottom .gslide-description {
+    border-radius: 0 0 var(--radius-media) var(--radius-media);
 }
 
 /* ---------- footer del contenuto ---------- */

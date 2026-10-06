@@ -1,0 +1,29 @@
+{{- /*
+  Immagine al centro della colonna; al clic si apre a schermo intero in una
+  lightbox (GLightbox, vedi _partials/lightbox.html, caricata solo nelle
+  pagine che usano questo shortcode). Da non confondere con il partial
+  _partials/immagine.html, che questo shortcode usa per il <picture>.
+  Parametri: "src" (file del page bundle o dentro assets/) obbligatorio;
+  "alt", "didascalia" (sotto l'immagine e nella lightbox) e "larghezza"
+  (larghezza massima in px; senza, quella dell'originale) facoltativi.
+  Uso:
+    {{< immagine src="esempio.jpg" alt="Descrizione dell'immagine" >}}
+    {{< immagine src="esempio.jpg" alt="…" didascalia="Testo sotto" larghezza="400" >}}
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- if not $src }}{{ errorf "shortcode immagine: manca il parametro src (%s)" .Position }}{{ end -}}
+{{- $img := .Page.Resources.Get $src | default (resources.Get $src) -}}
+{{- if not $img }}{{ errorf "shortcode immagine: file %q non trovato nel bundle né in assets/ (%s)" $src .Position }}{{ end -}}
+{{- $alt := .Get "alt" -}}
+{{- $didascalia := .Get "didascalia" -}}
+{{- $larghezza := int (.Get "larghezza" | default $img.Width) -}}
+
+{{- /* versione grande per la lightbox: l'originale, o 2000 px se è più grande */ -}}
+{{- $grande := $img -}}
+{{- if gt (math.Max $img.Width $img.Height) 2000 }}{{ $grande = $img.Fit "2000x2000" }}{{ end -}}
+
+{{- /* la pagina carica CSS e JS della lightbox (baseof.html) */ -}}
+{{- .Page.Store.Set "lightbox" true -}}
+
+{{- $picture := partial "immagine.html" (dict "src" $src "page" .Page "alt" $alt "width" $larghezza "sizes" (printf "(min-width: %dpx) %dpx, 100vw" $larghezza $larghezza)) -}}
+<figure class="figura" style="max-width:{{ $larghezza }}px"><a href="{{ $grande.RelPermalink }}" data-lightbox data-alt="{{ $alt }}"{{ with $didascalia }} data-description="{{ . }}"{{ end }}>{{ partial "compatta.html" $picture }}</a>{{ with $didascalia }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>

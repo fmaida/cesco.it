@@ -60,7 +60,11 @@ bluesky:
 # il codice viene più piccolo e più robusto (vedi CLAUDE.md, sezione Caddy).
 # Esempio (con i parametri UTM per contare le scansioni in Umami):
 #   abcd: /servizi/ottimizzazione-profili-google/?utm_source=brochure&utm_medium=qr
-qr: {}
+# utm_campaign = il servizio promosso, utm_content = il codice stesso (così in
+# Umami si distinguono più QR che puntano alla stessa pagina).
+qr:
+  # Brochure di Ottimizzazione Google Business
+  ogmb: /servizi/ottimizzazione-google-business/?utm_source=brochure&utm_medium=qr&utm_campaign=google-business&utm_content=ogmb
 
 fiscal:
   locality: Venezia

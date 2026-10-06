@@ -1,0 +1,30 @@
+{{- /*
+  Riquadro dell'offerta di una voce di collezione (oggi i servizi), accanto
+  alla copertina. I dati vengono dal blocco "offer" del front matter:
+    offer:
+        description: |       (markdown)
+            **Titoletto**
+            Testo dell'offerta.
+        price: |             (markdown)
+            **159 €**, una tantum.
+        cta:                 (pulsante)
+            title: Scrivimi per un controllo gratuito
+            url: /contatti/?oggetto=controllo+gratuito
+  Tutte le parti sono facoltative. Parametro: la pagina della voce.
+*/ -}}
+{{- $p := . -}}
+{{- with $p.Params.offer -}}
+<div class="offer">
+    {{- with .description }}
+    <div class="offer-description">{{ $p.RenderString (dict "display" "block") . }}</div>
+    {{- end }}
+    {{- with .price }}
+    <div class="offer-price">{{ $p.RenderString (dict "display" "block") . }}</div>
+    {{- end }}
+    {{- with .cta }}
+    {{- /* percorso del sito (/contatti/…) o indirizzo esterno (https://…) */}}
+    {{- $url := cond (hasPrefix .url "/") (relURL .url) .url }}
+    <a href="{{ $url }}" class="btn btn-primary">{{ .title }}</a>
+    {{- end }}
+</div>
+{{- end -}}

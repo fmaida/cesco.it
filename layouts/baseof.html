@@ -38,6 +38,10 @@
 
 </div>
 
+{{- /* lightbox, solo nelle pagine con lo shortcode "immagine" (che la chiede
+       con .Store); prima di site.js, che la avvia */}}
+{{ if .Store.Get "lightbox" }}{{ partial "lightbox.html" . }}{{ end }}
+
 {{ with resources.Get "site/js/site.js" | minify | fingerprint -}}
 <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
 {{- end }}

@@ -51,15 +51,15 @@ Quando aggiungi funzionalità, mantieni questa separazione.
 | `layouts/` | Template: `baseof`, `home`, `about`, `contact`, `privacy`, `404`, `section` (griglia delle collezioni), `page` (dettaglio voce), `blog/` (elenco, post, feed RSS), `robots.txt`, e i file senza estensione della home: `home.webfinger`, `home.atproto-did`, `home.caddy` (vedi "Caddy") e `home.llms.txt` (vedi "SEO") |
 | `layouts/_partials/` | `head`, `header`, `footer`, `arrows` e gli helper (vedi sotto) |
 | `layouts/_markup/` | Render hook delle immagini nel markdown: `render-image.html` (`<picture>`) e `render-image.rss.xml` (un `<img>` assoluto per il feed) |
-| `layouts/_shortcodes/` | `dato` (`{{< dato "chiave" >}}`: un dato del front matter o dei params nel testo di una pagina), `itchio` (`{{< itchio iframe="https://itch.io/embed/<id>" src="<pagina del gioco>" title="…" >}}`: widget di un gioco su itch.io, 552×167 px) e i blocchi grafici della pagina Chi sono (vedi sotto) |
+| `layouts/_shortcodes/` | `dato` (`{{< dato "chiave" >}}`: un dato del front matter o dei params nel testo di una pagina), `itchio` (`{{< itchio iframe="https://itch.io/embed/<id>" src="<pagina del gioco>" title="…" >}}`: widget di un gioco su itch.io, 552×167 px), `immagine` (`{{< immagine src="file.jpg" alt="…" didascalia="…" larghezza="400" >}}`: immagine del bundle o di `assets/` al centro della colonna, che al clic si apre in una lightbox, vedi "Immagini"; non è il partial `immagine.html`) e i blocchi grafici della pagina Chi sono (vedi sotto) |
 | `assets/site/` | `css/site.css` e `js/site.js` del layout (minificati e con fingerprint) |
 | `assets/images/` | Immagini elaborate da Hugo (vedi "Immagini"): `avatar.jpg`, `no-image.jpg` (copertina dei post senza immagine), `answers/` (sezione "Perché scegliere me") |
 | `static/` | Copiati così come sono alla radice del sito: logo, icone SVG, favicon, `downloads/cv.pdf`. **Niente immagini raster qui**: non verrebbero convertite |
 | `build.py`, `build.toml` | Script di build con comandi pre/post |
 
 Helper in `layouts/_partials/`: `icon` (SVG inline), `immagine` e
-`responsive-image` (vedi "Immagini"),
-`project-media`, `aspect` (proporzioni dai tag), `rientro` (toglie
+`responsive-image` (vedi "Immagini"), `lightbox` (GLightbox per lo shortcode `immagine`),
+`project-media`, `offerta` (blocco `offer` delle voci), `aspect` (proporzioni dai tag), `rientro` (toglie
 l'indentazione comune al contenuto di uno shortcode, ignorando le righe
 vuote), `compatta` (HTML su una riga sola), `testo` (segnaposto
 `{{ params.fares.* }}` e `{{ params.support.email }}` nei testi di
@@ -110,6 +110,12 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina` (i
   `meta` (voce di `knowsAbout` nel JSON-LD, servizi), `client`, `year`,
   `website` (link "Visita il sito"; **non** `url`, che in Hugo è riservato).
   Il corpo markdown è la descrizione.
+- Blocco facoltativo `offer` (`_partials/offerta.html`): `description` e
+  `price` in markdown, `cta.title` + `cta.url` (pulsante; percorso del sito o
+  URL esterno). Se c'è, accanto alla copertina compaiono descrizione, prezzo
+  in un riquadro e pulsante, e il corpo markdown va sotto, a tutta larghezza
+  (`.project-body`). Il pulsante dell'offerta prende il posto di "Richiedi un
+  preventivo" (`contatto: true`). Esempio: `content/services/001-ottimizzazione-profili-google/`.
 - `_index.md` della sezione: `title`, titolo grande (`{{< titolo "…" >}}`) e
   descrizione nel corpo, `filters` (tag
   dei pulsanti filtro), `back` (chiave i18n del link di ritorno),
@@ -158,10 +164,24 @@ mostrare e, nel formato, la larghezza giusta da `srcset`/`sizes`.
   nell'elenco del blog, 214:100 come `.media-block img`) o usa `!important`.
 - `picture { display: contents }` nel CSS: i selettori scritti per `img`
   continuano a valere.
+- **Lightbox** (shortcode `immagine`): **GLightbox** (MIT), versione in
+  `$versione` di `_partials/lightbox.html`. Hugo scarica CSS e JS da jsDelivr
+  al build (`resources.GetRemote`, con la cache) e li pubblica sotto
+  `/vendor/glightbox/` con fingerprint: il visitatore non contatta la CDN,
+  quindi nell'informativa privacy non c'è. Si caricano solo nelle pagine con
+  lo shortcode, che lo segnala con `.Page.Store.Set "lightbox" true`;
+  `baseof.html` li mette prima di `site.js`, che avvia la lightbox sui link
+  `[data-lightbox]`. Nella lightbox va l'originale (o una versione da 2000 px
+  se è più grande), non convertito.
+- **Angoli arrotondati** (`--radius-media`, 6px, in `:root` di `site.css`):
+  copertine delle griglie, della pagina della voce e delle schede del blog,
+  immagini nel testo (`.figura`, `.project-details`, `.prose`), immagine e
+  didascalia della lightbox (regole `.glightbox-clean`), riquadro del prezzo
+  dell'offerta. Un nuovo elemento di questo tipo usa la stessa variabile.
 - Dove si usa: voci delle collezioni (`project-media`), avatar della sidebar,
   copertine e segnaposto del blog, immagini nel markdown (render hook in
   `layouts/_markup/`), `risposta`, `certificato` (`logo=`), `piano`
-  (`icona=`). Restano fuori, di proposito: favicon e `og:image`/JSON-LD
+  (`icona=`), lo shortcode `immagine`. Restano fuori, di proposito: favicon e `og:image`/JSON-LD
   (l'avatar JPEG originale: i social non leggono AVIF/WebP).
 
 ## Convenzioni importanti

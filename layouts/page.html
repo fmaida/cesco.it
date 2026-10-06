@@ -2,6 +2,9 @@
   Dettaglio di una voce di collezione (servizi, portfolio, laboratorio).
   Il testo della voce è il corpo del suo index.md; le opzioni della
   collezione (back, contatto) vengono dal _index.md della sezione.
+  Con il blocco "offer" nel front matter (vedi _partials/offerta.html)
+  accanto alla copertina c'è l'offerta e il testo va sotto, a tutta
+  larghezza; senza, il testo sta accanto alla copertina.
 */ -}}
 {{ define "title" }}{{ .Title }} – {{ .Parent.Title }} – {{ site.Title }}{{ end }}
 
@@ -13,7 +16,9 @@
 {{ end }}
 
 {{ define "main" }}
-    <div class="project">
+    {{- $offerta := .Params.offer }}
+    {{- $cta := "" }}{{ with $offerta }}{{ $cta = .cta }}{{ end }}
+    <div class="project{{ if $offerta }} project-offerta{{ end }}">
         <div class="project-media">
             {{ partial "project-media.html" (dict "page" . "sizes" "(min-width: 992px) 50vw, 100vw") }}
         </div>
@@ -32,16 +37,27 @@
             </div>
             {{- end }}
 
+            {{- if $offerta }}
+            {{ partial "offerta.html" . }}
+            {{- else }}
             {{ .Content }}
+            {{- end }}
 
             {{- with .Params.website }}
             <a href="{{ . }}" class="btn btn-primary" target="_blank" rel="noopener">{{ i18n "Visit website" }}</a>
             {{- end }}
 
-            {{- if .Parent.Params.contatto }}
+            {{- /* il pulsante dell'offerta, se c'è, prende il posto di questo */}}
+            {{- if and .Parent.Params.contatto (not $cta) }}
             <a href="{{ (site.GetPage "/contact").RelPermalink }}" class="btn btn-primary">{{ i18n "Request a Quote" }}</a>
             {{- end }}
         </div>
+
+        {{- if $offerta }}
+        <div class="project-details project-body">
+            {{ .Content }}
+        </div>
+        {{- end }}
     </div>
 
     {{- /* voci precedente e successiva nell'ordine della griglia (weight).
