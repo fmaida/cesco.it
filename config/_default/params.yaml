@@ -48,6 +48,20 @@ bluesky:
   # https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=cesco.bsky.social
   did: did:plc:n2vai2einsc5e2jntilosmeh
 
+# Codici QR corti: https://cesco.it/<codice> rimanda alla destinazione
+# (regole generate in layouts/home.caddy). Il codice è di 4 caratteri tra
+# A-Z e 2-9 (niente 0 e 1, che si confondono con O, I e L); maiuscole e
+# minuscole non contano (ab23, AB23 e Ab23 sono lo stesso codice).
+# La destinazione è un URL assoluto (https://…) o un percorso del sito che
+# inizia con "/". Redirect 302: la destinazione si può cambiare quando vuoi
+# e i QR già stampati seguono la nuova. Un codice non si riusa
+# mai per un'altra cosa: se non serve più, lo si fa puntare a una pagina utile.
+# Nel QR scrivi l'URL in maiuscolo e senza "/" finale (HTTPS://CESCO.IT/ABCD):
+# il codice viene più piccolo e più robusto (vedi CLAUDE.md, sezione Caddy).
+# Esempio (con i parametri UTM per contare le scansioni in Umami):
+#   abcd: /servizi/ottimizzazione-profili-google/?utm_source=brochure&utm_medium=qr
+qr: {}
+
 fiscal:
   locality: Venezia
   region: VE

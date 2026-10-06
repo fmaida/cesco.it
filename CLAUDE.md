@@ -42,7 +42,7 @@ Quando aggiungi funzionalità, mantieni questa separazione.
 |---|---|
 | `config/_default/hugo.yaml` | Impostazioni generali (baseURL, lingua predefinita, output, sitemap, robots, immagini, minificazione) |
 | `config/_default/languages.yaml` | Lingue, permalink per lingua e testi tradotti in `<lingua>.params` (descrizione, promessa della home, testo contatti) |
-| `config/_default/params.yaml` | Dati comuni: contatti, tariffe, autore (avatar, cv), social, identità nel fediverso e su Bluesky (`fediverse`, `bluesky`), dati fiscali, lato della sidebar (`layout.sidebar`), accenti del tema, Formcarry/Turnstile, Umami |
+| `config/_default/params.yaml` | Dati comuni: contatti, tariffe, autore (avatar, cv), social, identità nel fediverso e su Bluesky (`fediverse`, `bluesky`), codici QR corti (`qr`), dati fiscali, lato della sidebar (`layout.sidebar`), accenti del tema, Formcarry/Turnstile, Umami |
 | `config/_default/menus.{it,en}.yaml` | Barra laterale e ordine delle frecce prev/next (`name` = chiave i18n, `params.icon`) |
 | `config/_default/markup.yaml` | Goldmark con `unsafe: true` (i testi contengono HTML) |
 | `config/development/params.yaml` | Valori solo per `hugo server`: Turnstile di prova e invio simulato del modulo |
@@ -85,6 +85,10 @@ menu attiva), `filtri` (riga di filtri per tag), `blog-italiano`, `copertina` (i
   singole e da `permalinks` in `languages.yaml` per le sezioni.
 - Per aggiungere una pagina: file in `content/` (+ `.en.md`) con `slug` e
   `layout`, template in `layouts/`, voce in `menus.*.yaml` se va nella sidebar.
+- **Indirizzi di 4 caratteri A-Z/2-9 alla radice (`/ab23/`) riservati ai
+  codici QR** (vedi "Caddy"): niente pagine, sezioni o slug così, a parte
+  `blog`, che c'era già (eccezioni in `$eccezioni` di `layouts/home.caddy`).
+  Una pagina così ferma la build.
 - Il nome di menu viene da `i18n` (chiave in `menus.*.yaml`); il `title` del
   front matter dà il `<title>` e `og:title`, `description` la meta
   description e `og:description` (vedi "SEO").
@@ -384,6 +388,33 @@ Il file `.caddy` contiene:
   dominio (`@cesco.it`), non un indirizzo come quello di Mastodon;
 - i redirect 301 dal vecchio sito Flask: `/rss/` → `/blog/index.xml` e
   `/static/…` → `/…` (i file statici non hanno più il prefisso);
+- i **codici QR corti**: `https://cesco.it/<codice>` (anche con `/`
+  finale) rimanda alla destinazione con un **302**. **Formato: 4 caratteri
+  tra A-Z e 2-9, maiuscole e minuscole indifferenti**: niente `0` e `1`, che
+  ricopiando dalla carta si confondono con `O` e `I`/`L`; 34⁴ = 1.336.336
+  combinazioni. `/ab23`, `/AB23` e `/Ab23` sono lo stesso codice, e in
+  `params.yaml` si può scrivere in qualsiasi modo. Funziona perché il
+  matcher `path` di Caddy non distingue maiuscole e minuscole e Hugo mette in
+  minuscolo i nomi dei params; i controlli del template (pagine, file di
+  `static/`) confrontano tutto in minuscolo. I codici sono pochi e si creano
+  a mano, uno alla volta. Non è un 301 perché la destinazione deve poter
+  cambiare: i QR stampati non si ritirano. I codici stanno nella mappa `qr`
+  di `params.yaml` (`codice: destinazione`, URL assoluto o percorso che
+  inizia con `/`; oggi vuota). Ogni voce genera `@qr_<codice> path …` +
+  `redir … temporary`. La build si ferma se il codice non rispetta il
+  formato, se la destinazione non è valida o se il codice coincide con una
+  pagina (di qualsiasi lingua) o con un file di `static/`. Sono solo regole di Caddy: niente pagine Hugo, quindi
+  non compaiono nella sitemap. **Un codice non si riassegna mai** a un'altra
+  cosa: se non serve più, lo si fa puntare a una pagina utile. Dopo ogni
+  modifica: deploy + `caddy reload`.
+  Servono per codici QR piccoli e robusti da stampare (es. la brochure di un
+  servizio). **Nel QR si scrive l'URL tutto maiuscolo e senza `/` finale**
+  (`HTTPS://CESCO.IT/ABCD`): così il QR usa la modalità alfanumerica
+  (5,5 bit per carattere invece di 8) e a parità di dimensione regge più
+  danni. A 25×25 moduli ha la correzione Q (~25%) invece della M (~15%) del
+  minuscolo, che con la Q sale a 29×29. Per misurare le scansioni in
+  Umami, la destinazione può avere i parametri UTM
+  (`/servizi/…/?utm_source=brochure&utm_medium=qr`);
 - `handle_errors 404` con `/404.html` (e `/en/404.html` sotto `/en/`),
   che richiede Caddy ≥ 2.8.
 
@@ -406,5 +437,5 @@ temporanea>` senza errori né warning (non `hugo` da solo, che scrive nella
 cartella di deploy), poi `hugo server` e controllo delle pagine nelle due lingue.
 
 ## Metadata
-- Ultima modifica: 2026-10-05
+- Ultima modifica: 2026-10-06
 - Modello: claude-opus-5-5

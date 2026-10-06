@@ -52,6 +52,47 @@ redir /rss/ /blog/index.xml permanent
 @vecchio_static path_regexp vecchio_static ^/static/(.*)$
 redir @vecchio_static /{re.vecchio_static.1} permanent
 
+# Codici QR corti: /<4 caratteri A-Z 2-9> rimanda alla destinazione scritta
+# in "qr" di params.yaml, con un 302 (la destinazione si può cambiare).
+# Maiuscole e minuscole non contano: il matcher "path" di Caddy non le
+# distingue, quindi /ab23, /AB23 e /Ab23 sono lo stesso codice.
+{{- /* Gli indirizzi di 4 caratteri a-z 2-9 alla radice sono riservati
+  ai QR: una pagina con un percorso così ferma la build, a parte le
+  eccezioni qui sotto (pagine che esistevano già prima della regola). Tutti
+  i confronti sono in minuscolo, come quelli di Caddy. */}}
+{{- $eccezioni := slice "/blog/" }}
+{{- $pagine := slice }}
+{{- range hugo.Sites }}
+  {{- range .Pages }}
+    {{- with .RelPermalink | lower }}
+      {{- $pagine = $pagine | append . }}
+      {{- if and (findRE `^/[a-z2-9]{4}/$` .) (not (in $eccezioni .)) }}
+        {{- errorf "QR: la pagina %s ha un indirizzo di 4 caratteri a-z 2-9, riservato ai codici QR (vedi CLAUDE.md, sezione Caddy)" . }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- /* file e cartelle alla radice di static/ */}}
+{{- $statici := slice }}
+{{- range os.ReadDir "static" }}
+  {{- $statici = $statici | append (lower .Name) }}
+{{- end }}
+{{- range $chiave, $destinazione := site.Params.qr }}
+  {{- /* Hugo mette già in minuscolo i nomi dei params: AbCd diventa abcd */}}
+  {{- $codice := lower $chiave }}
+  {{- if not (findRE `^[a-z2-9]{4}$` $codice) }}
+    {{- errorf "params.yaml: il codice QR %q deve essere di 4 caratteri tra a-z e 2-9 (niente 0 e 1)" $codice }}
+  {{- end }}
+  {{- if not (findRE `^(https?://|/)` (string $destinazione)) }}
+    {{- errorf "params.yaml: la destinazione del codice QR %q deve iniziare con https://, http:// o /, non %q" $codice $destinazione }}
+  {{- end }}
+  {{- if or (in $pagine (printf "/%s/" $codice)) (in $statici $codice) }}
+    {{- errorf "params.yaml: il codice QR %q coincide con una pagina o un file del sito" $codice }}
+  {{- end }}
+@qr_{{ $codice }} path /{{ $codice }} /{{ $codice }}/
+redir @qr_{{ $codice }} {{ $destinazione }} temporary
+{{- end }}
+
 # Pagina 404 del sito (in inglese sotto /en/). Richiede Caddy 2.8 o successivo.
 handle_errors 404 {
 	handle /en/* {
