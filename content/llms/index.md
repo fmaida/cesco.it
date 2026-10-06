@@ -113,7 +113,7 @@ giorni successivi.
 - Modulo di contatto: {{< ref "/contact" >}}
 - Assistenza clienti: {{< dato "support.url" >}}
 
-Su Mastodon lo si trova anche cercando {{< dato "fediverse.alias" >}}.
+Su Mastodon lo si trova anche cercando @{{< dato "fediverse.mastodon.user" >}}@{{< dato "fediverse.mastodon.server" >}}.
 
 ### In che lingue lavora?
 

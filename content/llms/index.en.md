@@ -104,7 +104,7 @@ or days.
 - Customer support: {{< dato "support.url" >}}
 
 On Mastodon he can also be found by searching for
-{{< dato "fediverse.alias" >}}.
+@{{< dato "fediverse.mastodon.user" >}}@{{< dato "fediverse.mastodon.server" >}}.
 
 ### Which languages does he work in?
 

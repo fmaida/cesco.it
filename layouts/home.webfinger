@@ -1,6 +1,6 @@
 {{- /*
   WebFinger (RFC 7033) per Mastodon: chi cerca params.fediverse.alias
-  (es. francesco.maida@cesco.it) trova l'account params.fediverse.mastodon.
+  (l'alias su questo dominio) trova l'account params.fediverse.mastodon.
   "subject" resta l'account vero, che Mastodon riverifica sul suo server.
   Caddy lo serve solo per quel "resource" (layouts/home.caddy).
 */ -}}
